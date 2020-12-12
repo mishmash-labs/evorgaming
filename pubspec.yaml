@@ -26,7 +26,4 @@ dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/mouse.png
     - assets/logo.png
-    - assets/banner.jpg
-    - assets/games/
