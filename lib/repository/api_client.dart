@@ -1,8 +1,10 @@
-import 'package:dio/dio.dart';
-import 'package:evorgaming/models/homepage_model.dart';
-import 'package:evorgaming/models/shoppage_model.dart';
-import 'package:evorgaming/models/tournaments_model.dart';
 import 'dart:convert';
+
+import 'package:dio/dio.dart';
+
+import '../models/homepage_model.dart';
+import '../models/shoppage_model.dart';
+import '../models/tournaments_model.dart';
 
 class ApiClient {
   ApiClient() {
@@ -16,6 +18,27 @@ class ApiClient {
   }
 
   Dio _dio;
+
+  Future<dynamic> login(String email, String password) async {
+    final uriResponse = await _dio.post('App/Login/User', data: {
+      "email": email,
+      "password": password,
+    });
+    if (uriResponse.statusCode == 200) {
+      return HomePageModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
+
+  Future<dynamic> register(Map<String, dynamic> data) async {
+    final uriResponse = await _dio.post('App/Register/User', data: data);
+    if (uriResponse.statusCode == 200) {
+      return HomePageModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
 
   Future<dynamic> homepage(String email) async {
     final uriResponse = await _dio.post('app/home/screen/frame', data: {

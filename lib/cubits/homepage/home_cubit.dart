@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:evorgaming/models/homepage_model.dart';
-import 'package:evorgaming/repository/api_client.dart';
 import 'package:meta/meta.dart';
+
+import '../../models/homepage_model.dart';
+import '../../repository/api_client.dart';
 
 part 'home_state.dart';
 

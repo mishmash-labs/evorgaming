@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -7,7 +8,6 @@ import 'account/profile_page.dart';
 import 'account/settings_page.dart';
 import 'account/statistics_page.dart';
 import 'account/transactions_page.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 class AccountPage extends StatelessWidget {
   @override

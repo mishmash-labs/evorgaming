@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:evorgaming/models/tournaments_model.dart';
+import 'tournaments_model.dart';
 
 HomePageModel homePageModelFromJson(String str) =>
     HomePageModel.fromJson(json.decode(str));

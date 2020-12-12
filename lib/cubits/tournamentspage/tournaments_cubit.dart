@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:evorgaming/models/tournaments_model.dart';
-import 'package:evorgaming/repository/api_client.dart';
 import 'package:meta/meta.dart';
+
+import '../../models/tournaments_model.dart';
+import '../../repository/api_client.dart';
 
 part 'tournaments_state.dart';
 

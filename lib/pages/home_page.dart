@@ -1,16 +1,16 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:evorgaming/cubits/homepage/home_cubit.dart';
-import 'package:evorgaming/models/tournamentdetails_model.dart';
-import 'package:evorgaming/pages/home/chat_page.dart';
-import 'package:evorgaming/pages/home/wallet_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
+import '../cubits/homepage/home_cubit.dart';
+import '../models/tournamentdetails_model.dart';
+import 'home/chat_page.dart';
 import 'home/notifications_page.dart';
 import 'home/tournaments_page.dart';
+import 'home/wallet_page.dart';
 import 'tournaments/tournament_details_page.dart';
 
 class HomePage extends StatelessWidget {

@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:evorgaming/models/shoppage_model.dart';
-import 'package:evorgaming/repository/api_client.dart';
 import 'package:meta/meta.dart';
+
+import '../../models/shoppage_model.dart';
+import '../../repository/api_client.dart';
 
 part 'shop_state.dart';
 

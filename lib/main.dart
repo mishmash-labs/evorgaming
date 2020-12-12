@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import 'navigation_page.dart';
+import 'pages/login_page.dart';
 import 'providers/navigation_provider.dart';
 
 void main() async {
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           // scaffoldBackgroundColor: Colors.black,
           cardColor: Colors.black38,
         ),
-        home: NavPage(),
+        home: LoginPage(),
       ),
     );
   }

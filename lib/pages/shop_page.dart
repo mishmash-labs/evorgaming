@@ -1,4 +1,4 @@
-import 'package:evorgaming/cubits/shoppage/shop_cubit.dart';
+import '../cubits/shoppage/shop_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
