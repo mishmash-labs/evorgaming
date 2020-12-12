@@ -9,10 +9,10 @@ import '../../models/tournamentdetails_model.dart';
 import '../tournaments/tournament_details_page.dart';
 
 class TournamentsPage extends StatelessWidget {
-  final TournamentsCubit tournamentsCubit = TournamentsCubit();
-  final int gameid;
-
   TournamentsPage({Key key, @required this.gameid}) : super(key: key);
+
+  final int gameid;
+  final TournamentsCubit tournamentsCubit = TournamentsCubit();
 
   @override
   Widget build(BuildContext context) {

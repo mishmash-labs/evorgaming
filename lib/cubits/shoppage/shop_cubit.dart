@@ -8,6 +8,7 @@ part 'shop_state.dart';
 
 class ShopCubit extends Cubit<ShopState> {
   ShopCubit() : super(ShopInitial());
+
   final ApiClient _apiClient = ApiClient();
 
   Future<void> loadShop(String email) async {

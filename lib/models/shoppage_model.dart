@@ -10,9 +10,6 @@ class ShopModel {
     this.products,
   });
 
-  String code;
-  List<Product> products;
-
   factory ShopModel.fromJson(Map<String, dynamic> json) => ShopModel(
         code: json["Code"] == null ? null : json["Code"],
         products: json["Products"] == null
@@ -20,6 +17,9 @@ class ShopModel {
             : List<Product>.from(
                 json["Products"].map((x) => Product.fromJson(x))),
       );
+
+  String code;
+  List<Product> products;
 
   Map<String, dynamic> toJson() => {
         "Code": code == null ? null : code,
@@ -41,15 +41,6 @@ class Product {
     this.longDescription,
   });
 
-  int id;
-  String name;
-  List<String> image;
-  String price;
-  String currency;
-  String quantity;
-  String shortDescription;
-  String longDescription;
-
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"] == null ? null : json["id"],
         name: json["Name"] == null ? null : json["Name"],
@@ -65,6 +56,15 @@ class Product {
         longDescription:
             json["long_description"] == null ? null : json["long_description"],
       );
+
+  String currency;
+  int id;
+  List<String> image;
+  String longDescription;
+  String name;
+  String price;
+  String quantity;
+  String shortDescription;
 
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,

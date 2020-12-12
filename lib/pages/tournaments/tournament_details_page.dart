@@ -6,9 +6,10 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import '../../models/tournamentdetails_model.dart';
 
 class TournamentDetailsPage extends StatelessWidget {
+  const TournamentDetailsPage({Key key, this.data}) : super(key: key);
+
   final TournamentDetailsModel data;
 
-  const TournamentDetailsPage({Key key, this.data}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final tournamentPageModel = tournamentPageModelFromJson(jsonString);
-
 import 'dart:convert';
 
 TournamentPageModel tournamentPageModelFromJson(String str) =>
