@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -13,7 +14,7 @@ class ProfilePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              AutoSizeText(
                 "Profile",
                 style: Theme.of(context)
                     .textTheme
@@ -31,7 +32,7 @@ class ProfilePage extends StatelessWidget {
                   borderSide: BorderSide(color: Colors.red.shade800),
                   highlightedBorderColor: Colors.red.shade800,
                   onPressed: () {},
-                  child: Text("Select A New Photo"),
+                  child: AutoSizeText("Select A New Photo"),
                 ),
               ),
               SizedBox(height: 8),
@@ -69,7 +70,7 @@ class ProfilePage extends StatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text(
+                  child: AutoSizeText(
                     "SAVE",
                   ),
                   color: Colors.red.shade800,

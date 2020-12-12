@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:evorgaming/models/tournamentdetails_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class TournamentDetailsPage extends StatelessWidget {
   final TournamentDetailsModel data;
@@ -12,7 +14,7 @@ class TournamentDetailsPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text(
+        title: AutoSizeText(
           data.title,
           style: Theme.of(context)
               .textTheme
@@ -26,13 +28,13 @@ class TournamentDetailsPage extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: Image.network(
-                'https://evorgaming.com' + data.coverImage,
+              child: CachedNetworkImage(
+                imageUrl: 'https://evorgaming.com' + data.coverImage,
               ),
             ),
             SizedBox(height: 8),
             Center(
-              child: Text(
+              child: AutoSizeText(
                 "ABOUT THE TOURNAMENT",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
@@ -51,9 +53,9 @@ class TournamentDetailsPage extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          Text(data.entryFee + " COINS"),
+                          AutoSizeText(data.entryFee + " COINS"),
                           SizedBox(height: 8),
-                          Text(
+                          AutoSizeText(
                             "ENTRY FEE",
                             style: const TextStyle(
                               fontWeight: FontWeight.w900,
@@ -64,9 +66,9 @@ class TournamentDetailsPage extends StatelessWidget {
                       ),
                       Column(
                         children: [
-                          Text(data.type),
+                          AutoSizeText(data.type),
                           SizedBox(height: 8),
-                          Text(
+                          AutoSizeText(
                             "PLAY MOOD",
                             style: const TextStyle(
                               fontWeight: FontWeight.w900,
@@ -77,9 +79,9 @@ class TournamentDetailsPage extends StatelessWidget {
                       ),
                       Column(
                         children: [
-                          Text(data.platform.toUpperCase()),
+                          AutoSizeText(data.platform.toUpperCase()),
                           SizedBox(height: 8),
-                          Text(
+                          AutoSizeText(
                             "PLATFORM",
                             style: const TextStyle(
                               fontWeight: FontWeight.w900,
@@ -90,9 +92,9 @@ class TournamentDetailsPage extends StatelessWidget {
                       ),
                       Column(
                         children: [
-                          Text("${data.curRoomSize}/${data.roomSize}"),
+                          AutoSizeText("${data.curRoomSize}/${data.roomSize}"),
                           SizedBox(height: 8),
-                          Text(
+                          AutoSizeText(
                             "PLAYERS",
                             style: const TextStyle(
                               fontWeight: FontWeight.w900,
@@ -107,7 +109,7 @@ class TournamentDetailsPage extends StatelessWidget {
               ),
             ),
             Center(
-              child: Text(
+              child: AutoSizeText(
                 "TOURNAMENT DESCRIPTION",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
@@ -127,7 +129,7 @@ class TournamentDetailsPage extends StatelessWidget {
               ),
             ),
             Center(
-              child: Text(
+              child: AutoSizeText(
                 "TOURNAMENT RULES",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
@@ -145,34 +147,41 @@ class TournamentDetailsPage extends StatelessWidget {
                 ),
               ),
             ),
-            // Center(
-            //   child: Text(
-            //     "WINNING GIFT",
-            //     style: TextStyle(fontWeight: FontWeight.bold),
-            //   ),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //       color: Colors.black38,
-            //       borderRadius: BorderRadius.circular(8),
-            //     ),
-            //     child: Padding(
-            //       padding: const EdgeInsets.all(8.0),
-            //       child: ListTile(
-            //         leading: Image.asset(
-            //           data.,
-            //         ),
-            //         title: Text("LENSES MOUSE"),
-            //         subtitle: Text(
-            //             "Santiago who travels from his homeland in Spain to the Egyptian desert in search of a treasure buried near the Pyramids. Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt ut labore et. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidid"),
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            if (data.giftItem != null)
+              Center(
+                child: AutoSizeText(
+                  "WINNING GIFT",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            if (data.giftItem != null)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black38,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      leading: CachedNetworkImage(
+                        imageUrl: "https://evorgaming.com/storage/Products/" +
+                            data.giftItem.images.split(r"/@/")[1],
+                        placeholder: (context, url) =>
+                            Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) =>
+                            Center(child: Icon(Icons.error)),
+                        fit: BoxFit.fitHeight,
+                      ),
+                      title: AutoSizeText(data.giftItem.name),
+                      subtitle: HtmlWidget(data.giftItem.shorDescription),
+                    ),
+                  ),
+                ),
+              ),
             Center(
-              child: Text(
+              child: AutoSizeText(
                 "OUR SPONSORS",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
@@ -181,8 +190,14 @@ class TournamentDetailsPage extends StatelessWidget {
             for (var item in data.sponsorBanner)
               ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                child: Image.network(
-                  'https://evorgaming.com/storage/Tournments/Sponsors/' + item,
+                child: CachedNetworkImage(
+                  placeholder: (context, url) =>
+                      Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) =>
+                      Center(child: Icon(Icons.error)),
+                  imageUrl:
+                      'https://evorgaming.com/storage/Tournments/Sponsors/' +
+                          item,
                 ),
               ),
           ],

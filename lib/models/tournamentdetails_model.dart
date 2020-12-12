@@ -1,3 +1,5 @@
+import 'package:evorgaming/models/tournaments_model.dart';
+
 class TournamentDetailsModel {
   TournamentDetailsModel({
     this.id,
@@ -11,6 +13,7 @@ class TournamentDetailsModel {
     this.platform,
     this.entryType,
     this.entryFee,
+    this.giftItem,
     this.pointPerKill,
     this.totalPricePool,
     this.map,
@@ -21,27 +24,6 @@ class TournamentDetailsModel {
     this.roomSize,
     this.curRoomSize,
   });
-
-  int id;
-  String gameId;
-  String title;
-  String description;
-  String type;
-  DateTime startDateTime;
-  String version;
-  String coverImage;
-  String platform;
-  String entryType;
-  String entryFee;
-  String pointPerKill;
-  String totalPricePool;
-  String map;
-  bool isAlreadyParticipant;
-  String tournmentRules;
-  List<String> sponsorBy;
-  List<String> sponsorBanner;
-  String roomSize;
-  String curRoomSize;
 
   factory TournamentDetailsModel.fromJson(Map<String, dynamic> json) =>
       TournamentDetailsModel(
@@ -58,6 +40,9 @@ class TournamentDetailsModel {
         platform: json["platform"] == null ? null : json["platform"],
         entryType: json["entry_type"] == null ? null : json["entry_type"],
         entryFee: json["entry_fee"] == null ? null : json["entry_fee"],
+        giftItem: json["gift_item"] == null
+            ? null
+            : GiftItem.fromJson(json["gift_item"]),
         pointPerKill:
             json["point_per_kill"] == null ? null : json["point_per_kill"],
         totalPricePool:
@@ -79,6 +64,28 @@ class TournamentDetailsModel {
             json["cur_room_size"] == null ? null : json["cur_room_size"],
       );
 
+  String coverImage;
+  String curRoomSize;
+  String description;
+  String entryFee;
+  String entryType;
+  String gameId;
+  GiftItem giftItem;
+  int id;
+  bool isAlreadyParticipant;
+  String map;
+  String platform;
+  String pointPerKill;
+  String roomSize;
+  List<String> sponsorBanner;
+  List<String> sponsorBy;
+  DateTime startDateTime;
+  String title;
+  String totalPricePool;
+  String tournmentRules;
+  String type;
+  String version;
+
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
         "game_id": gameId == null ? null : gameId,
@@ -92,6 +99,7 @@ class TournamentDetailsModel {
         "platform": platform == null ? null : platform,
         "entry_type": entryType == null ? null : entryType,
         "entry_fee": entryFee == null ? null : entryFee,
+        "gift_item": giftItem == null ? null : giftItem.toJson(),
         "point_per_kill": pointPerKill == null ? null : pointPerKill,
         "total_price_pool": totalPricePool == null ? null : totalPricePool,
         "map": map == null ? null : map,

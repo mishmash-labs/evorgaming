@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:evorgaming/models/tournaments_model.dart';
+
 HomePageModel homePageModelFromJson(String str) =>
     HomePageModel.fromJson(json.decode(str));
 
@@ -41,7 +43,7 @@ class HomePageModel {
 class FeaturedTournment {
   FeaturedTournment({
     this.id,
-    this.game,
+    this.gameId,
     this.title,
     this.description,
     this.type,
@@ -51,6 +53,7 @@ class FeaturedTournment {
     this.platform,
     this.entryType,
     this.entryFee,
+    this.giftItem,
     this.pointPerKill,
     this.totalPricePool,
     this.map,
@@ -65,17 +68,21 @@ class FeaturedTournment {
   factory FeaturedTournment.fromJson(Map<String, dynamic> json) =>
       FeaturedTournment(
         id: json["id"] == null ? null : json["id"],
-        game: json["game"] == null ? null : json["game"],
+        gameId: json["game_id"] == null ? null : json["game_id"],
         title: json["title"] == null ? null : json["title"],
         description: json["Description"] == null ? null : json["Description"],
         type: json["type"] == null ? null : json["type"],
-        startDateTime:
-            json["StartDateTime"] == null ? null : json["StartDateTime"],
+        startDateTime: json["StartDateTime"] == null
+            ? null
+            : DateTime.parse(json["StartDateTime"]),
         version: json["Version"] == null ? null : json["Version"],
         coverImage: json["Cover_image"] == null ? null : json["Cover_image"],
         platform: json["platform"] == null ? null : json["platform"],
         entryType: json["entry_type"] == null ? null : json["entry_type"],
         entryFee: json["entry_fee"] == null ? null : json["entry_fee"],
+        giftItem: json["gift_item"] == null
+            ? null
+            : GiftItem.fromJson(json["gift_item"]),
         pointPerKill:
             json["point_per_kill"] == null ? null : json["point_per_kill"],
         totalPricePool:
@@ -102,7 +109,8 @@ class FeaturedTournment {
   String description;
   String entryFee;
   String entryType;
-  String game;
+  String gameId;
+  GiftItem giftItem;
   int id;
   bool isAlreadyParticipant;
   String map;
@@ -111,7 +119,7 @@ class FeaturedTournment {
   String roomSize;
   List<String> sponsorBanner;
   List<String> sponsorBy;
-  String startDateTime;
+  DateTime startDateTime;
   String title;
   String totalPricePool;
   String tournmentRules;
@@ -120,16 +128,18 @@ class FeaturedTournment {
 
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
-        "game": game == null ? null : game,
+        "game_id": gameId == null ? null : gameId,
         "title": title == null ? null : title,
         "Description": description == null ? null : description,
         "type": type == null ? null : type,
-        "StartDateTime": startDateTime == null ? null : startDateTime,
+        "StartDateTime":
+            startDateTime == null ? null : startDateTime.toIso8601String(),
         "Version": version == null ? null : version,
         "Cover_image": coverImage == null ? null : coverImage,
         "platform": platform == null ? null : platform,
         "entry_type": entryType == null ? null : entryType,
         "entry_fee": entryFee == null ? null : entryFee,
+        "gift_item": giftItem == null ? null : giftItem.toJson(),
         "point_per_kill": pointPerKill == null ? null : pointPerKill,
         "total_price_pool": totalPricePool == null ? null : totalPricePool,
         "map": map == null ? null : map,

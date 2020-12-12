@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:evorgaming/cubits/homepage/home_cubit.dart';
 import 'package:evorgaming/models/tournamentdetails_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import 'home/notifications_page.dart';
 import 'home/tournaments_page.dart';
@@ -99,6 +101,27 @@ class MyDashboardTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.info,
+            color: Colors.white54,
+            size: 75,
+          ),
+          const SizedBox(height: 8),
+          AutoSizeText(
+            "No Tournaments",
+            style: const TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.w400,
+              color: Colors.white54,
+            ),
+          ),
+        ],
+      ),
+    );
     return Container(
       child: ListView.builder(
         padding: EdgeInsets.all(4),
@@ -131,7 +154,7 @@ class MyDashboardTab extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            AutoSizeText(
                               "Battle Royale",
                               style: TextStyle(
                                   color: Colors.white,
@@ -166,7 +189,7 @@ class MyDashboardTab extends StatelessWidget {
                           child: RaisedButton(
                             elevation: 0,
                             onPressed: () {},
-                            child: Text("OPEN"),
+                            child: AutoSizeText("OPEN"),
                             color: Colors.red.shade800,
                           ),
                         )
@@ -182,11 +205,11 @@ class MyDashboardTab extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        AutoSizeText(
                           "3783 slots left",
                           style: TextStyle(color: Colors.white54),
                         ),
-                        Text(
+                        AutoSizeText(
                           "Total 4800 spots",
                           style: TextStyle(color: Colors.white54),
                         )
@@ -291,7 +314,7 @@ class PlayTab extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 8),
-                  Text(
+                  AutoSizeText(
                     "Games",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
@@ -308,19 +331,21 @@ class PlayTab extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => TournamentsPage(),
+                                builder: (context) => TournamentsPage(
+                                  gameid: state.homepageData.games[index].id,
+                                ),
                               ),
                             );
                           },
-                          child: Image.network(
-                            'https://evorgaming.com' +
+                          child: CachedNetworkImage(
+                            imageUrl: 'https://evorgaming.com' +
                                 state.homepageData.games[index].image,
                           ),
                         );
                       },
                     ),
                   ),
-                  Text(
+                  AutoSizeText(
                     "Featured Tournaments",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
@@ -361,8 +386,8 @@ class PlayTab extends StatelessWidget {
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(16),
                                       topRight: Radius.circular(16)),
-                                  child: Image.network(
-                                    'https://evorgaming.com' +
+                                  child: CachedNetworkImage(
+                                    imageUrl: 'https://evorgaming.com' +
                                         state
                                             .homepageData
                                             .featuredTournments[index]
@@ -372,7 +397,7 @@ class PlayTab extends StatelessWidget {
                                 Padding(
                                   padding:
                                       const EdgeInsets.only(left: 4, top: 4),
-                                  child: Text(
+                                  child: AutoSizeText(
                                     state.homepageData.featuredTournments[index]
                                         .title,
                                     style: TextStyle(
@@ -398,10 +423,10 @@ class PlayTab extends StatelessWidget {
                                         TextSpan(
                                           text: " " +
                                               DateFormat('d MMM, K:ma').format(
-                                                  DateTime.parse(state
+                                                  state
                                                       .homepageData
                                                       .featuredTournments[index]
-                                                      .startDateTime)),
+                                                      .startDateTime),
                                           style: TextStyle(
                                             color: Colors.white54,
                                           ),
@@ -417,7 +442,7 @@ class PlayTab extends StatelessWidget {
                                   children: [
                                     Column(
                                       children: [
-                                        Text(
+                                        AutoSizeText(
                                           "Prize",
                                           style: TextStyle(
                                             color: Colors.white54,
@@ -426,7 +451,7 @@ class PlayTab extends StatelessWidget {
                                         SizedBox(
                                           height: 4,
                                         ),
-                                        Text(state
+                                        AutoSizeText(state
                                             .homepageData
                                             .featuredTournments[index]
                                             .totalPricePool)
@@ -434,7 +459,7 @@ class PlayTab extends StatelessWidget {
                                     ),
                                     Column(
                                       children: [
-                                        Text(
+                                        AutoSizeText(
                                           "Type",
                                           style: TextStyle(
                                             color: Colors.white54,
@@ -443,13 +468,13 @@ class PlayTab extends StatelessWidget {
                                         SizedBox(
                                           height: 4,
                                         ),
-                                        Text(state.homepageData
+                                        AutoSizeText(state.homepageData
                                             .featuredTournments[index].type)
                                       ],
                                     ),
                                     Column(
                                       children: [
-                                        Text(
+                                        AutoSizeText(
                                           "Version",
                                           style: TextStyle(
                                             color: Colors.white54,
@@ -458,7 +483,7 @@ class PlayTab extends StatelessWidget {
                                         SizedBox(
                                           height: 4,
                                         ),
-                                        Text(state.homepageData
+                                        AutoSizeText(state.homepageData
                                             .featuredTournments[index].platform)
                                       ],
                                     ),
@@ -468,7 +493,7 @@ class PlayTab extends StatelessWidget {
                                   padding: const EdgeInsets.only(top: 8),
                                   child: Column(
                                     children: [
-                                      Text(
+                                      AutoSizeText(
                                         "Lobby",
                                         style: TextStyle(
                                           color: Colors.white54,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class SettingsPage extends StatelessWidget {
   @override
@@ -13,12 +14,12 @@ class SettingsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              AutoSizeText(
                 "Enter Your Game Character ID's",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 16),
-              Text(
+              AutoSizeText(
                 "Note : You must Enter your correct character ID. You won't be able to change it later by yourself. But if you want to do so you have to contact support.",
                 style: TextStyle(color: Colors.white70),
               ),
@@ -51,7 +52,7 @@ class SettingsPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text(
+                  child: AutoSizeText(
                     "Add Now",
                   ),
                   color: Colors.red,

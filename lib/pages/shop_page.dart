@@ -2,6 +2,7 @@ import 'package:evorgaming/cubits/shoppage/shop_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import '../widgets/product_card.dart';
 import 'shop/product_details.dart';
@@ -15,7 +16,7 @@ class ShopPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text(
+        title: AutoSizeText(
           "Shop",
           style: Theme.of(context)
               .textTheme

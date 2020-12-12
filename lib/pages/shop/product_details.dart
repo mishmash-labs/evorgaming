@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:evorgaming/models/shoppage_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class ProductDetailsPage extends StatelessWidget {
   const ProductDetailsPage({Key key, this.data}) : super(key: key);
@@ -17,16 +19,28 @@ class ProductDetailsPage extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
-        backgroundColor: Colors.red.shade700,
-        label: Text(
-          "Buy Now".toUpperCase(),
-          style: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
+        onPressed: () {
+          if (data.quantity == "0") return null;
+        },
+        backgroundColor:
+            data.quantity != "0" ? Colors.red.shade700 : Colors.grey,
+        label: data.quantity != "0"
+            ? AutoSizeText(
+                "Buy Now".toUpperCase(),
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              )
+            : AutoSizeText(
+                "Out of Stock".toUpperCase(),
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
       ),
       body: Column(
         children: <Widget>[
@@ -65,7 +79,7 @@ class ProductDetailsPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
+                      AutoSizeText(
                         data.name,
                         style: Theme.of(context)
                             .textTheme
@@ -93,9 +107,10 @@ class ProductDetailsPage extends StatelessWidget {
                           Expanded(
                             child: Hero(
                               tag: data.id,
-                              child: Image.network(
-                                "https://evorgaming.com/storage/Products/" +
-                                    data.image[1],
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    "https://evorgaming.com/storage/Products/" +
+                                        data.image[1],
                                 fit: BoxFit.fill,
                               ),
                             ),

@@ -7,6 +7,7 @@ import 'account/profile_page.dart';
 import 'account/settings_page.dart';
 import 'account/statistics_page.dart';
 import 'account/transactions_page.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class AccountPage extends StatelessWidget {
   @override
@@ -15,7 +16,7 @@ class AccountPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text(
+        title: AutoSizeText(
           "My Account",
           style: Theme.of(context)
               .textTheme
@@ -58,9 +59,9 @@ class AccountPage extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        Text("0"),
+                        AutoSizeText("0"),
                         SizedBox(height: 8),
-                        Text(
+                        AutoSizeText(
                           "Balance",
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
@@ -71,9 +72,9 @@ class AccountPage extends StatelessWidget {
                     ),
                     Column(
                       children: [
-                        Text("0"),
+                        AutoSizeText("0"),
                         SizedBox(height: 8),
-                        Text(
+                        AutoSizeText(
                           "Won Balance",
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
@@ -103,7 +104,7 @@ class AccountPage extends StatelessWidget {
             leading: CircleAvatar(
                 backgroundColor: Colors.transparent,
                 child: Icon(Icons.stacked_bar_chart)),
-            title: Text(
+            title: AutoSizeText(
               "Statistics",
               style: const TextStyle(
                 fontSize: 20,
@@ -127,7 +128,7 @@ class AccountPage extends StatelessWidget {
             leading: CircleAvatar(
                 backgroundColor: Colors.transparent,
                 child: Icon(Icons.announcement)),
-            title: Text(
+            title: AutoSizeText(
               "Announcements",
               style: const TextStyle(
                 fontSize: 20,
@@ -151,7 +152,7 @@ class AccountPage extends StatelessWidget {
             leading: CircleAvatar(
                 backgroundColor: Colors.transparent,
                 child: Icon(Icons.shopping_cart)),
-            title: Text(
+            title: AutoSizeText(
               "Orders",
               style: const TextStyle(
                 fontSize: 20,
@@ -175,7 +176,7 @@ class AccountPage extends StatelessWidget {
             leading: CircleAvatar(
                 backgroundColor: Colors.transparent,
                 child: Icon(Icons.swap_horiz)),
-            title: Text(
+            title: AutoSizeText(
               "Transactions",
               style: const TextStyle(
                 fontSize: 20,
@@ -199,7 +200,7 @@ class AccountPage extends StatelessWidget {
             leading: CircleAvatar(
                 backgroundColor: Colors.transparent,
                 child: Icon(Icons.person_add)),
-            title: Text(
+            title: AutoSizeText(
               "Characters IDs",
               style: const TextStyle(
                 fontSize: 20,
@@ -222,7 +223,7 @@ class AccountPage extends StatelessWidget {
             },
             leading: CircleAvatar(
                 backgroundColor: Colors.transparent, child: Icon(Icons.policy)),
-            title: Text(
+            title: AutoSizeText(
               "Privacy Policy",
               style: const TextStyle(
                 fontSize: 20,
@@ -245,7 +246,7 @@ class AccountPage extends StatelessWidget {
             },
             leading: CircleAvatar(
                 backgroundColor: Colors.transparent, child: Icon(Icons.notes)),
-            title: Text(
+            title: AutoSizeText(
               "Terms & Conditions",
               style: const TextStyle(
                 fontSize: 20,
@@ -268,7 +269,7 @@ class AccountPage extends StatelessWidget {
             },
             leading: CircleAvatar(
                 backgroundColor: Colors.transparent, child: Icon(Icons.help)),
-            title: Text(
+            title: AutoSizeText(
               "FAQ / Support",
               style: const TextStyle(
                 fontSize: 20,
@@ -291,7 +292,7 @@ class AccountPage extends StatelessWidget {
                 highlightedBorderColor: Colors.red.shade800,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4)),
-                child: Text(
+                child: AutoSizeText(
                   "Logout".toUpperCase(),
                   style: TextStyle(
                     fontSize: 17,

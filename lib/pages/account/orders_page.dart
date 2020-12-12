@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class OrdersPage extends StatelessWidget {
   @override
@@ -7,7 +8,7 @@ class OrdersPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text(
+        title: AutoSizeText(
           "Orders",
           style: Theme.of(context)
               .textTheme
@@ -25,7 +26,7 @@ class OrdersPage extends StatelessWidget {
               size: 75,
             ),
             const SizedBox(height: 8),
-            Text(
+            AutoSizeText(
               "No Recent Orders",
               style: const TextStyle(
                 fontSize: 25,

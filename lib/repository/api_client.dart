@@ -46,7 +46,7 @@ class ApiClient {
       "game_id": gameid,
     });
     if (uriResponse.statusCode == 200) {
-      return TournamentPageModel.fromJson(uriResponse.data);
+      return TournamentPageModel.fromJson(json.decode(uriResponse.data));
     } else {
       throw Exception('Unexpected Error Occurred');
     }

@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:evorgaming/models/shoppage_model.dart';
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class ItemCard extends StatelessWidget {
   const ItemCard({
@@ -27,20 +29,21 @@ class ItemCard extends StatelessWidget {
               ),
               child: Hero(
                 tag: data.id,
-                child: Image.network(
-                    "https://evorgaming.com/storage/Products/" + data.image[1]),
+                child: CachedNetworkImage(
+                    imageUrl: "https://evorgaming.com/storage/Products/" +
+                        data.image[1]),
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(5),
-            child: Text(
+            child: AutoSizeText(
               data.name,
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 5),
-            child: Text(
+            child: AutoSizeText(
               data.price + " Coins",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),

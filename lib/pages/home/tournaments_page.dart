@@ -1,7 +1,19 @@
+import 'package:evorgaming/cubits/tournamentspage/tournaments_cubit.dart';
+import 'package:evorgaming/models/tournamentdetails_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+
 import '../tournaments/tournament_details_page.dart';
 import 'package:flutter/material.dart';
 
 class TournamentsPage extends StatelessWidget {
+  final TournamentsCubit tournamentsCubit = TournamentsCubit();
+  final int gameid;
+
+  TournamentsPage({Key key, @required this.gameid}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -10,7 +22,7 @@ class TournamentsPage extends StatelessWidget {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: Text(
+          title: AutoSizeText(
             "Tournaments",
             style: Theme.of(context)
                 .textTheme
@@ -28,368 +40,270 @@ class TournamentsPage extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
-          children: [
-            Container(
-              child: ListView.builder(
-                padding: EdgeInsets.all(4),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: 7,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                    elevation: 0,
-                    color: Colors.black26,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TournamentDetailsPage(),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Battle Royale",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18),
-                                    ),
-                                    RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          WidgetSpan(
-                                            alignment:
-                                                PlaceholderAlignment.middle,
-                                            child: Icon(
-                                              Icons.access_time,
-                                              size: 14,
-                                              color: Colors.white54,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: " 13 Dec, 12:00PM",
-                                            style: TextStyle(
-                                              color: Colors.white54,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                ButtonTheme(
-                                  height: 32,
-                                  minWidth: 64,
-                                  child: RaisedButton(
-                                    elevation: 0,
-                                    onPressed: () {},
-                                    child: Text("OPEN"),
-                                    color: Colors.red.shade800,
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            LinearProgressIndicator(
-                              value: 1017 / 4800,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.red.shade700),
-                            ),
-                            SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "3783 slots left",
-                                  style: TextStyle(color: Colors.white54),
-                                ),
-                                Text(
-                                  "Total 4800 spots",
-                                  style: TextStyle(color: Colors.white54),
-                                )
-                              ],
-                            ),
-                            Divider(thickness: 2),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      WidgetSpan(
-                                        alignment: PlaceholderAlignment.middle,
-                                        child: Icon(
-                                          Icons.attach_money,
-                                          size: 14,
-                                          color: Colors.white54,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: " 5000",
-                                        style: TextStyle(
-                                          color: Colors.white54,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      WidgetSpan(
-                                        alignment: PlaceholderAlignment.middle,
-                                        child: Icon(
-                                          Icons.phone_android,
-                                          size: 14,
-                                          color: Colors.white54,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: " Mobile",
-                                        style: TextStyle(
-                                          color: Colors.white54,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      WidgetSpan(
-                                        alignment: PlaceholderAlignment.middle,
-                                        child: Icon(
-                                          Icons.people_alt_outlined,
-                                          size: 14,
-                                          color: Colors.white54,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: " Solo",
-                                        style: TextStyle(
-                                          color: Colors.white54,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+        body: BlocBuilder(
+          cubit: tournamentsCubit
+            ..loadTournaments("runedrune@gmail.com", gameid),
+          builder: (context, state) {
+            if (state is TournamentsLoaded)
+              return TabBarView(
                 children: [
-                  const Icon(
-                    Icons.warning,
-                    color: Colors.white54,
-                    size: 75,
+                  TournamentList(
+                    data: List<TournamentDetailsModel>.from(state
+                        .tournamentPageModel
+                        .toJson()["UpComing"]
+                        .map((x) => TournamentDetailsModel.fromJson(x))),
+                    type: "Upcoming",
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    "No Ongoing Tournment Found",
-                    style: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white54,
-                    ),
+                  TournamentList(
+                    data: List<TournamentDetailsModel>.from(state
+                        .tournamentPageModel
+                        .toJson()["Ongoing"]
+                        .map((x) => TournamentDetailsModel.fromJson(x))),
+                    type: "Ongoing",
+                  ),
+                  TournamentList(
+                    data: List<TournamentDetailsModel>.from(state
+                        .tournamentPageModel
+                        .toJson()["Completed"]
+                        .map((x) => TournamentDetailsModel.fromJson(x))),
+                    type: "Completed",
                   ),
                 ],
-              ),
+              );
+            else if (state is TournamentsLoading) {
+              return Center(
+                child: SpinKitCubeGrid(
+                  color: Colors.red.shade900,
+                  size: 50.0,
+                ),
+              );
+            } else
+              return Container();
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class TournamentList extends StatelessWidget {
+  const TournamentList({
+    Key key,
+    this.data,
+    this.type,
+  }) : super(key: key);
+
+  final List<TournamentDetailsModel> data;
+  final String type;
+
+  @override
+  Widget build(BuildContext context) {
+    if (data.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.info,
+              color: Colors.white54,
+              size: 75,
             ),
-            Container(
-              child: ListView.builder(
-                padding: EdgeInsets.all(4),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: 3,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                    elevation: 0,
-                    color: Colors.black26,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TournamentDetailsPage(),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Battle Royale",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18),
-                                    ),
-                                    RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          WidgetSpan(
-                                            alignment:
-                                                PlaceholderAlignment.middle,
-                                            child: Icon(
-                                              Icons.access_time,
-                                              size: 14,
-                                              color: Colors.white54,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: " 13 Dec, 12:00PM",
-                                            style: TextStyle(
-                                              color: Colors.white54,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                ButtonTheme(
-                                  height: 32,
-                                  minWidth: 64,
-                                  child: RaisedButton(
-                                    elevation: 0,
-                                    onPressed: () {},
-                                    child: Text("OPEN"),
-                                    color: Colors.red.shade800,
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            LinearProgressIndicator(
-                              value: 1017 / 4800,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.red.shade700),
-                            ),
-                            SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "3783 slots left",
-                                  style: TextStyle(color: Colors.white54),
-                                ),
-                                Text(
-                                  "Total 4800 spots",
-                                  style: TextStyle(color: Colors.white54),
-                                )
-                              ],
-                            ),
-                            Divider(thickness: 2),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      WidgetSpan(
-                                        alignment: PlaceholderAlignment.middle,
-                                        child: Icon(
-                                          Icons.attach_money,
-                                          size: 14,
-                                          color: Colors.white54,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: " 5000",
-                                        style: TextStyle(
-                                          color: Colors.white54,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      WidgetSpan(
-                                        alignment: PlaceholderAlignment.middle,
-                                        child: Icon(
-                                          Icons.phone_android,
-                                          size: 14,
-                                          color: Colors.white54,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: " Mobile",
-                                        style: TextStyle(
-                                          color: Colors.white54,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      WidgetSpan(
-                                        alignment: PlaceholderAlignment.middle,
-                                        child: Icon(
-                                          Icons.people_alt_outlined,
-                                          size: 14,
-                                          color: Colors.white54,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: " Solo",
-                                        style: TextStyle(
-                                          color: Colors.white54,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
+            const SizedBox(height: 8),
+            AutoSizeText(
+              "No Tournaments",
+              style: const TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w400,
+                color: Colors.white54,
               ),
             ),
           ],
         ),
-      ),
-    );
+      );
+    } else
+      return Container(
+        child: ListView.builder(
+          padding: EdgeInsets.all(4),
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          itemCount: data.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              elevation: 0,
+              color: Colors.black26,
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TournamentDetailsPage(
+                        data: data[index],
+                      ),
+                    ),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AutoSizeText(
+                                data[index].title,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18),
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    WidgetSpan(
+                                      alignment: PlaceholderAlignment.middle,
+                                      child: Icon(
+                                        Icons.access_time,
+                                        size: 14,
+                                        color: Colors.white54,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: " " +
+                                          DateFormat('d MMM, K:ma').format(
+                                              data[index].startDateTime),
+                                      style: TextStyle(
+                                        color: Colors.white54,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          if (type == "Upcoming")
+                            ButtonTheme(
+                              height: 32,
+                              minWidth: 64,
+                              child: RaisedButton(
+                                elevation: 0,
+                                onPressed: () {},
+                                child: AutoSizeText("OPEN"),
+                                color: Colors.red.shade800,
+                              ),
+                            )
+                        ],
+                      ),
+                      SizedBox(height: 8),
+                      LinearProgressIndicator(
+                        value: int.parse(data[index].curRoomSize) /
+                            int.parse(data[index].roomSize),
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(Colors.red.shade700),
+                      ),
+                      SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AutoSizeText(
+                            (int.parse(data[index].roomSize) -
+                                        int.parse(data[index].curRoomSize))
+                                    .toString() +
+                                " slots left",
+                            style: TextStyle(color: Colors.white54),
+                          ),
+                          AutoSizeText(
+                            "Total ${data[index].roomSize} slots",
+                            style: TextStyle(color: Colors.white54),
+                          )
+                        ],
+                      ),
+                      Divider(thickness: 2),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: Icon(
+                                    Icons.attach_money,
+                                    size: 14,
+                                    color: Colors.white54,
+                                  ),
+                                ),
+                                if (data[index].totalPricePool != null)
+                                  TextSpan(
+                                    text: " " + data[index].totalPricePool,
+                                    style: TextStyle(
+                                      color: Colors.white54,
+                                    ),
+                                  ),
+                                if (data[index].giftItem != null)
+                                  TextSpan(
+                                    text: " " + data[index].giftItem.name,
+                                    style: TextStyle(
+                                      color: Colors.white54,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: Icon(
+                                    Icons.phone_android,
+                                    size: 14,
+                                    color: Colors.white54,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: " " + data[index].platform,
+                                  style: TextStyle(
+                                    color: Colors.white54,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: Icon(
+                                    Icons.people_alt_outlined,
+                                    size: 14,
+                                    color: Colors.white54,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: " " + data[index].type,
+                                  style: TextStyle(
+                                    color: Colors.white54,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      );
   }
 }

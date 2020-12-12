@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final tournamentPageModel = tournamentPageModelFromJson(jsonString);
+
 import 'dart:convert';
 
 TournamentPageModel tournamentPageModelFromJson(String str) =>
@@ -14,11 +18,6 @@ class TournamentPageModel {
     this.completed,
   });
 
-  String code;
-  List<UpComing> upComing;
-  List<dynamic> ongoing;
-  List<Completed> completed;
-
   factory TournamentPageModel.fromJson(Map<String, dynamic> json) =>
       TournamentPageModel(
         code: json["Code"] == null ? null : json["Code"],
@@ -34,6 +33,11 @@ class TournamentPageModel {
             : List<Completed>.from(
                 json["Completed"].map((x) => Completed.fromJson(x))),
       );
+
+  String code;
+  List<Completed> completed;
+  List<dynamic> ongoing;
+  List<UpComing> upComing;
 
   Map<String, dynamic> toJson() => {
         "Code": code == null ? null : code,
@@ -61,6 +65,7 @@ class Completed {
     this.platform,
     this.entryType,
     this.entryFee,
+    this.giftItem,
     this.pointPerKill,
     this.totalPricePool,
     this.map,
@@ -70,26 +75,6 @@ class Completed {
     this.roomSize,
     this.curRoomSize,
   });
-
-  int id;
-  String gameId;
-  String title;
-  String description;
-  String type;
-  DateTime startDateTime;
-  String version;
-  String coverImage;
-  String platform;
-  String entryType;
-  String entryFee;
-  String pointPerKill;
-  dynamic totalPricePool;
-  String map;
-  String tournmentRules;
-  List<String> sponsorBy;
-  List<String> sponsorBanner;
-  String roomSize;
-  String curRoomSize;
 
   factory Completed.fromJson(Map<String, dynamic> json) => Completed(
         id: json["id"] == null ? null : json["id"],
@@ -105,6 +90,9 @@ class Completed {
         platform: json["platform"] == null ? null : json["platform"],
         entryType: json["entry_type"] == null ? null : json["entry_type"],
         entryFee: json["entry_fee"] == null ? null : json["entry_fee"],
+        giftItem: json["gift_item"] == null
+            ? null
+            : GiftItem.fromJson(json["gift_item"]),
         pointPerKill:
             json["point_per_kill"] == null ? null : json["point_per_kill"],
         totalPricePool: json["total_price_pool"],
@@ -122,6 +110,27 @@ class Completed {
             json["cur_room_size"] == null ? null : json["cur_room_size"],
       );
 
+  String coverImage;
+  String curRoomSize;
+  String description;
+  String entryFee;
+  String entryType;
+  String gameId;
+  GiftItem giftItem;
+  int id;
+  String map;
+  String platform;
+  String pointPerKill;
+  String roomSize;
+  List<String> sponsorBanner;
+  List<String> sponsorBy;
+  DateTime startDateTime;
+  String title;
+  dynamic totalPricePool;
+  String tournmentRules;
+  String type;
+  String version;
+
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
         "game_id": gameId == null ? null : gameId,
@@ -135,6 +144,7 @@ class Completed {
         "platform": platform == null ? null : platform,
         "entry_type": entryType == null ? null : entryType,
         "entry_fee": entryFee == null ? null : entryFee,
+        "gift_item": giftItem == null ? null : giftItem.toJson(),
         "point_per_kill": pointPerKill == null ? null : pointPerKill,
         "total_price_pool": totalPricePool,
         "map": map == null ? null : map,
@@ -147,6 +157,68 @@ class Completed {
             : List<dynamic>.from(sponsorBanner.map((x) => x)),
         "room_size": roomSize == null ? null : roomSize,
         "cur_room_size": curRoomSize == null ? null : curRoomSize,
+      };
+}
+
+class GiftItem {
+  GiftItem({
+    this.id,
+    this.name,
+    this.images,
+    this.price,
+    this.currency,
+    this.quantity,
+    this.shorDescription,
+    this.lonDescription,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  factory GiftItem.fromJson(Map<String, dynamic> json) => GiftItem(
+        id: json["id"] == null ? null : json["id"],
+        name: json["Name"] == null ? null : json["Name"],
+        images: json["Images"] == null ? null : json["Images"],
+        price: json["Price"] == null ? null : json["Price"],
+        currency: json["Currency"] == null ? null : json["Currency"],
+        quantity: json["Quantity"] == null ? null : json["Quantity"],
+        shorDescription:
+            json["Shor_description"] == null ? null : json["Shor_description"],
+        lonDescription:
+            json["lon_description"] == null ? null : json["lon_description"],
+        status: json["status"] == null ? null : json["status"],
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
+      );
+
+  DateTime createdAt;
+  String currency;
+  int id;
+  String images;
+  String lonDescription;
+  String name;
+  String price;
+  String quantity;
+  String shorDescription;
+  String status;
+  DateTime updatedAt;
+
+  Map<String, dynamic> toJson() => {
+        "id": id == null ? null : id,
+        "Name": name == null ? null : name,
+        "Images": images == null ? null : images,
+        "Price": price == null ? null : price,
+        "Currency": currency == null ? null : currency,
+        "Quantity": quantity == null ? null : quantity,
+        "Shor_description": shorDescription == null ? null : shorDescription,
+        "lon_description": lonDescription == null ? null : lonDescription,
+        "status": status == null ? null : status,
+        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
+        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
       };
 }
 
@@ -163,6 +235,7 @@ class UpComing {
     this.platform,
     this.entryType,
     this.entryFee,
+    this.giftItem,
     this.pointPerKill,
     this.totalPricePool,
     this.map,
@@ -173,27 +246,6 @@ class UpComing {
     this.roomSize,
     this.curRoomSize,
   });
-
-  int id;
-  String gameId;
-  String title;
-  String description;
-  String type;
-  DateTime startDateTime;
-  String version;
-  String coverImage;
-  String platform;
-  String entryType;
-  String entryFee;
-  String pointPerKill;
-  String totalPricePool;
-  String map;
-  bool isAlreadyParticipant;
-  String tournmentRules;
-  List<String> sponsorBy;
-  List<String> sponsorBanner;
-  String roomSize;
-  String curRoomSize;
 
   factory UpComing.fromJson(Map<String, dynamic> json) => UpComing(
         id: json["id"] == null ? null : json["id"],
@@ -209,6 +261,9 @@ class UpComing {
         platform: json["platform"] == null ? null : json["platform"],
         entryType: json["entry_type"] == null ? null : json["entry_type"],
         entryFee: json["entry_fee"] == null ? null : json["entry_fee"],
+        giftItem: json["gift_item"] == null
+            ? null
+            : GiftItem.fromJson(json["gift_item"]),
         pointPerKill:
             json["point_per_kill"] == null ? null : json["point_per_kill"],
         totalPricePool:
@@ -230,6 +285,28 @@ class UpComing {
             json["cur_room_size"] == null ? null : json["cur_room_size"],
       );
 
+  String coverImage;
+  String curRoomSize;
+  String description;
+  String entryFee;
+  String entryType;
+  String gameId;
+  GiftItem giftItem;
+  int id;
+  bool isAlreadyParticipant;
+  String map;
+  String platform;
+  String pointPerKill;
+  String roomSize;
+  List<String> sponsorBanner;
+  List<String> sponsorBy;
+  DateTime startDateTime;
+  String title;
+  String totalPricePool;
+  String tournmentRules;
+  String type;
+  String version;
+
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
         "game_id": gameId == null ? null : gameId,
@@ -243,6 +320,7 @@ class UpComing {
         "platform": platform == null ? null : platform,
         "entry_type": entryType == null ? null : entryType,
         "entry_fee": entryFee == null ? null : entryFee,
+        "gift_item": giftItem == null ? null : giftItem.toJson(),
         "point_per_kill": pointPerKill == null ? null : pointPerKill,
         "total_price_pool": totalPricePool == null ? null : totalPricePool,
         "map": map == null ? null : map,
