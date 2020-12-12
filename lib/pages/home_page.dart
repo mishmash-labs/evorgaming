@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:evorgaming/cubits/homepage/home_cubit.dart';
 import 'package:evorgaming/models/tournamentdetails_model.dart';
+import 'package:evorgaming/pages/home/chat_page.dart';
+import 'package:evorgaming/pages/home/wallet_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -36,7 +38,7 @@ class HomePage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NotificationsPage(),
+                        builder: (context) => WalletPage(),
                       ),
                     );
                   },
@@ -50,7 +52,7 @@ class HomePage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NotificationsPage(),
+                        builder: (context) => ChatPage(),
                       ),
                     );
                   },
