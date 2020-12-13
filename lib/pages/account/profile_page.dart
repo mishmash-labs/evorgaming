@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:evorgaming/models/account_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../providers/userdata_provider.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key key, @required this.profileDetails}) : super(key: key);
@@ -11,8 +13,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.0)), //this right here
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
       child: Container(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -75,7 +76,8 @@ class ProfilePage extends StatelessWidget {
               ),
               SizedBox(height: 16),
               TextFormField(
-                initialValue: "john@example.com",
+                initialValue:
+                    Provider.of<UserData>(context, listen: false).userId,
                 cursorColor: Colors.red,
                 decoration: InputDecoration(
                   labelText: "Email",

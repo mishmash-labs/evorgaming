@@ -50,23 +50,68 @@ class OrdersPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Card(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
                     elevation: 0,
                     color: Colors.black26,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Column(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          AutoSizeText(
-                              "Order Number " + orderData[index].id.toString()),
-                          AutoSizeText(
-                              "Subtotal: " + orderData[index].subTotal),
-                          AutoSizeText(
-                              "Shipping: " + orderData[index].shippingFee),
-                          AutoSizeText("Total: " + orderData[index].total),
-                          AutoSizeText(
-                              "Status: " + orderData[index].reviewStatus),
+                          Column(
+                            children: [
+                              AutoSizeText(
+                                "Order Number",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              AutoSizeText(orderData[index].id.toString()),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              AutoSizeText(
+                                "Total Products",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              AutoSizeText(
+                                  orderData[index].qty.replaceAll(r"/@/", "")),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              AutoSizeText(
+                                "Status",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              AutoSizeText(orderData[index].status),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              AutoSizeText(
+                                "Total Amount",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              AutoSizeText(orderData[index].total),
+                            ],
+                          ),
                         ],
                       ),
                     ),
