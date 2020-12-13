@@ -9,7 +9,7 @@ class SettingsPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(16.0)), //this right here
       child: Container(
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
