@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:evorgaming/providers/userdata_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/product_card.dart';
 import 'shop/product_details.dart';
@@ -25,11 +27,13 @@ class ShopPage extends StatelessWidget {
         ),
       ),
       body: BlocBuilder(
-        cubit: shopCubit..loadShop("runedrune@gmail.com"),
+        cubit: shopCubit
+          ..loadShop(Provider.of<UserData>(context, listen: false).userId),
         builder: (context, state) {
           if (state is ShopLoaded) {
             return RefreshIndicator(
-              onRefresh: () => shopCubit.refresh("runedrune@gmail.com"),
+              onRefresh: () => shopCubit.refresh(
+                  Provider.of<UserData>(context, listen: false).userId),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: GridView.builder(

@@ -7,6 +7,14 @@ class LoginInitial extends LoginState {}
 
 class LoginLoading extends LoginState {}
 
-class LoginFailed extends LoginState {}
+class LoginFailed extends LoginState {
+  LoginFailed(this.data);
 
-class LoginSuccess extends LoginState {}
+  final GenericMessageModel data;
+}
+
+class LoginSuccess extends LoginState {
+  LoginSuccess(this.data);
+
+  final GenericMessageModel data;
+}

@@ -7,6 +7,14 @@ class SignupInitial extends SignupState {}
 
 class SignupLoading extends SignupState {}
 
-class SignupFailed extends SignupState {}
+class SignupFailed extends SignupState {
+  SignupFailed(this.data);
 
-class SignupSuccess extends SignupState {}
+  final GenericMessageModel data;
+}
+
+class SignupSuccess extends SignupState {
+  SignupSuccess(this.data);
+
+  final GenericMessageModel data;
+}

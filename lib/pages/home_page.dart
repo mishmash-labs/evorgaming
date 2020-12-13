@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
+import 'package:evorgaming/providers/userdata_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../cubits/homepage/home_cubit.dart';
 import '../models/tournamentdetails_model.dart';
@@ -304,11 +306,13 @@ class PlayTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder(
-      cubit: homeCubit..loadHome("runedrune@gmail.com"),
+      cubit: homeCubit
+        ..loadHome(Provider.of<UserData>(context, listen: false).userId),
       builder: (context, state) {
         if (state is HomeLoaded)
           return RefreshIndicator(
-            onRefresh: () => homeCubit.refresh("runedrune@gmail.com"),
+            onRefresh: () => homeCubit
+                .refresh(Provider.of<UserData>(context, listen: false).userId),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Column(

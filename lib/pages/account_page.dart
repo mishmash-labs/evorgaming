@@ -1,6 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:evorgaming/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:evorgaming/providers/userdata_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'account/announcements_page.dart';
 import 'account/orders_page.dart';
@@ -287,7 +290,17 @@ class AccountPage extends StatelessWidget {
               height: 60,
               width: MediaQuery.of(context).size.width,
               child: OutlineButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await Provider.of<UserData>(context, listen: false)
+                      .prefs
+                      .clear();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(),
+                    ),
+                  );
+                },
                 borderSide: BorderSide(color: Colors.red.shade800),
                 highlightedBorderColor: Colors.red.shade800,
                 shape: RoundedRectangleBorder(

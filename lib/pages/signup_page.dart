@@ -1,9 +1,15 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bot_toast/bot_toast.dart';
+import 'package:evorgaming/cubits/signuppage/signup_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SignupPage extends StatelessWidget {
-  final _formKey = GlobalKey<FormBuilderState>();
+  final SignupCubit signupCubit = SignupCubit();
+
+  final _signupKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +24,8 @@ class SignupPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: FormBuilder(
+            key: _signupKey,
             child: ListView(
-              key: _formKey,
               children: [
                 Image.asset(
                   "assets/logo.png",
@@ -36,7 +42,13 @@ class SignupPage extends StatelessWidget {
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white30),
                     ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red.shade800),
+                    ),
                   ),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(context),
+                  ]),
                 ),
                 SizedBox(height: 16),
                 FormBuilderTextField(
@@ -50,7 +62,14 @@ class SignupPage extends StatelessWidget {
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white30),
                     ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red.shade800),
+                    ),
                   ),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(context),
+                  ]),
                 ),
                 SizedBox(height: 16),
                 FormBuilderPhoneField(
@@ -63,11 +82,19 @@ class SignupPage extends StatelessWidget {
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white30),
                     ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red.shade800),
+                    ),
                   ),
+                  keyboardType: TextInputType.phone,
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(context),
+                  ]),
                 ),
                 SizedBox(height: 16),
                 FormBuilderRadioGroup(
                   initialValue: "Male",
+                  activeColor: Colors.red.shade800,
                   decoration: InputDecoration(
                     labelText: "Gender",
                     focusedBorder: OutlineInputBorder(
@@ -76,9 +103,14 @@ class SignupPage extends StatelessWidget {
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white30),
                     ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red.shade800),
+                    ),
                   ),
                   name: 'gender',
-                  validator: FormBuilderValidators.required(context),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(context),
+                  ]),
                   options: [
                     'Male',
                     'Female',
@@ -90,6 +122,7 @@ class SignupPage extends StatelessWidget {
                 FormBuilderTextField(
                   name: "password",
                   cursorColor: Colors.red,
+                  obscureText: true,
                   decoration: InputDecoration(
                     labelText: "Password",
                     focusedBorder: OutlineInputBorder(
@@ -98,12 +131,20 @@ class SignupPage extends StatelessWidget {
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white30),
                     ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red.shade800),
+                    ),
                   ),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(context),
+                    FormBuilderValidators.minLength(context, 8),
+                  ]),
                 ),
                 SizedBox(height: 16),
                 FormBuilderTextField(
                   name: "confirmpassword",
                   cursorColor: Colors.red,
+                  obscureText: true,
                   decoration: InputDecoration(
                     labelText: "Re-Type Password",
                     focusedBorder: OutlineInputBorder(
@@ -112,14 +153,59 @@ class SignupPage extends StatelessWidget {
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white30),
                     ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red.shade800),
+                    ),
                   ),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(context),
+                    (val) {
+                      if (_signupKey
+                              .currentState.fields['my_language']?.value !=
+                          val) return 'Password does not match';
+                      return null;
+                    }
+                  ]),
                 ),
                 SizedBox(height: 16),
-                OutlineButton(
-                  borderSide: BorderSide(color: Colors.red.shade800),
-                  highlightedBorderColor: Colors.red.shade800,
-                  onPressed: () {},
-                  child: AutoSizeText("Register"),
+                BlocConsumer(
+                  cubit: signupCubit,
+                  listener: (context, state) {
+                    if (state is SignupSuccess) {
+                      BotToast.showText(
+                          text: state.data.message,
+                          duration: Duration(seconds: 4));
+                      Navigator.pop(context);
+                    }
+                    if (state is SignupFailed) {
+                      BotToast.showText(
+                          text: state.data.message,
+                          duration: Duration(seconds: 4));
+                    }
+                  },
+                  builder: (context, state) {
+                    return OutlineButton(
+                      borderSide: BorderSide(color: Colors.red.shade800),
+                      highlightedBorderColor: Colors.red.shade800,
+                      onPressed: () {
+                        if (state is SignupLoading) {
+                        } else {
+                          _signupKey.currentState.save();
+                          if (_signupKey.currentState.validate()) {
+                            signupCubit.register(_signupKey.currentState.value);
+                          } else {
+                            print("validation failed");
+                          }
+                        }
+                      },
+                      child: state is SignupLoading
+                          ? SpinKitThreeBounce(
+                              color: Colors.red.shade900,
+                              size: 20,
+                            )
+                          : AutoSizeText("Register"),
+                    );
+                  },
                 ),
                 FlatButton(
                   onPressed: () {

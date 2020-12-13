@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import '../models/homepage_model.dart';
 import '../models/shoppage_model.dart';
 import '../models/tournaments_model.dart';
+import 'package:evorgaming/models/genericmessage_model.dart';
 
 class ApiClient {
   ApiClient() {
@@ -25,7 +26,7 @@ class ApiClient {
       "password": password,
     });
     if (uriResponse.statusCode == 200) {
-      return HomePageModel.fromJson(json.decode(uriResponse.data));
+      return GenericMessageModel.fromJson(json.decode(uriResponse.data));
     } else {
       throw Exception('Unexpected Error Occurred');
     }
@@ -34,7 +35,7 @@ class ApiClient {
   Future<dynamic> register(Map<String, dynamic> data) async {
     final uriResponse = await _dio.post('App/Register/User', data: data);
     if (uriResponse.statusCode == 200) {
-      return HomePageModel.fromJson(json.decode(uriResponse.data));
+      return GenericMessageModel.fromJson(json.decode(uriResponse.data));
     } else {
       throw Exception('Unexpected Error Occurred');
     }

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
+import 'package:evorgaming/providers/userdata_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../cubits/tournamentspage/tournaments_cubit.dart';
 import '../../models/tournamentdetails_model.dart';
@@ -42,7 +44,8 @@ class TournamentsPage extends StatelessWidget {
         ),
         body: BlocBuilder(
           cubit: tournamentsCubit
-            ..loadTournaments("runedrune@gmail.com", gameid),
+            ..loadTournaments(
+                Provider.of<UserData>(context, listen: false).userId, gameid),
           builder: (context, state) {
             if (state is TournamentsLoaded)
               return TabBarView(
