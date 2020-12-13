@@ -170,8 +170,11 @@ class TournamentDetailsPage extends StatelessWidget {
                       leading: CachedNetworkImage(
                         imageUrl: "https://evorgaming.com/storage/Products/" +
                             data.giftItem.images.split(r"/@/")[1],
-                        placeholder: (context, url) =>
-                            Center(child: CircularProgressIndicator()),
+                        placeholder: (context, url) => Center(
+                            child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(),
+                        )),
                         errorWidget: (context, url, error) =>
                             Center(child: Icon(Icons.error)),
                         fit: BoxFit.fitHeight,
@@ -193,8 +196,11 @@ class TournamentDetailsPage extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(16),
                 child: CachedNetworkImage(
-                  placeholder: (context, url) =>
-                      Center(child: CircularProgressIndicator()),
+                  placeholder: (context, url) => Center(
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircularProgressIndicator(),
+                  )),
                   errorWidget: (context, url, error) =>
                       Center(child: Icon(Icons.error)),
                   imageUrl:

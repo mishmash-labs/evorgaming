@@ -195,7 +195,17 @@ class TournamentList extends StatelessWidget {
                               minWidth: 64,
                               child: RaisedButton(
                                 elevation: 0,
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          TournamentDetailsPage(
+                                        data: data[index],
+                                      ),
+                                    ),
+                                  );
+                                },
                                 child: AutoSizeText("OPEN"),
                                 color: Colors.red.shade800,
                               ),
