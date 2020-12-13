@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
-import 'package:evorgaming/providers/userdata_provider.dart';
+import '../../providers/userdata_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../cubits/tournamentspage/tournaments_cubit.dart';

@@ -1,7 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:evorgaming/models/account_model.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
+  const ProfilePage({Key key, @required this.profileDetails}) : super(key: key);
+
+  final ProfileDetails profileDetails;
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -22,11 +28,29 @@ class ProfilePage extends StatelessWidget {
                     .copyWith(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 16),
-              CircleAvatar(
-                backgroundColor: Colors.black38,
-                child: Icon(Icons.person),
-                minRadius: 50,
-              ),
+              profileDetails.photo == null
+                  ? Center(
+                      child: CircleAvatar(
+                        backgroundColor: Colors.black38,
+                        child: Icon(Icons.person),
+                        radius: 50,
+                      ),
+                    )
+                  : Center(
+                      child: CachedNetworkImage(
+                        imageBuilder: (context, imageProvider) => Container(
+                          width: 100.0,
+                          height: 100.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: imageProvider, fit: BoxFit.cover),
+                          ),
+                        ),
+                        imageUrl: "https://evorgaming.com/storage/" +
+                            profileDetails.photo,
+                      ),
+                    ),
               Center(
                 child: OutlineButton(
                   borderSide: BorderSide(color: Colors.red.shade800),
@@ -37,7 +61,7 @@ class ProfilePage extends StatelessWidget {
               ),
               SizedBox(height: 8),
               TextFormField(
-                initialValue: "John Smith",
+                initialValue: profileDetails.name,
                 cursorColor: Colors.red,
                 decoration: InputDecoration(
                   labelText: "Name",
@@ -55,6 +79,20 @@ class ProfilePage extends StatelessWidget {
                 cursorColor: Colors.red,
                 decoration: InputDecoration(
                   labelText: "Email",
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red.shade800),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white30),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
+              TextFormField(
+                initialValue: profileDetails.mobileNo,
+                cursorColor: Colors.red,
+                decoration: InputDecoration(
+                  labelText: "Phone Number",
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.red.shade800),
                   ),

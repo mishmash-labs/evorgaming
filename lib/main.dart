@@ -1,13 +1,13 @@
-import 'package:evorgaming/providers/userdata_provider.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:bot_toast/bot_toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'navigation_page.dart';
 import 'pages/login_page.dart';
 import 'providers/navigation_provider.dart';
+import 'providers/userdata_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,11 +1,11 @@
-import '../cubits/shoppage/shop_cubit.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:evorgaming/providers/userdata_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../cubits/shoppage/shop_cubit.dart';
+import '../providers/userdata_provider.dart';
 import '../widgets/product_card.dart';
 import 'shop/product_details.dart';
 

@@ -1,10 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:evorgaming/cubits/signuppage/signup_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import '../cubits/signuppage/signup_cubit.dart';
 
 class SignupPage extends StatelessWidget {
   final SignupCubit signupCubit = SignupCubit();

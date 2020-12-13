@@ -1,8 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../../models/shoppage_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+
+import '../../models/shoppage_model.dart';
 
 class ProductDetailsPage extends StatelessWidget {
   const ProductDetailsPage({Key key, this.data}) : super(key: key);

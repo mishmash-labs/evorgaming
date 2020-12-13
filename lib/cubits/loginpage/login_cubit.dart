@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:evorgaming/models/genericmessage_model.dart';
+import '../../models/genericmessage_model.dart';
 import 'package:meta/meta.dart';
 import '../../repository/api_client.dart';
 

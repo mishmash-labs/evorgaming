@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 
+import '../models/account_model.dart';
+import '../models/genericmessage_model.dart';
 import '../models/homepage_model.dart';
 import '../models/shoppage_model.dart';
 import '../models/tournaments_model.dart';
-import 'package:evorgaming/models/genericmessage_model.dart';
 
 class ApiClient {
   ApiClient() {
@@ -71,6 +72,17 @@ class ApiClient {
     });
     if (uriResponse.statusCode == 200) {
       return TournamentPageModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
+
+  Future<dynamic> accountpage(String email) async {
+    final uriResponse = await _dio.post('app/user/profile/details', data: {
+      "email": email,
+    });
+    if (uriResponse.statusCode == 200) {
+      return AccountModel.fromJson(json.decode(uriResponse.data));
     } else {
       throw Exception('Unexpected Error Occurred');
     }
