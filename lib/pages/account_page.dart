@@ -1,20 +1,20 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../cubits/accountpage/account_cubit.dart';
-import 'login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../providers/userdata_provider.dart';
 import 'package:provider/provider.dart';
-import 'home/wallet_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../cubits/accountpage/account_cubit.dart';
+import '../providers/userdata_provider.dart';
 import 'account/announcements_page.dart';
+import 'account/characterid_page.dart';
 import 'account/orders_page.dart';
 import 'account/profile_page.dart';
-import 'account/characterid_page.dart';
 import 'account/transactions_page.dart';
+import 'home/wallet_page.dart';
+import 'login_page.dart';
 
 class AccountPage extends StatelessWidget {
   final AccountCubit accountCubit = AccountCubit();

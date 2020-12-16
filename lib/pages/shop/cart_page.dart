@@ -1,5 +1,5 @@
-import 'package:evorgaming/cubits/cartpage/cart_cubit.dart';
-import 'package:evorgaming/providers/userdata_provider.dart';
+import '../../cubits/cartpage/cart_cubit.dart';
+import '../../providers/userdata_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

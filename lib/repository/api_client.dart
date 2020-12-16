@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:evorgaming/models/cartpage_model.dart';
+import '../models/cartpage_model.dart';
 
 import '../models/account_model.dart';
 import '../models/genericmessage_model.dart';

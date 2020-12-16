@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:evorgaming/models/account_model.dart';
 import 'package:flutter/material.dart';
+
+import '../../models/account_model.dart';
 
 class OrdersPage extends StatelessWidget {
   const OrdersPage({Key key, @required this.orderData}) : super(key: key);

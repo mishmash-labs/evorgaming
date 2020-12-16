@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
-import '../../models/genericmessage_model.dart';
 import 'package:meta/meta.dart';
+
+import '../../models/genericmessage_model.dart';
 import '../../repository/api_client.dart';
 
 part 'login_state.dart';

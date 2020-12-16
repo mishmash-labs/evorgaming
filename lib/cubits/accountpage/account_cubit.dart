@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
+
 import '../../models/account_model.dart';
 import '../../repository/api_client.dart';
-import 'package:meta/meta.dart';
 
 part 'account_state.dart';
 
