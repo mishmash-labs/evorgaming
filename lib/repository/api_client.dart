@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:evorgaming/models/paymentmethods_model.dart';
 import '../models/cartpage_model.dart';
 
 import '../models/account_model.dart';
@@ -110,6 +111,27 @@ class ApiClient {
     });
     if (uriResponse.statusCode == 200) {
       return CartModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
+
+  Future<dynamic> getpaymentmethods(String email) async {
+    final uriResponse = await _dio.post('app/payment/methods', data: {
+      "email": email,
+    });
+    if (uriResponse.statusCode == 200) {
+      return PaymentMethodsModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
+
+  Future<dynamic> submitwithdrawlrequest(Map<String, dynamic> data) async {
+    final uriResponse =
+        await _dio.post('app/payment/make/withdraw', data: data);
+    if (uriResponse.statusCode == 200) {
+      return GenericMessageModel.fromJson(json.decode(uriResponse.data));
     } else {
       throw Exception('Unexpected Error Occurred');
     }

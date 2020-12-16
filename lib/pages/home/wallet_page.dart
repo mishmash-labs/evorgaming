@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
+import 'withdraw_page.dart';
+
 class WalletPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -134,7 +136,14 @@ class WalletPage extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: RaisedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => WithdrawPage(),
+                                ),
+                              );
+                            },
                             color: Colors.red.shade800,
                             child: Text("WITHDRAW"),
                           ),
@@ -211,7 +220,7 @@ class WalletPage extends StatelessWidget {
                             ),
                             SizedBox(height: 8),
                             Text(
-                              "Coins Deposited",
+                              "Deposited Coins",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white70),
@@ -252,7 +261,7 @@ class WalletPage extends StatelessWidget {
                             ),
                             SizedBox(height: 8),
                             Text(
-                              "Deposited Coins",
+                              "Withdrawn Coins",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white70),
