@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../cubits/shoppage/shop_cubit.dart';
 import '../providers/userdata_provider.dart';
 import '../widgets/product_card.dart';
+import 'shop/cart_page.dart';
 import 'shop/product_details.dart';
 
 class ShopPage extends StatelessWidget {
@@ -25,6 +26,22 @@ class ShopPage extends StatelessWidget {
               .headline5
               .copyWith(fontWeight: FontWeight.bold),
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CartPage(),
+                  ),
+                );
+              },
+              icon: Icon(Icons.shopping_cart),
+            ),
+          ),
+        ],
       ),
       body: BlocBuilder(
         cubit: shopCubit

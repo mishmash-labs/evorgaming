@@ -8,12 +8,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../providers/userdata_provider.dart';
 import 'package:provider/provider.dart';
+import 'home/wallet_page.dart';
 
 import 'account/announcements_page.dart';
 import 'account/orders_page.dart';
 import 'account/profile_page.dart';
-import 'account/settings_page.dart';
-import 'account/statistics_page.dart';
+import 'account/characterid_page.dart';
 import 'account/transactions_page.dart';
 
 class AccountPage extends StatelessWidget {
@@ -89,69 +89,56 @@ class AccountPage extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black38,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Column(
-                            children: [
-                              AutoSizeText(state.data.profileDetails.balance),
-                              SizedBox(height: 8),
-                              AutoSizeText(
-                                "Balance",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                ),
-                              )
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              AutoSizeText(
-                                  state.data.profileDetails.wonBalance),
-                              SizedBox(height: 8),
-                              AutoSizeText(
-                                "Won Balance",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => WalletPage(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black38,
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                    ),
-                  ),
-                ),
-                Divider(
-                  thickness: 0.5,
-                  color: Colors.white10,
-                ),
-                ListTile(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => StatisticsPage(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Column(
+                              children: [
+                                AutoSizeText(state.data.profileDetails.balance),
+                                SizedBox(height: 8),
+                                AutoSizeText(
+                                  "Balance",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                AutoSizeText(
+                                    state.data.profileDetails.wonBalance ??
+                                        "0"),
+                                SizedBox(height: 8),
+                                AutoSizeText(
+                                  "Earnings",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    );
-                  },
-                  leading: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      child: Icon(Icons.stacked_bar_chart)),
-                  title: AutoSizeText(
-                    "Statistics",
-                    style: const TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -173,6 +160,32 @@ class AccountPage extends StatelessWidget {
                       child: Icon(Icons.announcement)),
                   title: AutoSizeText(
                     "Announcements",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Divider(
+                  thickness: 0.5,
+                  color: Colors.white10,
+                ),
+                ListTile(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return CharacterIDPage(
+                          characterId: state.data.characterId,
+                        );
+                      },
+                    );
+                  },
+                  leading: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      child: Icon(Icons.person_add)),
+                  title: AutoSizeText(
+                    "Characters IDs",
                     style: const TextStyle(
                       fontSize: 20,
                       color: Colors.white,
@@ -225,30 +238,6 @@ class AccountPage extends StatelessWidget {
                       child: Icon(Icons.swap_horiz)),
                   title: AutoSizeText(
                     "Transactions",
-                    style: const TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                Divider(
-                  thickness: 0.5,
-                  color: Colors.white10,
-                ),
-                ListTile(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return SettingsPage();
-                      },
-                    );
-                  },
-                  leading: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      child: Icon(Icons.person_add)),
-                  title: AutoSizeText(
-                    "Characters IDs",
                     style: const TextStyle(
                       fontSize: 20,
                       color: Colors.white,

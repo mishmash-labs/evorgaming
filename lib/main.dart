@@ -43,7 +43,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData.dark().copyWith(
           accentColor: Colors.red,
-          // scaffoldBackgroundColor: Colors.black,
           cardColor: Colors.black38,
         ),
         home: loggedIn ? NavPage() : LoginPage(),

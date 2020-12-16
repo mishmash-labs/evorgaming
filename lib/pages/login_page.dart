@@ -80,7 +80,8 @@ class LoginPage extends StatelessWidget {
                           true;
                       Provider.of<UserData>(context, listen: false).userId =
                           _formKey.currentState.value['email'];
-
+                      Provider.of<UserData>(context, listen: false).userNumID =
+                          state.data.message;
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

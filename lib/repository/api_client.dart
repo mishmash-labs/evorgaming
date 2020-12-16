@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:evorgaming/models/cartpage_model.dart';
 
 import '../models/account_model.dart';
 import '../models/genericmessage_model.dart';
@@ -83,6 +84,32 @@ class ApiClient {
     });
     if (uriResponse.statusCode == 200) {
       return AccountModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
+
+  Future<dynamic> addtocart(
+      String email, int userID, int productID, int qty) async {
+    final uriResponse = await _dio.post('app/shop/add/to/cart', data: {
+      "email": email,
+      "user_id": userID,
+      "product_id": productID,
+      "qty": qty,
+    });
+    if (uriResponse.statusCode == 200) {
+      return GenericMessageModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
+
+  Future<dynamic> viewcart(String email) async {
+    final uriResponse = await _dio.post('app/shop/cart/view', data: {
+      "email": email,
+    });
+    if (uriResponse.statusCode == 200) {
+      return CartModel.fromJson(json.decode(uriResponse.data));
     } else {
       throw Exception('Unexpected Error Occurred');
     }

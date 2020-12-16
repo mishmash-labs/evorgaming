@@ -191,7 +191,7 @@ class ProfileDetails {
         mobileNo: json["mobile_no"] == null ? null : json["mobile_no"],
         gender: json["gender"] == null ? null : json["gender"],
         balance: json["balance"] == null ? null : json["balance"],
-        wonBalance: json["won_balance"] == null ? null : json["won_balance"],
+        wonBalance: json["earning"] == null ? null : json["earning"],
       );
 
   String balance;
@@ -207,7 +207,7 @@ class ProfileDetails {
         "mobile_no": mobileNo == null ? null : mobileNo,
         "gender": gender == null ? null : gender,
         "balance": balance == null ? null : balance,
-        "won_balance": wonBalance == null ? null : wonBalance,
+        "earning": wonBalance == null ? null : wonBalance,
       };
 }
 

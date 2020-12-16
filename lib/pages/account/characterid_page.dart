@@ -1,7 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import '../../models/account_model.dart';
 
-class SettingsPage extends StatelessWidget {
+class CharacterIDPage extends StatelessWidget {
+  final List<CharacterId> characterId;
+
+  const CharacterIDPage({Key key, @required this.characterId})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -24,27 +29,15 @@ class SettingsPage extends StatelessWidget {
                 style: TextStyle(color: Colors.white70),
               ),
               SizedBox(height: 8),
-              TextField(
-                cursorColor: Colors.red,
-                decoration: InputDecoration(
-                  hintText: 'ENTER PUBG CHARACTER ID',
+              for (var item in characterId)
+                TextFormField(
+                  initialValue: item.characterId,
+                  enabled: item.characterId == null,
+                  cursorColor: Colors.red,
+                  decoration: InputDecoration(
+                      hintText: 'ENTER ${item.gameName} CHARACTER ID',
+                      labelText: item.gameName),
                 ),
-              ),
-              TextField(
-                cursorColor: Colors.red,
-                decoration:
-                    InputDecoration(hintText: 'ENTER COD MOBILE CHARACTER ID'),
-              ),
-              TextField(
-                cursorColor: Colors.red,
-                decoration:
-                    InputDecoration(hintText: 'ENTER FREE FIRE CHARACTER ID'),
-              ),
-              TextField(
-                cursorColor: Colors.red,
-                decoration:
-                    InputDecoration(hintText: 'ENTER CS GO CHARACTER ID'),
-              ),
               SizedBox(height: 8),
               SizedBox(
                 width: double.infinity,
@@ -53,7 +46,7 @@ class SettingsPage extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   child: AutoSizeText(
-                    "Add Now",
+                    "SAVE",
                   ),
                   color: Colors.red,
                 ),

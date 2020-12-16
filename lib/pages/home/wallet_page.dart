@@ -252,7 +252,7 @@ class WalletPage extends StatelessWidget {
                             ),
                             SizedBox(height: 8),
                             Text(
-                              "Bonus Coins",
+                              "Deposited Coins",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white70),
