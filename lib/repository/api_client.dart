@@ -116,6 +116,19 @@ class ApiClient {
     }
   }
 
+  Future<dynamic> deletefromcart(String email, String productID) async {
+    final uriResponse =
+        await _dio.post('app/shop/delete/product/from/cart', data: {
+      "email": email,
+      "product_id": productID,
+    });
+    if (uriResponse.statusCode == 200) {
+      return GenericMessageModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
+
   Future<dynamic> getpaymentmethods(String email) async {
     final uriResponse = await _dio.post('app/payment/methods', data: {
       "email": email,
