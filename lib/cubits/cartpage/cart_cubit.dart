@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
+
 import '../../models/cartpage_model.dart';
 import '../../repository/api_client.dart';
-import 'package:meta/meta.dart';
 
 part 'cart_state.dart';
 

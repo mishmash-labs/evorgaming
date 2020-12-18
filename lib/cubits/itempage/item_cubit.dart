@@ -14,9 +14,10 @@ class ItemCubit extends Cubit<ItemState> {
       String email, int userID, int productID, int qty) async {
     emit(ItemAdding());
     final itemData = await _apiClient.addtocart(email, userID, productID, qty);
-    if (itemData.code == "200")
+    if (itemData.code == "200") {
       emit(ItemAdded(itemData));
-    else
+    } else {
       emit(ItemFailed(itemData));
+    }
   }
 }

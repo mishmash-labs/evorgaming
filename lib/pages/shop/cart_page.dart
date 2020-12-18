@@ -1,12 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:evorgaming/models/cartpage_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../cubits/cartpage/cart_cubit.dart';
+import '../../models/cartpage_model.dart';
 import '../../providers/userdata_provider.dart';
 import '../utils/textstyle.dart';
 
@@ -32,7 +32,7 @@ class CartPage extends StatelessWidget {
           ..loadCart(Provider.of<UserData>(context, listen: false).userId),
         builder: (context, state) {
           if (state is CartLoaded) {
-            if (state.cartData.message.isNotEmpty)
+            if (state.cartData.message.isNotEmpty) {
               return RefreshIndicator(
                 onRefresh: () => cartCubit.refresh(
                     Provider.of<UserData>(context, listen: false).userId),
@@ -42,7 +42,7 @@ class CartPage extends StatelessWidget {
                   cubit: cartCubit,
                 ),
               );
-            else
+            } else {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -64,6 +64,7 @@ class CartPage extends StatelessWidget {
                   ],
                 ),
               );
+            }
           } else {
             if (state is CartLoading) {
               return Center(
@@ -72,8 +73,9 @@ class CartPage extends StatelessWidget {
                   size: 50.0,
                 ),
               );
-            } else
+            } else {
               return Container();
+            }
           }
         },
       ),
@@ -90,7 +92,7 @@ class CartWidget extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    String email = Provider.of<UserData>(context, listen: false).userId;
+    var email = Provider.of<UserData>(context, listen: false).userId;
     return ListView(
       children: <Widget>[createCartList(email), footer(context)],
     );
@@ -211,8 +213,8 @@ class CartWidget extends StatelessWidget {
           child: Row(
             children: <Widget>[
               CachedNetworkImage(
-                imageUrl: "https://evorgaming.com/storage/Products/" +
-                    itemData.images.split(r"/@/")[1],
+                imageUrl:
+                    "https://evorgaming.com/storage/Products/${itemData.images.split(r"/@/")[1]}",
                 placeholder: (context, url) => Center(
                     child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -252,7 +254,7 @@ class CartWidget extends StatelessWidget {
                       ),
                       SizedBox(height: 6),
                       Text(
-                        "Quantity: " + itemData.qty,
+                        "Quantity: ${itemData.qty}",
                         style: CustomTextStyle.textFormFieldRegular
                             .copyWith(color: Colors.grey, fontSize: 14),
                       ),

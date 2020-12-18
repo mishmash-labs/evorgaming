@@ -26,7 +26,7 @@ class AccountPage extends StatelessWidget {
         ..loadAccount(Provider.of<UserData>(context, listen: false).userId),
       // cubit: accountCubit..loadAccount("hasnain01022000@gmail.com"),
       builder: (context, state) {
-        if (state is AccountLoaded)
+        if (state is AccountLoaded) {
           return Scaffold(
             appBar: AppBar(
               elevation: 0,
@@ -47,7 +47,7 @@ class AccountPage extends StatelessWidget {
                         ? InkWell(
                             onTap: () => showDialog(
                               context: context,
-                              builder: (BuildContext context) {
+                              builder: (context) {
                                 return ProfilePage(
                                   profileDetails: state.data.profileDetails,
                                 );
@@ -64,15 +64,15 @@ class AccountPage extends StatelessWidget {
                                       image: imageProvider, fit: BoxFit.cover),
                                 ),
                               ),
-                              imageUrl: "https://evorgaming.com/storage/" +
-                                  state.data.profileDetails.photo,
+                              imageUrl:
+                                  "https://evorgaming.com/storage/${state.data.profileDetails.photo}",
                             ),
                           )
                         : IconButton(
                             onPressed: () {
                               showDialog(
                                 context: context,
-                                builder: (BuildContext context) {
+                                builder: (context) {
                                   return ProfilePage(
                                     profileDetails: state.data.profileDetails,
                                   );
@@ -174,7 +174,7 @@ class AccountPage extends StatelessWidget {
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (BuildContext context) {
+                      builder: (context) {
                         return CharacterIDPage(
                           characterId: state.data.characterId,
                         );
@@ -356,7 +356,7 @@ class AccountPage extends StatelessWidget {
               ],
             ),
           );
-        else if (state is AccountLoading) {
+        } else if (state is AccountLoading) {
           return Scaffold(
             appBar: AppBar(
               elevation: 0,
@@ -376,8 +376,9 @@ class AccountPage extends StatelessWidget {
               ),
             ),
           );
-        } else
+        } else {
           return Container();
+        }
       },
     );
   }

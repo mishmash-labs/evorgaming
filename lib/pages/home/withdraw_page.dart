@@ -1,11 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:evorgaming/cubits/walletpage/withdraw_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+
+import '../../cubits/walletpage/withdraw_cubit.dart';
 import '../../providers/userdata_provider.dart';
 
 class WithdrawPage extends StatelessWidget {
@@ -43,16 +44,16 @@ class WithdrawPage extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state is WithdrawLoading)
+          if (state is WithdrawLoading) {
             return Center(
               child: SpinKitCubeGrid(
                 color: Colors.red.shade900,
                 size: 50.0,
               ),
             );
-          else if (state is WithdrawLoaded ||
+          } else if (state is WithdrawLoaded ||
               state is WithdrawSuccess ||
-              state is WithdrawFailed)
+              state is WithdrawFailed) {
             return Padding(
               padding: const EdgeInsets.all(16.0),
               child: FormBuilder(
@@ -215,7 +216,7 @@ class WithdrawPage extends StatelessWidget {
                         } else {
                           _withdrawKey.currentState.save();
                           if (_withdrawKey.currentState.validate()) {
-                            Map<String, dynamic> finalData = Map();
+                            var finalData = <String, dynamic>{};
                             finalData.addAll(_withdrawKey.currentState.value);
                             finalData["email"] =
                                 Provider.of<UserData>(context, listen: false)
@@ -232,8 +233,9 @@ class WithdrawPage extends StatelessWidget {
                 ),
               ),
             );
-          else
+          } else {
             return Container();
+          }
         },
       ),
     );

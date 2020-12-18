@@ -82,8 +82,9 @@ class ShopPage extends StatelessWidget {
                 size: 50.0,
               ),
             );
-          } else
+          } else {
             return Container();
+          }
         },
       ),
     );

@@ -14,9 +14,10 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> login(String email, String password) async {
     emit(LoginLoading());
     final loginData = await _apiClient.login(email, password);
-    if (loginData.code == "200")
+    if (loginData.code == "200") {
       emit(LoginSuccess(loginData));
-    else
+    } else {
       emit(LoginFailed(loginData));
+    }
   }
 }

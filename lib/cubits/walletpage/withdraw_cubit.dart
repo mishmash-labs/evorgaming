@@ -1,8 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:evorgaming/models/genericmessage_model.dart';
-import 'package:evorgaming/models/paymentmethods_model.dart';
-import 'package:evorgaming/repository/api_client.dart';
 import 'package:meta/meta.dart';
+
+import '../../models/genericmessage_model.dart';
+import '../../models/paymentmethods_model.dart';
+import '../../repository/api_client.dart';
 
 part 'withdraw_state.dart';
 
@@ -24,7 +25,8 @@ class WithdrawCubit extends Cubit<WithdrawState> {
     final paymentData = await _apiClient.submitwithdrawlrequest(data);
     if (paymentData.code == "200") {
       emit(WithdrawSuccess(paymentData, paymentMethods));
-    } else
+    } else {
       emit(WithdrawFailed(paymentData, paymentMethods));
+    }
   }
 }

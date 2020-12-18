@@ -31,8 +31,8 @@ class ItemCard extends StatelessWidget {
               child: Hero(
                 tag: data.id,
                 child: CachedNetworkImage(
-                    imageUrl: "https://evorgaming.com/storage/Products/" +
-                        data.image[1]),
+                    imageUrl:
+                        "https://evorgaming.com/storage/Products/${data.image[1]}"),
               ),
             ),
           ),
@@ -45,7 +45,7 @@ class ItemCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 5),
             child: AutoSizeText(
-              data.price + " Coins",
+              "${data.price} Coins",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           )

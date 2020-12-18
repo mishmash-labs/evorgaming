@@ -14,9 +14,10 @@ class SignupCubit extends Cubit<SignupState> {
   Future<void> register(Map<String, dynamic> data) async {
     emit(SignupLoading());
     final loginData = await _apiClient.register(data);
-    if (loginData.code == "200")
+    if (loginData.code == "200") {
       emit(SignupSuccess(loginData));
-    else
+    } else {
       emit(SignupFailed(loginData));
+    }
   }
 }

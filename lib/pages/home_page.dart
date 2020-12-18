@@ -132,7 +132,7 @@ class MyDashboardTab extends StatelessWidget {
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         itemCount: 2,
-        itemBuilder: (BuildContext context, int index) {
+        itemBuilder: (context, index) {
           return Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16.0),
@@ -309,7 +309,7 @@ class PlayTab extends StatelessWidget {
       cubit: homeCubit
         ..loadHome(Provider.of<UserData>(context, listen: false).userId),
       builder: (context, state) {
-        if (state is HomeLoaded)
+        if (state is HomeLoaded) {
           return RefreshIndicator(
             onRefresh: () => homeCubit
                 .refresh(Provider.of<UserData>(context, listen: false).userId),
@@ -331,7 +331,7 @@ class PlayTab extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       itemCount: state.homepageData.games.length,
                       padding: EdgeInsets.all(8),
-                      itemBuilder: (BuildContext context, int index) {
+                      itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
                             Navigator.push(
@@ -344,8 +344,8 @@ class PlayTab extends StatelessWidget {
                             );
                           },
                           child: CachedNetworkImage(
-                            imageUrl: 'https://evorgaming.com' +
-                                state.homepageData.games[index].image,
+                            imageUrl:
+                                'https://evorgaming.com${state.homepageData.games[index].image}',
                           ),
                         );
                       },
@@ -393,11 +393,8 @@ class PlayTab extends StatelessWidget {
                                       topLeft: Radius.circular(16),
                                       topRight: Radius.circular(16)),
                                   child: CachedNetworkImage(
-                                    imageUrl: 'https://evorgaming.com' +
-                                        state
-                                            .homepageData
-                                            .featuredTournments[index]
-                                            .coverImage,
+                                    imageUrl:
+                                        'https://evorgaming.com${state.homepageData.featuredTournments[index].coverImage}',
                                   ),
                                 ),
                                 Padding(
@@ -427,12 +424,8 @@ class PlayTab extends StatelessWidget {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: " " +
-                                              DateFormat('d MMM, K:ma').format(
-                                                  state
-                                                      .homepageData
-                                                      .featuredTournments[index]
-                                                      .startDateTime),
+                                          text:
+                                              " ${DateFormat('d MMM, K:ma').format(state.homepageData.featuredTournments[index].startDateTime)}",
                                           style: TextStyle(
                                             color: Colors.white54,
                                           ),
@@ -544,13 +537,14 @@ class PlayTab extends StatelessWidget {
               ),
             ),
           );
-        else if (state is HomeLoading) {
+        } else if (state is HomeLoading) {
           return SpinKitCubeGrid(
             color: Colors.red.shade900,
             size: 50.0,
           );
-        } else
+        } else {
           return Container();
+        }
       },
     );
   }

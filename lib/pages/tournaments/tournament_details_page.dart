@@ -31,7 +31,7 @@ class TournamentDetailsPage extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: CachedNetworkImage(
-                imageUrl: 'https://evorgaming.com' + data.coverImage,
+                imageUrl: 'https://evorgaming.com${data.coverImage}',
               ),
             ),
             SizedBox(height: 8),
@@ -55,7 +55,7 @@ class TournamentDetailsPage extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          AutoSizeText(data.entryFee + " COINS"),
+                          AutoSizeText("${data.entryFee} COINS"),
                           SizedBox(height: 8),
                           AutoSizeText(
                             "ENTRY FEE",
@@ -168,8 +168,8 @@ class TournamentDetailsPage extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
                       leading: CachedNetworkImage(
-                        imageUrl: "https://evorgaming.com/storage/Products/" +
-                            data.giftItem.images.split(r"/@/")[1],
+                        imageUrl:
+                            "https://evorgaming.com/storage/Products/${data.giftItem.images.split(r"/@/")[1]}",
                         placeholder: (context, url) => Center(
                             child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -204,8 +204,7 @@ class TournamentDetailsPage extends StatelessWidget {
                   errorWidget: (context, url, error) =>
                       Center(child: Icon(Icons.error)),
                   imageUrl:
-                      'https://evorgaming.com/storage/Tournments/Sponsors/' +
-                          item,
+                      'https://evorgaming.com/storage/Tournments/Sponsors/$item',
                 ),
               ),
           ],

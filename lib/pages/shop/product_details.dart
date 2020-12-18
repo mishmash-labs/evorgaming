@@ -1,14 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../../cubits/itempage/item_cubit.dart';
-import '../../providers/userdata_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 
+import '../../cubits/itempage/item_cubit.dart';
 import '../../models/shoppage_model.dart';
+import '../../providers/userdata_provider.dart';
 
 class ProductDetailsPage extends StatelessWidget {
   ProductDetailsPage({Key key, this.data}) : super(key: key);
@@ -18,7 +18,7 @@ class ProductDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -37,15 +37,16 @@ class ProductDetailsPage extends StatelessWidget {
           return FloatingActionButton.extended(
             onPressed: () {
               if (state is ItemAdding) return null;
-              if (data.quantity == "0")
+              if (data.quantity == "0") {
                 return null;
-              else
+              } else {
                 itemCubit.addToCart(
                   Provider.of<UserData>(context, listen: false).userId,
                   Provider.of<UserData>(context, listen: false).userNumID,
                   data.id,
                   1,
                 );
+              }
             },
             backgroundColor:
                 data.quantity != "0" ? Colors.red.shade700 : Colors.grey,
@@ -125,7 +126,7 @@ class ProductDetailsPage extends StatelessWidget {
                               children: [
                                 TextSpan(text: "Price\n"),
                                 TextSpan(
-                                  text: data.price + " Coins",
+                                  text: "${data.price} Coins",
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline4
@@ -140,8 +141,7 @@ class ProductDetailsPage extends StatelessWidget {
                               tag: data.id,
                               child: CachedNetworkImage(
                                 imageUrl:
-                                    "https://evorgaming.com/storage/Products/" +
-                                        data.image[1],
+                                    "https://evorgaming.com/storage/Products/${data.image[1]}",
                                 fit: BoxFit.fill,
                               ),
                             ),

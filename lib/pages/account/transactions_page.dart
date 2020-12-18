@@ -1,7 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import '../../models/account_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../../models/account_model.dart';
 
 class TransactionsPage extends StatelessWidget {
   final List<Transaction> transactionData;
@@ -118,7 +119,7 @@ class TransactionsPage extends StatelessWidget {
                                   ),
                                   SizedBox(height: 8),
                                   AutoSizeText(
-                                      transactionData[index].amount + " PKR"),
+                                      "${transactionData[index].amount} PKR"),
                                 ],
                               ),
                               Column(

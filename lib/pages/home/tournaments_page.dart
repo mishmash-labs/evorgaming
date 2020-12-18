@@ -47,7 +47,7 @@ class TournamentsPage extends StatelessWidget {
             ..loadTournaments(
                 Provider.of<UserData>(context, listen: false).userId, gameid),
           builder: (context, state) {
-            if (state is TournamentsLoaded)
+            if (state is TournamentsLoaded) {
               return TabBarView(
                 children: [
                   TournamentList(
@@ -73,15 +73,16 @@ class TournamentsPage extends StatelessWidget {
                   ),
                 ],
               );
-            else if (state is TournamentsLoading) {
+            } else if (state is TournamentsLoading) {
               return Center(
                 child: SpinKitCubeGrid(
                   color: Colors.red.shade900,
                   size: 50.0,
                 ),
               );
-            } else
+            } else {
               return Container();
+            }
           },
         ),
       ),
@@ -123,14 +124,14 @@ class TournamentList extends StatelessWidget {
           ],
         ),
       );
-    } else
+    } else {
       return Container(
         child: ListView.builder(
           padding: EdgeInsets.all(4),
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
           itemCount: data.length,
-          itemBuilder: (BuildContext context, int index) {
+          itemBuilder: (context, index) {
             return Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.0),
@@ -253,14 +254,14 @@ class TournamentList extends StatelessWidget {
                                 ),
                                 if (data[index].totalPricePool != null)
                                   TextSpan(
-                                    text: " " + data[index].totalPricePool,
+                                    text: " ${data[index].totalPricePool}",
                                     style: TextStyle(
                                       color: Colors.white54,
                                     ),
                                   ),
                                 if (data[index].giftItem != null)
                                   TextSpan(
-                                    text: " " + data[index].giftItem.name,
+                                    text: " ${data[index].giftItem.name}",
                                     style: TextStyle(
                                       color: Colors.white54,
                                     ),
@@ -280,7 +281,7 @@ class TournamentList extends StatelessWidget {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: " " + data[index].platform,
+                                  text: " ${data[index].platform}",
                                   style: TextStyle(
                                     color: Colors.white54,
                                   ),
@@ -300,7 +301,7 @@ class TournamentList extends StatelessWidget {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: " " + data[index].type,
+                                  text: " ${data[index].type}",
                                   style: TextStyle(
                                     color: Colors.white54,
                                   ),
@@ -318,5 +319,6 @@ class TournamentList extends StatelessWidget {
           },
         ),
       );
+    }
   }
 }
