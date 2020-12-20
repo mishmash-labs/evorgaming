@@ -1,9 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:evorgaming/cubits/accountpage/account_cubit.dart';
+import 'package:evorgaming/providers/userdata_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 
 import 'withdraw_page.dart';
 
 class WalletPage extends StatelessWidget {
+  final AccountCubit accountCubit = AccountCubit();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,81 +25,23 @@ class WalletPage extends StatelessWidget {
               .copyWith(fontWeight: FontWeight.bold),
         ),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                elevation: 0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Total Balance",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6
-                                .copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white70),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  alignment: PlaceholderAlignment.bottom,
-                                  child: Icon(
-                                    Icons.animation,
-                                    size: 24,
-                                    color: Color(0xFFDAA520),
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: " 14",
-                                  style: TextStyle(
-                                    color: Colors.white54,
-                                    fontSize: 36,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+      body: BlocBuilder(
+        cubit: accountCubit
+          ..loadAccount(Provider.of<UserData>(context, listen: false).userId),
+        builder: (context, state) {
+          if (state is AccountLoaded) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: RaisedButton(
-                        onPressed: () {},
-                        color: Colors.red.shade800,
-                        child: Text("+ ADD COINS"),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 8),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                elevation: 0,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+                    elevation: 0,
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
@@ -101,7 +50,7 @@ class WalletPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Earnings",
+                                "Total Balance",
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline6
@@ -121,7 +70,8 @@ class WalletPage extends StatelessWidget {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: " 14",
+                                      text:
+                                          " ${state.data.profileDetails.balance}",
                                       style: TextStyle(
                                         color: Colors.white54,
                                         fontSize: 36,
@@ -136,257 +86,232 @@ class WalletPage extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: RaisedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => WithdrawPage(),
-                                ),
-                              );
-                            },
+                            onPressed: () {},
                             color: Colors.red.shade800,
-                            child: Text("WITHDRAW"),
+                            child: Text("+ ADD COINS"),
                           ),
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Divider(thickness: 2),
+                  ),
+                  SizedBox(height: 8),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: RichText(
-                        text: TextSpan(
+                    elevation: 0,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            TextSpan(
-                              text: "1 ",
-                              style: TextStyle(
-                                color: Colors.white54,
-                              ),
-                            ),
-                            WidgetSpan(
-                              alignment: PlaceholderAlignment.middle,
-                              child: Icon(
-                                Icons.animation,
-                                size: 14,
-                                color: Color(0xFFDAA520),
-                              ),
-                            ),
-                            TextSpan(
-                              text: " = 1 PKR",
-                              style: TextStyle(
-                                color: Colors.white54,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      elevation: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          children: [
-                            RichText(
-                              text: TextSpan(
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  WidgetSpan(
-                                    alignment: PlaceholderAlignment.bottom,
-                                    child: Icon(
-                                      Icons.animation,
-                                      size: 24,
-                                      color: Color(0xFFDAA520),
-                                    ),
+                                  Text(
+                                    "Earnings",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline6
+                                        .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white70),
                                   ),
-                                  TextSpan(
-                                    text: " 14",
-                                    style: TextStyle(
-                                        color: Colors.white54, fontSize: 24),
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        WidgetSpan(
+                                          alignment:
+                                              PlaceholderAlignment.bottom,
+                                          child: Icon(
+                                            Icons.animation,
+                                            size: 24,
+                                            color: Color(0xFFDAA520),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              " ${state.data.profileDetails.earning}",
+                                          style: TextStyle(
+                                            color: Colors.white54,
+                                            fontSize: 36,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                            SizedBox(height: 8),
-                            Text(
-                              "Deposited Coins",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white70),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: RaisedButton(
+                                onPressed: () {
+                                  if (state.data.profileDetails.earning !=
+                                          null &&
+                                      state.data.profileDetails.earning != "0")
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => WithdrawPage(),
+                                      ),
+                                    );
+                                },
+                                color: state.data.profileDetails.earning !=
+                                            null &&
+                                        state.data.profileDetails.earning != "0"
+                                    ? Colors.red.shade800
+                                    : Colors.grey,
+                                child: Text("WITHDRAW"),
+                              ),
                             ),
                           ],
                         ),
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Divider(thickness: 2),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: "1 ",
+                                  style: TextStyle(
+                                    color: Colors.white54,
+                                  ),
+                                ),
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: Icon(
+                                    Icons.animation,
+                                    size: 14,
+                                    color: Color(0xFFDAA520),
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: " = 1 PKR",
+                                  style: TextStyle(
+                                    color: Colors.white54,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Expanded(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      elevation: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          children: [
-                            RichText(
-                              text: TextSpan(
-                                children: [
-                                  WidgetSpan(
-                                    alignment: PlaceholderAlignment.bottom,
-                                    child: Icon(
-                                      Icons.animation,
-                                      size: 24,
-                                      color: Color(0xFFDAA520),
-                                    ),
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          elevation: 0,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      WidgetSpan(
+                                        alignment: PlaceholderAlignment.bottom,
+                                        child: Icon(
+                                          Icons.animation,
+                                          size: 24,
+                                          color: Color(0xFFDAA520),
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text:
+                                            " ${state.data.profileDetails.coinDeposit}",
+                                        style: TextStyle(
+                                            color: Colors.white54,
+                                            fontSize: 24),
+                                      ),
+                                    ],
                                   ),
-                                  TextSpan(
-                                    text: " 14",
-                                    style: TextStyle(
-                                        color: Colors.white54, fontSize: 24),
-                                  ),
-                                ],
-                              ),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  "Deposited Coins",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white70),
+                                ),
+                              ],
                             ),
-                            SizedBox(height: 8),
-                            Text(
-                              "Withdrawn Coins",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white70),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
+                      Expanded(
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          elevation: 0,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      WidgetSpan(
+                                        alignment: PlaceholderAlignment.bottom,
+                                        child: Icon(
+                                          Icons.animation,
+                                          size: 24,
+                                          color: Color(0xFFDAA520),
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text:
+                                            " ${state.data.profileDetails.withdrawCoins}",
+                                        style: TextStyle(
+                                            color: Colors.white54,
+                                            fontSize: 24),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  "Withdrawn Coins",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white70),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: AutoSizeText(
-                  "Transaction History",
-                  style: Theme.of(context).textTheme.headline5.copyWith(
-                      fontWeight: FontWeight.bold, color: Colors.white70),
-                ),
+            );
+          } else if (state is AccountLoading) {
+            return Center(
+              child: SpinKitCubeGrid(
+                color: Colors.red.shade900,
+                size: 50.0,
               ),
-              // Card(
-              //   shape: RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.circular(8.0),
-              //   ),
-              //   elevation: 0,
-              //   color: Colors.black26,
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(8.0),
-              //     child: Column(
-              //       children: [
-              //         Row(
-              //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //           children: [
-              //             Column(
-              //               children: [
-              //                 AutoSizeText(
-              //                   "Number",
-              //                   style: const TextStyle(
-              //                     fontWeight: FontWeight.w600,
-              //                     color: Colors.white,
-              //                   ),
-              //                 ),
-              //                 SizedBox(height: 8),
-              //                 AutoSizeText("1"),
-              //               ],
-              //             ),
-              //             Column(
-              //               children: [
-              //                 AutoSizeText(
-              //                   "Message",
-              //                   style: const TextStyle(
-              //                     fontWeight: FontWeight.w600,
-              //                     color: Colors.white,
-              //                   ),
-              //                 ),
-              //                 SizedBox(height: 8),
-              //                 AutoSizeText("Transaction SuccessFull"),
-              //               ],
-              //             ),
-              //             Column(
-              //               children: [
-              //                 AutoSizeText(
-              //                   "Status",
-              //                   style: const TextStyle(
-              //                     fontWeight: FontWeight.w600,
-              //                     color: Colors.white,
-              //                   ),
-              //                 ),
-              //                 SizedBox(height: 8),
-              //                 AutoSizeText("Complete"),
-              //               ],
-              //             ),
-              //           ],
-              //         ),
-              //         SizedBox(height: 8),
-              //         Row(
-              //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //           children: [
-              //             Column(
-              //               children: [
-              //                 AutoSizeText(
-              //                   "Amount",
-              //                   style: const TextStyle(
-              //                     fontWeight: FontWeight.w600,
-              //                     color: Colors.white,
-              //                   ),
-              //                 ),
-              //                 SizedBox(height: 8),
-              //                 AutoSizeText("1 PKR"),
-              //               ],
-              //             ),
-              //             Column(
-              //               children: [
-              //                 AutoSizeText(
-              //                   "Payment Method",
-              //                   style: const TextStyle(
-              //                     fontWeight: FontWeight.w600,
-              //                     color: Colors.white,
-              //                   ),
-              //                 ),
-              //                 SizedBox(height: 8),
-              //                 AutoSizeText("Mobile Wallet(EasyPaisa)"),
-              //               ],
-              //             ),
-              //             Column(
-              //               children: [
-              //                 AutoSizeText(
-              //                   "Date",
-              //                   style: const TextStyle(
-              //                     fontWeight: FontWeight.w600,
-              //                     color: Colors.white,
-              //                   ),
-              //                 ),
-              //                 SizedBox(height: 8),
-              //                 AutoSizeText("13 Nov, 12:30PM"),
-              //               ],
-              //             ),
-              //           ],
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // )
-            ],
-          ),
-        ),
+            );
+          } else {
+            return Container();
+          }
+        },
       ),
     );
   }

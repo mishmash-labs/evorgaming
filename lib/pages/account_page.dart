@@ -124,8 +124,7 @@ class AccountPage extends StatelessWidget {
                             Column(
                               children: [
                                 AutoSizeText(
-                                    state.data.profileDetails.wonBalance ??
-                                        "0"),
+                                    state.data.profileDetails.earning ?? "0"),
                                 SizedBox(height: 8),
                                 AutoSizeText(
                                   "Earnings",

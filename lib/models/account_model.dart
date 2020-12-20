@@ -16,8 +16,13 @@ class AccountModel {
     this.characterId,
     this.transaction,
     this.orders,
-    this.statistics,
   });
+
+  String code;
+  ProfileDetails profileDetails;
+  List<CharacterId> characterId;
+  List<Transaction> transaction;
+  List<Order> orders;
 
   factory AccountModel.fromJson(Map<String, dynamic> json) => AccountModel(
         code: json["Code"] == null ? null : json["Code"],
@@ -35,15 +40,7 @@ class AccountModel {
         orders: json["orders"] == null
             ? null
             : List<Order>.from(json["orders"].map((x) => Order.fromJson(x))),
-        statistics: json["Statistics"],
       );
-
-  List<CharacterId> characterId;
-  String code;
-  List<Order> orders;
-  ProfileDetails profileDetails;
-  dynamic statistics;
-  List<Transaction> transaction;
 
   Map<String, dynamic> toJson() => {
         "Code": code == null ? null : code,
@@ -58,25 +55,28 @@ class AccountModel {
         "orders": orders == null
             ? null
             : List<dynamic>.from(orders.map((x) => x.toJson())),
-        "Statistics": statistics,
       };
 }
 
 class CharacterId {
   CharacterId({
+    this.gameId,
     this.gameName,
     this.characterId,
   });
 
+  int gameId;
+  String gameName;
+  String characterId;
+
   factory CharacterId.fromJson(Map<String, dynamic> json) => CharacterId(
+        gameId: json["game_id"] == null ? null : json["game_id"],
         gameName: json["game_name"] == null ? null : json["game_name"],
         characterId: json["Character_id"] == null ? null : json["Character_id"],
       );
 
-  String characterId;
-  String gameName;
-
   Map<String, dynamic> toJson() => {
+        "game_id": gameId == null ? null : gameId,
         "game_name": gameName == null ? null : gameName,
         "Character_id": characterId == null ? null : characterId,
       };
@@ -105,6 +105,26 @@ class Order {
     this.updatedAt,
   });
 
+  int id;
+  String userId;
+  String productId;
+  String qty;
+  String subTotal;
+  String shippingFee;
+  String total;
+  String name;
+  String email;
+  String phoneNo;
+  String address;
+  String city;
+  String country;
+  String postalCode;
+  String orderNote;
+  String status;
+  String reviewStatus;
+  DateTime createdAt;
+  DateTime updatedAt;
+
   factory Order.fromJson(Map<String, dynamic> json) => Order(
         id: json["id"] == null ? null : json["id"],
         userId: json["user_id"] == null ? null : json["user_id"],
@@ -131,26 +151,6 @@ class Order {
             ? null
             : DateTime.parse(json["updated_at"]),
       );
-
-  String address;
-  String city;
-  String country;
-  DateTime createdAt;
-  String email;
-  int id;
-  String name;
-  String orderNote;
-  String phoneNo;
-  String postalCode;
-  String productId;
-  String qty;
-  String reviewStatus;
-  String shippingFee;
-  String status;
-  String subTotal;
-  String total;
-  DateTime updatedAt;
-  String userId;
 
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
@@ -182,8 +182,19 @@ class ProfileDetails {
     this.mobileNo,
     this.gender,
     this.balance,
-    this.wonBalance,
+    this.earning,
+    this.coinDeposit,
+    this.withdrawCoins,
   });
+
+  String photo;
+  String name;
+  String mobileNo;
+  String gender;
+  String balance;
+  String earning;
+  int coinDeposit;
+  int withdrawCoins;
 
   factory ProfileDetails.fromJson(Map<String, dynamic> json) => ProfileDetails(
         photo: json["photo"] == null ? null : json["photo"],
@@ -191,15 +202,11 @@ class ProfileDetails {
         mobileNo: json["mobile_no"] == null ? null : json["mobile_no"],
         gender: json["gender"] == null ? null : json["gender"],
         balance: json["balance"] == null ? null : json["balance"],
-        wonBalance: json["earning"] == null ? null : json["earning"],
+        earning: json["earning"] == null ? null : json["earning"],
+        coinDeposit: json["coin_deposit"] == null ? null : json["coin_deposit"],
+        withdrawCoins:
+            json["withdraw_coins"] == null ? null : json["withdraw_coins"],
       );
-
-  String balance;
-  String gender;
-  String mobileNo;
-  String name;
-  String photo;
-  String wonBalance;
 
   Map<String, dynamic> toJson() => {
         "photo": photo == null ? null : photo,
@@ -207,7 +214,9 @@ class ProfileDetails {
         "mobile_no": mobileNo == null ? null : mobileNo,
         "gender": gender == null ? null : gender,
         "balance": balance == null ? null : balance,
-        "earning": wonBalance == null ? null : wonBalance,
+        "earning": earning == null ? null : earning,
+        "coin_deposit": coinDeposit == null ? null : coinDeposit,
+        "withdraw_coins": withdrawCoins == null ? null : withdrawCoins,
       };
 }
 
@@ -226,6 +235,19 @@ class Transaction {
     this.createdAt,
     this.updatedAt,
   });
+
+  int id;
+  String userId;
+  String amount;
+  String message;
+  String statusCode;
+  String cnicNo;
+  String accountNo;
+  String phoneNo;
+  String paymentMethod;
+  String status;
+  DateTime createdAt;
+  DateTime updatedAt;
 
   factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
         id: json["id"] == null ? null : json["id"],
@@ -246,19 +268,6 @@ class Transaction {
             ? null
             : DateTime.parse(json["updated_at"]),
       );
-
-  String accountNo;
-  String amount;
-  String cnicNo;
-  DateTime createdAt;
-  int id;
-  String message;
-  String paymentMethod;
-  String phoneNo;
-  String status;
-  String statusCode;
-  DateTime updatedAt;
-  String userId;
 
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
