@@ -50,6 +50,7 @@ class AccountPage extends StatelessWidget {
                               builder: (context) {
                                 return ProfilePage(
                                   profileDetails: state.data.profileDetails,
+                                  accountCubit: accountCubit,
                                 );
                               },
                             ),
@@ -75,6 +76,7 @@ class AccountPage extends StatelessWidget {
                                 builder: (context) {
                                   return ProfilePage(
                                     profileDetails: state.data.profileDetails,
+                                    accountCubit: accountCubit,
                                   );
                                 },
                               );

@@ -102,13 +102,16 @@ class ApiClient {
 
   Future<dynamic> profileimage(
       String email, String filePath, String fileName) async {
-    final uriResponse =
-        await _dio.post('app/user/profile/details/update/image', data: {
+    var formData = FormData.fromMap({
       "email": email,
       "image": await MultipartFile.fromFile(filePath, filename: fileName)
     });
+    final uriResponse = await _dio.post(
+      'app/user/profile/details/update/image',
+      data: formData,
+    );
     if (uriResponse.statusCode == 200) {
-      return GenericMessageModel.fromJson(json.decode(uriResponse.data));
+      return GenericMessageModel.fromJson(uriResponse.data);
     } else {
       throw Exception('Unexpected Error Occurred');
     }

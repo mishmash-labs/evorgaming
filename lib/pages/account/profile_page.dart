@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:evorgaming/cubits/accountpage/account_cubit.dart';
+import 'package:evorgaming/cubits/profileimage/profileimage_cubit.dart';
 import 'package:evorgaming/cubits/profilepage/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,12 +15,17 @@ import '../../models/account_model.dart';
 import '../../providers/userdata_provider.dart';
 
 class ProfilePage extends StatelessWidget {
-  ProfilePage({Key key, @required this.profileDetails}) : super(key: key);
+  ProfilePage(
+      {Key key, @required this.profileDetails, @required this.accountCubit})
+      : super(key: key);
 
-  final ProfileDetails profileDetails;
-  final ProfileCubit profileCubit = ProfileCubit();
-  final _profileKey = GlobalKey<FormBuilderState>();
+  final AccountCubit accountCubit;
   final picker = ImagePicker();
+  final ProfileCubit profileCubit = ProfileCubit();
+  final ProfileDetails profileDetails;
+  final ProfileimageCubit profileimageCubit = ProfileimageCubit();
+
+  final _profileKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +37,8 @@ class ProfilePage extends StatelessWidget {
           if (state is ProfileUpdated) {
             BotToast.showText(
                 text: state.data.message, duration: Duration(seconds: 4));
+            accountCubit.loadAccount(
+                Provider.of<UserData>(context, listen: false).userId);
             Navigator.pop(context);
           } else if (state is ProfileFailed) {
             BotToast.showText(
@@ -55,15 +64,45 @@ class ProfilePage extends StatelessWidget {
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 16),
-                      profileDetails.photo == null
-                          ? Center(
+                      BlocBuilder(
+                        cubit: profileimageCubit,
+                        builder: (context, state) {
+                          if (state is ProfileimageInitial) {
+                            return profileDetails.photo == null
+                                ? Center(
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.black38,
+                                      child: Icon(Icons.person),
+                                      radius: 50,
+                                    ),
+                                  )
+                                : Center(
+                                    child: CachedNetworkImage(
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        width: 100.0,
+                                        height: 100.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                      imageUrl:
+                                          "https://evorgaming.com/storage/${profileDetails.photo}",
+                                    ),
+                                  );
+                          } else if (state is ProfileimageUpdating) {
+                            return Center(
                               child: CircleAvatar(
                                 backgroundColor: Colors.black38,
-                                child: Icon(Icons.person),
+                                child: CircularProgressIndicator(),
                                 radius: 50,
                               ),
-                            )
-                          : Center(
+                            );
+                          } else if (state is ProfileimageUpdated) {
+                            return Center(
                               child: CachedNetworkImage(
                                 imageBuilder: (context, imageProvider) =>
                                     Container(
@@ -77,9 +116,13 @@ class ProfilePage extends StatelessWidget {
                                   ),
                                 ),
                                 imageUrl:
-                                    "https://evorgaming.com/storage/${profileDetails.photo}",
+                                    "https://evorgaming.com/storage/profile-photos/${state.data.message}",
                               ),
-                            ),
+                            );
+                          } else
+                            return Container();
+                        },
+                      ),
                       Center(
                         child: OutlineButton(
                           borderSide: BorderSide(color: Colors.red.shade800),
@@ -88,6 +131,11 @@ class ProfilePage extends StatelessWidget {
                             final pickedFile = await picker.getImage(
                                 source: ImageSource.gallery);
                             String fileName = pickedFile.path.split('/').last;
+                            profileimageCubit.uploadimage(
+                                Provider.of<UserData>(context, listen: false)
+                                    .userId,
+                                pickedFile.path,
+                                fileName);
                           },
                           child: AutoSizeText("Select A New Photo"),
                         ),
