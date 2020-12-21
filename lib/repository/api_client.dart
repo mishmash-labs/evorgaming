@@ -90,6 +90,30 @@ class ApiClient {
     }
   }
 
+  Future<dynamic> updateprofile(Map<String, dynamic> data) async {
+    final uriResponse =
+        await _dio.post('app/user/profile/details/update/details', data: data);
+    if (uriResponse.statusCode == 200) {
+      return GenericMessageModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
+
+  Future<dynamic> profileimage(
+      String email, String filePath, String fileName) async {
+    final uriResponse =
+        await _dio.post('app/user/profile/details/update/image', data: {
+      "email": email,
+      "image": await MultipartFile.fromFile(filePath, filename: fileName)
+    });
+    if (uriResponse.statusCode == 200) {
+      return GenericMessageModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
+
   Future<dynamic> addtocart(
       String email, int userID, int productID, int qty) async {
     final uriResponse = await _dio.post('app/shop/add/to/cart', data: {
