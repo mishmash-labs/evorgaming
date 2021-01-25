@@ -63,7 +63,7 @@ packages:
       name: cached_network_image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.1"
+    version: "2.5.0"
   characters:
     dependency: transitive
     description:
@@ -84,7 +84,7 @@ packages:
       name: chewie
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.0"
+    version: "0.12.2"
   clock:
     dependency: transitive
     description:
@@ -99,13 +99,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0-nullsafety.3"
-  community_material_icon:
-    dependency: transitive
-    description:
-      name: community_material_icon
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.4.55"
   convert:
     dependency: transitive
     description:
@@ -183,13 +176,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.2.1"
-  file_picker:
-    dependency: transitive
-    description:
-      name: file_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.4"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -215,7 +201,7 @@ packages:
       name: flutter_cache_manager
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.1.1"
   flutter_chips_input:
     dependency: transitive
     description:
@@ -229,21 +215,21 @@ packages:
       name: flutter_colorpicker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.4"
+    version: "0.3.5"
   flutter_datetime_picker:
     dependency: transitive
     description:
       name: flutter_datetime_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.0"
+    version: "1.5.0"
   flutter_form_builder:
     dependency: "direct main"
     description:
       name: flutter_form_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.1.0"
+    version: "4.2.0"
   flutter_keyboard_visibility:
     dependency: transitive
     description:
@@ -271,7 +257,7 @@ packages:
       name: flutter_layout_grid
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.2"
+    version: "0.10.3"
   flutter_localizations:
     dependency: transitive
     description: flutter
@@ -311,7 +297,7 @@ packages:
       name: flutter_typeahead
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.1"
+    version: "1.9.3"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -331,6 +317,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.1+4"
+  form_builder_phone_field:
+    dependency: "direct main"
+    description:
+      name: form_builder_phone_field
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   html:
     dependency: transitive
     description:
@@ -365,14 +358,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.7+17"
-  image_picker_for_web:
-    dependency: transitive
-    description:
-      name: image_picker_for_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0+2"
+    version: "0.6.7+21"
   image_picker_platform_interface:
     dependency: transitive
     description:
@@ -470,7 +456,7 @@ packages:
       name: path_provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.24"
+    version: "1.6.27"
   path_provider_linux:
     dependency: transitive
     description:
@@ -484,7 +470,7 @@ packages:
       name: path_provider_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.4+6"
+    version: "0.0.4+8"
   path_provider_platform_interface:
     dependency: transitive
     description:
@@ -513,20 +499,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.9"
-  permission_handler:
-    dependency: transitive
-    description:
-      name: permission_handler
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.0.1+1"
-  permission_handler_platform_interface:
-    dependency: transitive
-    description:
-      name: permission_handler_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   petitparser:
     dependency: transitive
     description:
@@ -575,7 +547,7 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.2+3"
+    version: "4.3.3"
   quiver:
     dependency: transitive
     description:
@@ -603,7 +575,7 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.24.1"
+    version: "0.25.0"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -645,7 +617,7 @@ packages:
       name: shared_preferences_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.1+3"
+    version: "0.0.2+2"
   signature:
     dependency: transitive
     description:
@@ -671,14 +643,14 @@ packages:
       name: sqflite
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.2+1"
+    version: "1.3.2+2"
   sqflite_common:
     dependency: transitive
     description:
       name: sqflite_common
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2+1"
+    version: "1.0.3+1"
   stack_trace:
     dependency: transitive
     description:

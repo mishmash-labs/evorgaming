@@ -14,16 +14,17 @@ dependencies:
   animations: ^1.1.2
   auto_size_text: ^2.1.0
   bot_toast: ^3.0.5
-  cached_network_image: ^2.4.1
+  cached_network_image: ^2.5.0
   dio: ^3.0.10
   flutter_bloc: ^6.1.1
-  flutter_form_builder: ^4.1.0
+  flutter_form_builder: ^4.2.0
   flutter_spinkit: ^4.1.2+1
   flutter_widget_from_html: ^0.5.1+5
-  image_picker: ^0.6.7+17
+  form_builder_phone_field: ^0.1.0
+  image_picker: ^0.6.7+21
   intl: ^0.16.1
   percent_indicator: ^2.1.9
-  provider: ^4.3.2+3
+  provider: ^4.3.3
   shared_preferences: ^0.5.12+4
   url_launcher: ^5.7.10
 

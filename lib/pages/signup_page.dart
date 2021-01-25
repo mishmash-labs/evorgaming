@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
+import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import '../cubits/signuppage/signup_cubit.dart';
 
 class SignupPage extends StatelessWidget {
