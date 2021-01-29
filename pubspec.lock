@@ -91,7 +91,7 @@ packages:
       name: clock
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "1.1.0-nullsafety.2"
   collection:
     dependency: transitive
     description:
@@ -257,7 +257,7 @@ packages:
       name: flutter_layout_grid
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.3"
+    version: "0.10.5"
   flutter_localizations:
     dependency: transitive
     description: flutter
@@ -374,12 +374,12 @@ packages:
     source: hosted
     version: "1.0.2"
   intl:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.16.1"
+    version: "0.17.0-nullsafety.2"
   js:
     dependency: transitive
     description:
