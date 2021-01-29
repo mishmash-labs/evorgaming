@@ -19,7 +19,7 @@ dependencies:
   flutter_bloc: ^6.1.1
   flutter_form_builder: ^4.2.0
   flutter_spinkit: ^4.1.2+1
-  flutter_widget_from_html: ^0.5.1+5
+  flutter_widget_from_html_core: ^0.5.1+4
   form_builder_phone_field: ^0.1.0
   image_picker: ^0.6.7+21
   percent_indicator: ^2.1.9

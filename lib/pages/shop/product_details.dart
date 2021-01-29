@@ -3,7 +3,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
 
 import '../../cubits/itempage/item_cubit.dart';
