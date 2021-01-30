@@ -13,11 +13,12 @@ import '../models/tournaments_model.dart';
 class ApiClient {
   ApiClient() {
     var tokenOptions = BaseOptions(
-        receiveTimeout: 10000,
-        connectTimeout: 10000,
-        baseUrl:
-            "http://m.evorgaming.com/qpp/congrunf/bvnd/gdjdh/hdvdnj/dbdbdjh/nbvdbd/Register/bbdh/mobile/",
-        contentType: Headers.formUrlEncodedContentType);
+      receiveTimeout: 10000,
+      connectTimeout: 10000,
+      baseUrl:
+          "https://evorgaming.com/qpp/congrunf/bvnd/gdjdh/hdvdnj/dbdbdjh/nbvdbd/Register/bbdh/mobile/",
+      contentType: Headers.formUrlEncodedContentType,
+    );
     _dio = Dio(tokenOptions);
   }
 

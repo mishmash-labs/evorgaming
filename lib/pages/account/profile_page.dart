@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/account_model.dart';
@@ -20,7 +21,7 @@ class ProfilePage extends StatelessWidget {
       : super(key: key);
 
   final AccountCubit accountCubit;
-  final picker = ImagePicker();
+  final picker = ImagePickerPlugin();
   final ProfileCubit profileCubit = ProfileCubit();
   final ProfileDetails profileDetails;
   final ProfileimageCubit profileimageCubit = ProfileimageCubit();
@@ -128,7 +129,7 @@ class ProfilePage extends StatelessWidget {
                           borderSide: BorderSide(color: Colors.red.shade800),
                           highlightedBorderColor: Colors.red.shade800,
                           onPressed: () async {
-                            final pickedFile = await picker.getImage(
+                            final pickedFile = await picker.pickImage(
                                 source: ImageSource.gallery);
                             String fileName = pickedFile.path.split('/').last;
                             profileimageCubit.uploadimage(
