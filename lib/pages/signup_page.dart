@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:form_builder_phone_field/form_builder_phone_field.dart';
+
 import '../cubits/signuppage/signup_cubit.dart';
 
 class SignupPage extends StatelessWidget {
@@ -46,6 +47,9 @@ class SignupPage extends StatelessWidget {
                     errorBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.red.shade800),
                     ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red.shade800),
+                    ),
                   ),
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(context),
@@ -66,6 +70,9 @@ class SignupPage extends StatelessWidget {
                     errorBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.red.shade800),
                     ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red.shade800),
+                    ),
                   ),
                   keyboardType: TextInputType.emailAddress,
                   validator: FormBuilderValidators.compose([
@@ -84,6 +91,9 @@ class SignupPage extends StatelessWidget {
                       borderSide: BorderSide(color: Colors.white30),
                     ),
                     errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red.shade800),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.red.shade800),
                     ),
                   ),
@@ -107,6 +117,9 @@ class SignupPage extends StatelessWidget {
                     errorBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.red.shade800),
                     ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red.shade800),
+                    ),
                   ),
                   name: 'gender',
                   validator: FormBuilderValidators.compose([
@@ -116,7 +129,7 @@ class SignupPage extends StatelessWidget {
                     'Male',
                     'Female',
                   ]
-                      .map((lang) => FormBuilderFieldOption(value: lang))
+                      .map((gen) => FormBuilderFieldOption(value: gen))
                       .toList(growable: false),
                 ),
                 SizedBox(height: 16),
@@ -133,6 +146,9 @@ class SignupPage extends StatelessWidget {
                       borderSide: BorderSide(color: Colors.white30),
                     ),
                     errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red.shade800),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.red.shade800),
                     ),
                   ),
@@ -157,12 +173,14 @@ class SignupPage extends StatelessWidget {
                     errorBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.red.shade800),
                     ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red.shade800),
+                    ),
                   ),
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(context),
                     (val) {
-                      if (_signupKey
-                              .currentState.fields['my_language']?.value !=
+                      if (_signupKey.currentState.fields['password']?.value !=
                           val) return 'Password does not match';
                       return null;
                     }
