@@ -157,6 +157,20 @@ class ApiClient {
     }
   }
 
+  Future<dynamic> updateitemquantity(
+      String email, String productID, String quantity) async {
+    final uriResponse = await _dio.post('app/shop/update/cart', data: {
+      "email": email,
+      "product_id": productID,
+      "new_quantity": quantity,
+    });
+    if (uriResponse.statusCode == 200) {
+      return GenericMessageModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
+
   Future<dynamic> getpaymentmethods(String email) async {
     final uriResponse = await _dio.post('app/payment/methods', data: {
       "email": email,

@@ -1,4 +1,6 @@
+import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:button_picker/button_picker.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -196,13 +198,13 @@ class CartWidget extends StatelessWidget {
       shrinkWrap: true,
       primary: false,
       itemBuilder: (context, index) {
-        return createCartListItem(cartData.message[index], email);
+        return createCartListItem(cartData.message[index], email, context);
       },
       itemCount: cartData.message.length,
     );
   }
 
-  createCartListItem(Message itemData, String email) {
+  createCartListItem(Message itemData, String email, BuildContext context) {
     return Stack(
       children: <Widget>[
         Container(
@@ -272,7 +274,55 @@ class CartWidget extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: RaisedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  String qty = itemData.qty;
+                                  showModal(
+                                    context: context,
+                                    builder: (context) => SimpleDialog(
+                                      title: Text(
+                                        "Update Quantity",
+                                        style: const TextStyle(
+                                            color: Colors.white70),
+                                      ),
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
+                                      children: [
+                                        ButtonPicker(
+                                          minValue: 1,
+                                          maxValue: double.parse(
+                                              itemData.quantityInStock),
+                                          initialValue:
+                                              double.parse(itemData.qty),
+                                          onChanged: (val) {
+                                            qty = val.toString();
+                                          },
+                                          padding: 10,
+                                          iconUp: Icons.arrow_upward,
+                                          iconDown: Icons.arrow_downward,
+                                          iconUpRightColor: Colors.white70,
+                                          iconDownLeftColor: Colors.white70,
+                                          style: const TextStyle(
+                                              fontSize: 48,
+                                              color: Colors.white70),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 8, right: 8, left: 8),
+                                          child: RaisedButton(
+                                            onPressed: () {
+                                              cubit.updateitem(email,
+                                                  itemData.productId, qty);
+                                              Navigator.pop(context);
+                                            },
+                                            color: Colors.red.shade800,
+                                            elevation: 0.0,
+                                            child: Text("UPDATE"),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
                                 color: Colors.red.shade800,
                                 elevation: 0.0,
                                 child: Text("UPDATE"),

@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../cubits/itempage/item_cubit.dart';
 import '../../models/shoppage_model.dart';
 import '../../providers/userdata_provider.dart';
+import 'cart_page.dart';
 
 class ProductDetailsPage extends StatelessWidget {
   ProductDetailsPage({Key key, this.data}) : super(key: key);
@@ -23,6 +24,22 @@ class ProductDetailsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CartPage(),
+                  ),
+                );
+              },
+              icon: Icon(Icons.shopping_cart),
+            ),
+          ),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: BlocConsumer(

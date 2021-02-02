@@ -36,6 +36,17 @@ class CartCubit extends Cubit<CartState> {
     emit(CartLoaded(cartData, totalCost));
   }
 
+  Future<void> updateitem(String email, String itemID, String quantity) async {
+    emit(CartLoading());
+    await _apiClient.updateitemquantity(email, itemID, quantity);
+    final cartData = await _apiClient.viewcart(email);
+    totalCost = 0;
+    for (var item in cartData.message) {
+      totalCost = totalCost + (int.parse(item.price) * int.parse(item.qty));
+    }
+    emit(CartLoaded(cartData, totalCost));
+  }
+
   Future<void> refresh(String email) async {
     final cartData = await _apiClient.viewcart(email);
     totalCost = 0;

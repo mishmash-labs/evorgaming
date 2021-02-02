@@ -1,17 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:evorgaming/cubits/accountpage/account_cubit.dart';
-import 'package:evorgaming/cubits/profileimage/profileimage_cubit.dart';
-import 'package:evorgaming/cubits/profilepage/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'package:provider/provider.dart';
 
+import '../../cubits/accountpage/account_cubit.dart';
+import '../../cubits/profileimage/profileimage_cubit.dart';
+import '../../cubits/profilepage/profile_cubit.dart';
 import '../../models/account_model.dart';
 import '../../providers/userdata_provider.dart';
 
@@ -21,7 +20,7 @@ class ProfilePage extends StatelessWidget {
       : super(key: key);
 
   final AccountCubit accountCubit;
-  final picker = ImagePickerPlugin();
+  final picker = ImagePicker();
   final ProfileCubit profileCubit = ProfileCubit();
   final ProfileDetails profileDetails;
   final ProfileimageCubit profileimageCubit = ProfileimageCubit();
@@ -129,7 +128,7 @@ class ProfilePage extends StatelessWidget {
                           borderSide: BorderSide(color: Colors.red.shade800),
                           highlightedBorderColor: Colors.red.shade800,
                           onPressed: () async {
-                            final pickedFile = await picker.pickImage(
+                            final pickedFile = await picker.getImage(
                                 source: ImageSource.gallery);
                             String fileName = pickedFile.path.split('/').last;
                             profileimageCubit.uploadimage(
