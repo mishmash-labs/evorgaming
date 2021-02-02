@@ -10,7 +10,8 @@ import 'package:provider/provider.dart';
 import '../../cubits/cartpage/cart_cubit.dart';
 import '../../models/cartpage_model.dart';
 import '../../providers/userdata_provider.dart';
-import '../utils/textstyle.dart';
+import '../../utils/textstyle.dart';
+import 'checkout_page.dart';
 
 class CartPage extends StatelessWidget {
   final CartCubit cartCubit = CartCubit();
@@ -171,11 +172,10 @@ class CartWidget extends StatelessWidget {
           ),
           SizedBox(height: 8),
           RaisedButton(
-            // onPressed: () {
-            //   Navigator.push(context,
-            //       new MaterialPageRoute(builder: (context) => CheckOutPage()));
-            // },
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context,
+                  new MaterialPageRoute(builder: (context) => CheckOutPage()));
+            },
             color: Colors.red.shade800,
             padding: EdgeInsets.only(top: 12, left: 60, right: 60, bottom: 12),
             shape: RoundedRectangleBorder(

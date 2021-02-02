@@ -82,6 +82,7 @@ class SignupPage extends StatelessWidget {
                 SizedBox(height: 16),
                 FormBuilderPhoneField(
                   name: "phone_no",
+                  defaultSelectedCountryIsoCode: "PK",
                   decoration: InputDecoration(
                     labelText: "Phone Number",
                     focusedBorder: OutlineInputBorder(

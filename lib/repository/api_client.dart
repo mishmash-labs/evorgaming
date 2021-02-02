@@ -191,4 +191,13 @@ class ApiClient {
       throw Exception('Unexpected Error Occurred');
     }
   }
+
+  Future<dynamic> checkout(Map<String, dynamic> data) async {
+    final uriResponse = await _dio.post('app/shop/checkout', data: data);
+    if (uriResponse.statusCode == 200) {
+      return GenericMessageModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
 }
