@@ -48,111 +48,75 @@ class TransactionsPage extends StatelessWidget {
           : Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView.builder(
-                itemCount: transactionData.length,
+                itemCount: 2,
                 itemBuilder: (context, index) {
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    elevation: 0,
-                    color: Colors.black26,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Column(
-                                children: [
-                                  AutoSizeText(
-                                    "Number",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  AutoSizeText((index + 1).toString()),
-                                ],
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black38,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 8),
+                            AutoSizeText(
+                              "Number: " + (index + 1).toString(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
                               ),
-                              Column(
-                                children: [
-                                  AutoSizeText(
-                                    "Message",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  AutoSizeText(transactionData[index].message),
-                                ],
+                            ),
+                            SizedBox(height: 8),
+                            AutoSizeText(
+                              "Message: " + transactionData[index].message,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
                               ),
-                              Column(
-                                children: [
-                                  AutoSizeText(
-                                    "Status",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  AutoSizeText(transactionData[index].status),
-                                ],
+                            ),
+                            SizedBox(height: 8),
+                            AutoSizeText(
+                              "Status: " + transactionData[index].status,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
                               ),
-                            ],
-                          ),
-                          SizedBox(height: 8),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Column(
-                                children: [
-                                  AutoSizeText(
-                                    "Amount",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  AutoSizeText(
-                                      "${transactionData[index].amount} PKR"),
-                                ],
+                            ),
+                            SizedBox(height: 8),
+                            AutoSizeText(
+                              "Amount: " +
+                                  "${transactionData[index].amount} PKR",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
                               ),
-                              Column(
-                                children: [
-                                  AutoSizeText(
-                                    "Payment Method",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  AutoSizeText(
-                                      transactionData[index].paymentMethod),
-                                ],
+                            ),
+                            SizedBox(height: 8),
+                            AutoSizeText(
+                              "Payment Method: " +
+                                  transactionData[index].paymentMethod,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
                               ),
-                              Column(
-                                children: [
-                                  AutoSizeText(
-                                    "Date",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  AutoSizeText(DateFormat('d MMM, K:ma').format(
-                                      transactionData[index].updatedAt)),
-                                ],
+                            ),
+                            SizedBox(height: 8),
+                            AutoSizeText(
+                              "Date: " +
+                                  DateFormat('d MMM, K:ma')
+                                      .format(transactionData[index].updatedAt),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
                               ),
-                            ],
-                          ),
-                        ],
+                            ),
+                            SizedBox(height: 8),
+                          ],
+                        ),
                       ),
                     ),
                   );
