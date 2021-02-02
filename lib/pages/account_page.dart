@@ -173,13 +173,13 @@ class AccountPage extends StatelessWidget {
                 ),
                 ListTile(
                   onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return CharacterIDPage(
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CharacterIDPage(
                           characterId: state.data.characterId,
-                        );
-                      },
+                        ),
+                      ),
                     );
                   },
                   leading: CircleAvatar(

@@ -200,4 +200,14 @@ class ApiClient {
       throw Exception('Unexpected Error Occurred');
     }
   }
+
+  Future<dynamic> addcharacterid(Map<String, dynamic> data) async {
+    final uriResponse = await _dio
+        .post('app/user/profile/details/update/add/Character/id', data: data);
+    if (uriResponse.statusCode == 200) {
+      return GenericMessageModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
 }
