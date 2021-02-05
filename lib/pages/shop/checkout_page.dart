@@ -34,7 +34,8 @@ class CheckOutPage extends StatelessWidget {
           if (state is CheckoutSuccess) {
             BotToast.showText(
                 text: state.data.message, duration: Duration(seconds: 4));
-            Navigator.pop(context);
+            int count = 0;
+            Navigator.of(context).popUntil((_) => count++ >= 2);
           }
           if (state is CheckoutFailed) {
             BotToast.showText(
@@ -128,6 +129,10 @@ class CheckOutPage extends StatelessWidget {
                       keyboardType: TextInputType.phone,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(context),
+                        FormBuilderValidators.minLength(context, 10,
+                            errorText: "Incorrect length"),
+                        FormBuilderValidators.maxLength(context, 10,
+                            errorText: "Incorrect length")
                       ]),
                     ),
                     SizedBox(height: 16),
