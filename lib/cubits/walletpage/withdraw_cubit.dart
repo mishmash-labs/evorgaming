@@ -11,12 +11,12 @@ class WithdrawCubit extends Cubit<WithdrawState> {
   WithdrawCubit() : super(WithdrawInitial());
 
   final ApiClient _apiClient = ApiClient();
-  var paymentMethods;
+  var _paymentMethods;
 
   Future<void> getPaymentMethods(String email) async {
     emit(WithdrawLoading());
     final paymentData = await _apiClient.getpaymentmethods(email);
-    paymentMethods = paymentData;
+    _paymentMethods = paymentData;
     emit(WithdrawLoaded(paymentData));
   }
 
@@ -24,9 +24,9 @@ class WithdrawCubit extends Cubit<WithdrawState> {
     emit(WithdrawLoading());
     final paymentData = await _apiClient.submitwithdrawlrequest(data);
     if (paymentData.code == "200") {
-      emit(WithdrawSuccess(paymentData, paymentMethods));
+      emit(WithdrawSuccess(paymentData, _paymentMethods));
     } else {
-      emit(WithdrawFailed(paymentData, paymentMethods));
+      emit(WithdrawFailed(paymentData, _paymentMethods));
     }
   }
 }

@@ -1,14 +1,15 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:evorgaming/pages/tournaments/jointournament_dialog.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 import '../../models/tournamentdetails_model.dart';
+import 'jointournament_dialog.dart';
 
 class TournamentDetailsPage extends StatelessWidget {
-  const TournamentDetailsPage({Key key, this.data, @required this.completed})
+  const TournamentDetailsPage(
+      {Key key, @required this.data, @required this.completed})
       : super(key: key);
 
   final TournamentDetailsModel data;
@@ -16,6 +17,7 @@ class TournamentDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(data.gameId);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -58,14 +60,14 @@ class TournamentDetailsPage extends StatelessWidget {
               backgroundColor: Colors.red.shade700,
               heroTag: null,
               label: Text(
-                "Launch Game",
+                "Play Now",
                 style: TextStyle(
                   color: Colors.white,
                 ),
               ),
               onPressed: () async {
                 await LaunchApp.openApp(
-                    androidPackageName: data.playStore.split(r"id=")[1],
+                    androidPackageName: data.playStore.trim().split(r"id=")[1],
                     appStoreLink: data.appleStore,
                     openStore: true);
               },

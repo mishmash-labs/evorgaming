@@ -1,4 +1,4 @@
-import 'package:evorgaming/models/tournaments_model.dart';
+import 'tournaments_model.dart';
 
 class TournamentDetailsModel {
   TournamentDetailsModel({

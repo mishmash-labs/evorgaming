@@ -1,13 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:evorgaming/cubits/checkout/checkout_cubit.dart';
-import 'package:evorgaming/providers/userdata_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:provider/provider.dart';
+
+import '../../cubits/checkout/checkout_cubit.dart';
+import '../../providers/userdata_provider.dart';
 
 class CheckOutPage extends StatelessWidget {
   final _checkoutKey = GlobalKey<FormBuilderState>();
@@ -102,6 +103,7 @@ class CheckOutPage extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(context),
+                        FormBuilderValidators.email(context),
                       ]),
                     ),
                     SizedBox(height: 16),
@@ -256,6 +258,10 @@ class CheckOutPage extends StatelessWidget {
                             finalData["email"] =
                                 Provider.of<UserData>(context, listen: false)
                                     .userId;
+                            if (finalData["order_note"].isEmpty) {
+                              print("here");
+                              finalData["order_note"] = " ";
+                            }
                             checkoutCubit.checkout(finalData);
                           } else {
                             print("validation failed");

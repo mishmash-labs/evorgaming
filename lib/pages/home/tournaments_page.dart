@@ -27,7 +27,7 @@ class TournamentsPage extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.transparent,
           title: AutoSizeText(
-            gameName + " Tournaments",
+            "$gameName Tournaments",
             style: Theme.of(context)
                 .textTheme
                 .headline5
@@ -186,9 +186,8 @@ class TournamentList extends StatelessWidget {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: " " +
-                                          DateFormat('d MMM, K:ma').format(
-                                              data[index].startDateTime),
+                                      text:
+                                          " ${DateFormat('d MMM, K:ma').format(data[index].startDateTime)}",
                                       style: TextStyle(
                                         color: Colors.white54,
                                       ),

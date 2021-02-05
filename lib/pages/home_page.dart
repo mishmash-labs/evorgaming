@@ -229,6 +229,10 @@ class PlayTab extends StatelessWidget {
                                       topLeft: Radius.circular(16),
                                       topRight: Radius.circular(16)),
                                   child: CachedNetworkImage(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.13,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
                                     imageUrl:
                                         'https://evorgaming.com${state.homepageData.featuredTournments[index].coverImage}',
                                   ),

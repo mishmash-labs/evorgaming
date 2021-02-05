@@ -46,7 +46,7 @@ class ProfilePage extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state is ProfileInitial)
+          if (state is ProfileInitial) {
             return Container(
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -119,8 +119,9 @@ class ProfilePage extends StatelessWidget {
                                     "https://evorgaming.com/storage/profile-photos/${state.data.message}",
                               ),
                             );
-                          } else
+                          } else {
                             return Container();
+                          }
                         },
                       ),
                       Center(
@@ -130,7 +131,7 @@ class ProfilePage extends StatelessWidget {
                           onPressed: () async {
                             final pickedFile = await picker.getImage(
                                 source: ImageSource.gallery);
-                            String fileName = pickedFile.path.split('/').last;
+                            var fileName = pickedFile.path.split('/').last;
                             profileimageCubit.uploadimage(
                                 Provider.of<UserData>(context, listen: false)
                                     .userId,
@@ -215,7 +216,7 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
             );
-          else if (state is ProfileUpdating) {
+          } else if (state is ProfileUpdating) {
             return Container(
               height: 150,
               child: Center(

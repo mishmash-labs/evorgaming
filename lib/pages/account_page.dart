@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:evorgaming/cubits/changepassword/changepassword_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -10,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../cubits/accountpage/account_cubit.dart';
+import '../cubits/changepassword/changepassword_cubit.dart';
 import '../providers/userdata_provider.dart';
 import 'account/announcements_page.dart';
 import 'account/characterid_page.dart';
@@ -434,7 +434,7 @@ class ChangePasswordDialog extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state is ChangepasswordInitial || state is ChangepasswordFailed)
+          if (state is ChangepasswordInitial || state is ChangepasswordFailed) {
             return Container(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -556,15 +556,16 @@ class ChangePasswordDialog extends StatelessWidget {
                 ),
               ),
             );
-          else if (state is ChangepasswordSubmitting)
+          } else if (state is ChangepasswordSubmitting) {
             return Center(
               child: SpinKitCubeGrid(
                 color: Colors.red.shade900,
                 size: 50.0,
               ),
             );
-          else
+          } else {
             return Container();
+          }
         },
       ),
     );

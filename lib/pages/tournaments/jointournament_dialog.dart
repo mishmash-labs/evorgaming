@@ -1,13 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:evorgaming/cubits/cubit/jointournament_cubit.dart';
-import 'package:evorgaming/models/tournamentdetails_model.dart';
-import 'package:evorgaming/providers/userdata_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+
+import '../../cubits/cubit/jointournament_cubit.dart';
+import '../../models/tournamentdetails_model.dart';
+import '../../providers/userdata_provider.dart';
 
 class JoinTournamentDialog extends StatefulWidget {
   final TournamentDetailsModel data;
@@ -25,14 +26,14 @@ class _JoinTournamentDialogState extends State<JoinTournamentDialog> {
 
   @override
   void initState() {
-    print(widget.data.id);
-    if (widget.data.type == "SOLO")
+    if (widget.data.type == "SOLO") {
       jointournamentCubit
         ..jointournament({
           "email": Provider.of<UserData>(context, listen: false).userId,
           "tournment_id": widget.data.id,
           "game_id": widget.data.gameId
         }, widget.data.type);
+    }
     super.initState();
   }
 
@@ -55,7 +56,7 @@ class _JoinTournamentDialogState extends State<JoinTournamentDialog> {
           }
         },
         builder: (context, state) {
-          if (state is JointournamentInitial || state is JointournamentFailed)
+          if (state is JointournamentInitial || state is JointournamentFailed) {
             return Container(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -74,7 +75,6 @@ class _JoinTournamentDialogState extends State<JoinTournamentDialog> {
                       FormBuilderTextField(
                         name: "TeamMember01",
                         cursorColor: Colors.red,
-                        obscureText: true,
                         decoration: InputDecoration(
                           labelText: "Team Member 1",
                           focusedBorder: OutlineInputBorder(
@@ -99,7 +99,6 @@ class _JoinTournamentDialogState extends State<JoinTournamentDialog> {
                         FormBuilderTextField(
                           name: "TeamMember02",
                           cursorColor: Colors.red,
-                          obscureText: true,
                           decoration: InputDecoration(
                             labelText: "Team Member 2",
                             focusedBorder: OutlineInputBorder(
@@ -127,7 +126,6 @@ class _JoinTournamentDialogState extends State<JoinTournamentDialog> {
                         FormBuilderTextField(
                           name: "TeamMember03",
                           cursorColor: Colors.red,
-                          obscureText: true,
                           decoration: InputDecoration(
                             labelText: "Team Member 3",
                             focusedBorder: OutlineInputBorder(
@@ -182,15 +180,16 @@ class _JoinTournamentDialogState extends State<JoinTournamentDialog> {
                 ),
               ),
             );
-          else if (state is JointournamentJoining)
+          } else if (state is JointournamentJoining) {
             return Center(
               child: SpinKitCubeGrid(
                 color: Colors.red.shade900,
                 size: 50.0,
               ),
             );
-          else
+          } else {
             return Container();
+          }
         },
       ),
     );

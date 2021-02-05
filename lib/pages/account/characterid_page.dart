@@ -1,13 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:evorgaming/cubits/characterid/characterid_cubit.dart';
-import 'package:evorgaming/providers/userdata_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
+import '../../cubits/characterid/characterid_cubit.dart';
 import '../../models/account_model.dart';
+import '../../providers/userdata_provider.dart';
 
 class CharacterIDPage extends StatefulWidget {
   final List<CharacterId> characterId;
@@ -113,7 +113,7 @@ class _CharacterIDPageState extends State<CharacterIDPage> {
                           })
                           .toList()
                           .length,
-                      itemBuilder: (BuildContext context, int index) {
+                      itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
@@ -148,8 +148,9 @@ class _CharacterIDPageState extends State<CharacterIDPage> {
                   size: 50.0,
                 ),
               );
-            } else
+            } else {
               return Container();
+            }
           },
         ));
   }

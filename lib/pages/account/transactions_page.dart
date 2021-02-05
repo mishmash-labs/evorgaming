@@ -67,8 +67,8 @@ class TransactionsPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 AutoSizeText(
-                                  "Amount: " +
-                                      "${transactionData[index].amount} PKR",
+                                  "Amount: "
+                                  "${transactionData[index].amount} PKR",
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white,
@@ -86,7 +86,7 @@ class TransactionsPage extends StatelessWidget {
                             ),
                             SizedBox(height: 8),
                             AutoSizeText(
-                              "Status: " + transactionData[index].status,
+                              "Status: ${transactionData[index].status}",
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white,
@@ -94,7 +94,7 @@ class TransactionsPage extends StatelessWidget {
                             ),
                             SizedBox(height: 8),
                             AutoSizeText(
-                              "Message: " + transactionData[index].message,
+                              "Message: ${transactionData[index].message}",
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white,
@@ -102,8 +102,7 @@ class TransactionsPage extends StatelessWidget {
                             ),
                             SizedBox(height: 8),
                             AutoSizeText(
-                              "Payment Method: " +
-                                  transactionData[index].paymentMethod,
+                              "Payment Method: ${transactionData[index].paymentMethod}",
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white,

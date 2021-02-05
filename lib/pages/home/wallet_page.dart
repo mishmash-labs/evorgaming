@@ -1,12 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:evorgaming/cubits/accountpage/account_cubit.dart';
-import 'package:evorgaming/providers/userdata_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../cubits/accountpage/account_cubit.dart';
+import '../../providers/userdata_provider.dart';
 import 'withdraw_page.dart';
 
 class WalletPage extends StatelessWidget {
@@ -165,13 +165,15 @@ class WalletPage extends StatelessWidget {
                                 onPressed: () {
                                   if (state.data.profileDetails.earning !=
                                           null &&
-                                      state.data.profileDetails.earning != "0")
+                                      state.data.profileDetails.earning !=
+                                          "0") {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => WithdrawPage(),
                                       ),
                                     );
+                                  }
                                 },
                                 color: state.data.profileDetails.earning !=
                                             null &&

@@ -101,7 +101,7 @@ class CartWidget extends StatelessWidget {
     );
   }
 
-  footer(BuildContext context) {
+  Widget footer(BuildContext context) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -174,7 +174,7 @@ class CartWidget extends StatelessWidget {
           RaisedButton(
             onPressed: () {
               Navigator.push(context,
-                  new MaterialPageRoute(builder: (context) => CheckOutPage()));
+                  MaterialPageRoute(builder: (context) => CheckOutPage()));
             },
             color: Colors.red.shade800,
             padding: EdgeInsets.only(top: 12, left: 60, right: 60, bottom: 12),
@@ -193,7 +193,7 @@ class CartWidget extends StatelessWidget {
     );
   }
 
-  createCartList(String email) {
+  Widget createCartList(String email) {
     return ListView.builder(
       shrinkWrap: true,
       primary: false,
@@ -204,7 +204,8 @@ class CartWidget extends StatelessWidget {
     );
   }
 
-  createCartListItem(Message itemData, String email, BuildContext context) {
+  Widget createCartListItem(
+      Message itemData, String email, BuildContext context) {
     return Stack(
       children: <Widget>[
         Container(
@@ -275,7 +276,7 @@ class CartWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(8.0),
                               child: RaisedButton(
                                 onPressed: () {
-                                  String qty = itemData.qty;
+                                  var qty = itemData.qty;
                                   showModal(
                                     context: context,
                                     builder: (context) => SimpleDialog(
