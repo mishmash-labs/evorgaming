@@ -210,4 +210,14 @@ class ApiClient {
       throw Exception('Unexpected Error Occurred');
     }
   }
+
+  Future<dynamic> changepassword(Map<String, dynamic> data) async {
+    final uriResponse =
+        await _dio.post('app/user/profile/details/update/password', data: data);
+    if (uriResponse.statusCode == 200) {
+      return GenericMessageModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
 }

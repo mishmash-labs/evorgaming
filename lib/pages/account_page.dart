@@ -1,7 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:evorgaming/cubits/changepassword/changepassword_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -250,6 +253,30 @@ class AccountPage extends StatelessWidget {
                   color: Colors.white10,
                 ),
                 ListTile(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return ChangePasswordDialog();
+                      },
+                    );
+                  },
+                  leading: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      child: Icon(Icons.lock_open)),
+                  title: AutoSizeText(
+                    "Change Password",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Divider(
+                  thickness: 0.5,
+                  color: Colors.white10,
+                ),
+                ListTile(
                   onTap: () async {
                     const url = 'https://evorgaming.com/page/Privacy-Policy';
                     if (await canLaunch(url)) {
@@ -381,6 +408,165 @@ class AccountPage extends StatelessWidget {
           return Container();
         }
       },
+    );
+  }
+}
+
+class ChangePasswordDialog extends StatelessWidget {
+  final _changePasswordKey = GlobalKey<FormBuilderState>();
+  final ChangepasswordCubit changepasswordCubit = ChangepasswordCubit();
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      child: BlocConsumer(
+        cubit: changepasswordCubit,
+        listener: (context, state) {
+          if (state is ChangepasswordSubmitted) {
+            BotToast.showText(
+                text: state.data.message, duration: Duration(seconds: 4));
+            Navigator.pop(context);
+          }
+          if (state is ChangepasswordFailed) {
+            BotToast.showText(
+                text: state.message, duration: Duration(seconds: 4));
+          }
+        },
+        builder: (context, state) {
+          if (state is ChangepasswordInitial || state is ChangepasswordFailed)
+            return Container(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: FormBuilder(
+                  key: _changePasswordKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AutoSizeText(
+                        "Change Your Password",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 16),
+                      FormBuilderTextField(
+                        name: "old_password",
+                        cursorColor: Colors.red,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: "Enter Previous Password",
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red.shade800),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white30),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red.shade800),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red.shade800),
+                          ),
+                        ),
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(context),
+                        ]),
+                      ),
+                      SizedBox(height: 8),
+                      FormBuilderTextField(
+                        name: "new_password",
+                        cursorColor: Colors.red,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: "Enter New Password",
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red.shade800),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white30),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red.shade800),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red.shade800),
+                          ),
+                        ),
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(context),
+                        ]),
+                      ),
+                      SizedBox(height: 8),
+                      FormBuilderTextField(
+                        name: "new_password_confirm",
+                        cursorColor: Colors.red,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: "Confirm New Password",
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red.shade800),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white30),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red.shade800),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red.shade800),
+                          ),
+                        ),
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(context),
+                          (val) {
+                            if (_changePasswordKey.currentState
+                                    .fields['new_password']?.value !=
+                                val) return 'Password does not match';
+                            return null;
+                          }
+                        ]),
+                      ),
+                      SizedBox(height: 8),
+                      SizedBox(
+                        width: double.infinity,
+                        child: RaisedButton(
+                          onPressed: () {
+                            _changePasswordKey.currentState.save();
+                            if (_changePasswordKey.currentState.validate()) {
+                              var finalData = <String, dynamic>{};
+                              finalData.addAll(
+                                  _changePasswordKey.currentState.value);
+                              finalData["email"] =
+                                  Provider.of<UserData>(context, listen: false)
+                                      .userId;
+                              changepasswordCubit.changepassword(finalData);
+                            } else {
+                              print("validation failed");
+                            }
+                          },
+                          child: AutoSizeText(
+                            "SUBMIT",
+                          ),
+                          color: Colors.red,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          else if (state is ChangepasswordSubmitting)
+            return Center(
+              child: SpinKitCubeGrid(
+                color: Colors.red.shade900,
+                size: 50.0,
+              ),
+            );
+          else
+            return Container();
+        },
+      ),
     );
   }
 }

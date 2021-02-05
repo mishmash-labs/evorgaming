@@ -1,4 +1,4 @@
-import 'tournaments_model.dart';
+import 'package:evorgaming/models/tournaments_model.dart';
 
 class TournamentDetailsModel {
   TournamentDetailsModel({
@@ -17,13 +17,90 @@ class TournamentDetailsModel {
     this.pointPerKill,
     this.totalPricePool,
     this.map,
-    this.isAlreadyParticipant,
     this.tournmentRules,
     this.sponsorBy,
     this.sponsorBanner,
     this.roomSize,
     this.curRoomSize,
+    this.playStore,
+    this.appleStore,
+    this.isAlreadyParticipant,
   });
+
+  int id;
+  String gameId;
+  String title;
+  String description;
+  String type;
+  DateTime startDateTime;
+  String version;
+  String coverImage;
+  String platform;
+  String entryType;
+  String entryFee;
+  GiftItem giftItem;
+  String pointPerKill;
+  String totalPricePool;
+  String map;
+  String tournmentRules;
+  List<String> sponsorBy;
+  List<String> sponsorBanner;
+  String roomSize;
+  String curRoomSize;
+  String playStore;
+  String appleStore;
+  bool isAlreadyParticipant;
+
+  TournamentDetailsModel copyWith({
+    int id,
+    String gameId,
+    String title,
+    String description,
+    String type,
+    DateTime startDateTime,
+    String version,
+    String coverImage,
+    String platform,
+    String entryType,
+    String entryFee,
+    GiftItem giftItem,
+    String pointPerKill,
+    String totalPricePool,
+    String map,
+    String tournmentRules,
+    List<String> sponsorBy,
+    List<String> sponsorBanner,
+    String roomSize,
+    String curRoomSize,
+    String playStore,
+    String appleStore,
+    bool isAlreadyParticipant,
+  }) =>
+      TournamentDetailsModel(
+        id: id ?? this.id,
+        gameId: gameId ?? this.gameId,
+        title: title ?? this.title,
+        description: description ?? this.description,
+        type: type ?? this.type,
+        startDateTime: startDateTime ?? this.startDateTime,
+        version: version ?? this.version,
+        coverImage: coverImage ?? this.coverImage,
+        platform: platform ?? this.platform,
+        entryType: entryType ?? this.entryType,
+        entryFee: entryFee ?? this.entryFee,
+        giftItem: giftItem ?? this.giftItem,
+        pointPerKill: pointPerKill ?? this.pointPerKill,
+        totalPricePool: totalPricePool ?? this.totalPricePool,
+        map: map ?? this.map,
+        tournmentRules: tournmentRules ?? this.tournmentRules,
+        sponsorBy: sponsorBy ?? this.sponsorBy,
+        sponsorBanner: sponsorBanner ?? this.sponsorBanner,
+        roomSize: roomSize ?? this.roomSize,
+        curRoomSize: curRoomSize ?? this.curRoomSize,
+        playStore: playStore ?? this.playStore,
+        appleStore: appleStore ?? this.appleStore,
+        isAlreadyParticipant: isAlreadyParticipant ?? this.isAlreadyParticipant,
+      );
 
   factory TournamentDetailsModel.fromJson(Map<String, dynamic> json) =>
       TournamentDetailsModel(
@@ -48,9 +125,6 @@ class TournamentDetailsModel {
         totalPricePool:
             json["total_price_pool"] == null ? null : json["total_price_pool"],
         map: json["map"] == null ? null : json["map"],
-        isAlreadyParticipant: json["is_already_participant"] == null
-            ? null
-            : json["is_already_participant"],
         tournmentRules:
             json["tournment_rules"] == null ? null : json["tournment_rules"],
         sponsorBy: json["Sponsor_by"] == null
@@ -62,29 +136,12 @@ class TournamentDetailsModel {
         roomSize: json["room_size"] == null ? null : json["room_size"],
         curRoomSize:
             json["cur_room_size"] == null ? null : json["cur_room_size"],
+        playStore: json["playStore"] == null ? null : json["playStore"],
+        appleStore: json["AppleStore"] == null ? null : json["AppleStore"],
+        isAlreadyParticipant: json["is_already_participant"] == null
+            ? null
+            : json["is_already_participant"],
       );
-
-  String coverImage;
-  String curRoomSize;
-  String description;
-  String entryFee;
-  String entryType;
-  String gameId;
-  GiftItem giftItem;
-  int id;
-  bool isAlreadyParticipant;
-  String map;
-  String platform;
-  String pointPerKill;
-  String roomSize;
-  List<String> sponsorBanner;
-  List<String> sponsorBy;
-  DateTime startDateTime;
-  String title;
-  String totalPricePool;
-  String tournmentRules;
-  String type;
-  String version;
 
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
@@ -103,8 +160,6 @@ class TournamentDetailsModel {
         "point_per_kill": pointPerKill == null ? null : pointPerKill,
         "total_price_pool": totalPricePool == null ? null : totalPricePool,
         "map": map == null ? null : map,
-        "is_already_participant":
-            isAlreadyParticipant == null ? null : isAlreadyParticipant,
         "tournment_rules": tournmentRules == null ? null : tournmentRules,
         "Sponsor_by": sponsorBy == null
             ? null
@@ -114,5 +169,9 @@ class TournamentDetailsModel {
             : List<dynamic>.from(sponsorBanner.map((x) => x)),
         "room_size": roomSize == null ? null : roomSize,
         "cur_room_size": curRoomSize == null ? null : curRoomSize,
+        "playStore": playStore == null ? null : playStore,
+        "AppleStore": appleStore == null ? null : appleStore,
+        "is_already_participant":
+            isAlreadyParticipant == null ? null : isAlreadyParticipant,
       };
 }

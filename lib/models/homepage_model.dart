@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final homePageModel = homePageModelFromJson(jsonString);
+
 import 'dart:convert';
 
 import 'tournaments_model.dart';
@@ -29,6 +33,17 @@ class HomePageModel {
   List<FeaturedTournment> featuredTournments;
   List<Game> games;
 
+  HomePageModel copyWith({
+    String code,
+    List<Game> games,
+    List<FeaturedTournment> featuredTournments,
+  }) =>
+      HomePageModel(
+        code: code ?? this.code,
+        games: games ?? this.games,
+        featuredTournments: featuredTournments ?? this.featuredTournments,
+      );
+
   Map<String, dynamic> toJson() => {
         "Code": code == null ? null : code,
         "Games": games == null
@@ -43,7 +58,7 @@ class HomePageModel {
 class FeaturedTournment {
   FeaturedTournment({
     this.id,
-    this.gameId,
+    this.game,
     this.title,
     this.description,
     this.type,
@@ -63,12 +78,14 @@ class FeaturedTournment {
     this.sponsorBanner,
     this.roomSize,
     this.curRoomSize,
+    this.playStore,
+    this.appleStore,
   });
 
   factory FeaturedTournment.fromJson(Map<String, dynamic> json) =>
       FeaturedTournment(
         id: json["id"] == null ? null : json["id"],
-        gameId: json["game_id"] == null ? null : json["game_id"],
+        game: json["game"] == null ? null : json["game"],
         title: json["title"] == null ? null : json["title"],
         description: json["Description"] == null ? null : json["Description"],
         type: json["type"] == null ? null : json["type"],
@@ -102,19 +119,23 @@ class FeaturedTournment {
         roomSize: json["room_size"] == null ? null : json["room_size"],
         curRoomSize:
             json["cur_room_size"] == null ? null : json["cur_room_size"],
+        playStore: json["playStore"] == null ? null : json["playStore"],
+        appleStore: json["AppleStore"] == null ? null : json["AppleStore"],
       );
 
+  String appleStore;
   String coverImage;
   String curRoomSize;
   String description;
   String entryFee;
   String entryType;
-  String gameId;
+  String game;
   GiftItem giftItem;
   int id;
   bool isAlreadyParticipant;
   String map;
   String platform;
+  String playStore;
   String pointPerKill;
   String roomSize;
   List<String> sponsorBanner;
@@ -126,9 +147,60 @@ class FeaturedTournment {
   String type;
   String version;
 
+  FeaturedTournment copyWith({
+    int id,
+    String game,
+    String title,
+    String description,
+    String type,
+    DateTime startDateTime,
+    String version,
+    String coverImage,
+    String platform,
+    String entryType,
+    String entryFee,
+    GiftItem giftItem,
+    String pointPerKill,
+    String totalPricePool,
+    String map,
+    bool isAlreadyParticipant,
+    String tournmentRules,
+    List<String> sponsorBy,
+    List<String> sponsorBanner,
+    String roomSize,
+    String curRoomSize,
+    String playStore,
+    String appleStore,
+  }) =>
+      FeaturedTournment(
+        id: id ?? this.id,
+        game: game ?? this.game,
+        title: title ?? this.title,
+        description: description ?? this.description,
+        type: type ?? this.type,
+        startDateTime: startDateTime ?? this.startDateTime,
+        version: version ?? this.version,
+        coverImage: coverImage ?? this.coverImage,
+        platform: platform ?? this.platform,
+        entryType: entryType ?? this.entryType,
+        entryFee: entryFee ?? this.entryFee,
+        giftItem: giftItem ?? this.giftItem,
+        pointPerKill: pointPerKill ?? this.pointPerKill,
+        totalPricePool: totalPricePool ?? this.totalPricePool,
+        map: map ?? this.map,
+        isAlreadyParticipant: isAlreadyParticipant ?? this.isAlreadyParticipant,
+        tournmentRules: tournmentRules ?? this.tournmentRules,
+        sponsorBy: sponsorBy ?? this.sponsorBy,
+        sponsorBanner: sponsorBanner ?? this.sponsorBanner,
+        roomSize: roomSize ?? this.roomSize,
+        curRoomSize: curRoomSize ?? this.curRoomSize,
+        playStore: playStore ?? this.playStore,
+        appleStore: appleStore ?? this.appleStore,
+      );
+
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
-        "game_id": gameId == null ? null : gameId,
+        "game": game == null ? null : game,
         "title": title == null ? null : title,
         "Description": description == null ? null : description,
         "type": type == null ? null : type,
@@ -154,6 +226,8 @@ class FeaturedTournment {
             : List<dynamic>.from(sponsorBanner.map((x) => x)),
         "room_size": roomSize == null ? null : roomSize,
         "cur_room_size": curRoomSize == null ? null : curRoomSize,
+        "playStore": playStore == null ? null : playStore,
+        "AppleStore": appleStore == null ? null : appleStore,
       };
 }
 
@@ -190,6 +264,25 @@ class Game {
   String name;
   String playstoreUrl;
   DateTime updatedAt;
+
+  Game copyWith({
+    int id,
+    String name,
+    String image,
+    String appleUrl,
+    String playstoreUrl,
+    DateTime createdAt,
+    DateTime updatedAt,
+  }) =>
+      Game(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        image: image ?? this.image,
+        appleUrl: appleUrl ?? this.appleUrl,
+        playstoreUrl: playstoreUrl ?? this.playstoreUrl,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
 
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
