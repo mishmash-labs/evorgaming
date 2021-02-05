@@ -172,6 +172,8 @@ class PlayTab extends StatelessWidget {
                               MaterialPageRoute(
                                 builder: (context) => TournamentsPage(
                                   gameid: state.homepageData.games[index].id,
+                                  gameName:
+                                      state.homepageData.games[index].name,
                                 ),
                               ),
                             );

@@ -11,9 +11,11 @@ import '../../providers/userdata_provider.dart';
 import '../tournaments/tournament_details_page.dart';
 
 class TournamentsPage extends StatelessWidget {
-  TournamentsPage({Key key, @required this.gameid}) : super(key: key);
+  TournamentsPage({Key key, @required this.gameid, @required this.gameName})
+      : super(key: key);
 
   final int gameid;
+  final String gameName;
   final TournamentsCubit tournamentsCubit = TournamentsCubit();
 
   @override
@@ -25,7 +27,7 @@ class TournamentsPage extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.transparent,
           title: AutoSizeText(
-            "Tournaments",
+            gameName + " Tournaments",
             style: Theme.of(context)
                 .textTheme
                 .headline5
