@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:evorgaming/pages/tournaments/jointournament_dialog.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
@@ -32,7 +33,7 @@ class TournamentDetailsPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            if (!completed)
+            if (!completed || data.isAlreadyParticipant)
               FloatingActionButton.extended(
                 backgroundColor: Colors.red.shade700,
                 heroTag: null,
@@ -42,7 +43,16 @@ class TournamentDetailsPage extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return JoinTournamentDialog(
+                        data: data,
+                      );
+                    },
+                  );
+                },
               ),
             FloatingActionButton.extended(
               backgroundColor: Colors.red.shade700,
@@ -54,7 +64,6 @@ class TournamentDetailsPage extends StatelessWidget {
                 ),
               ),
               onPressed: () async {
-                print(data.playStore.split(r"id=")[1]);
                 await LaunchApp.openApp(
                     androidPackageName: data.playStore.split(r"id=")[1],
                     appStoreLink: data.appleStore,

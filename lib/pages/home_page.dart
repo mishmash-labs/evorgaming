@@ -195,9 +195,9 @@ class PlayTab extends StatelessWidget {
                       itemCount: state.homepageData.featuredTournments.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        mainAxisSpacing: 8,
-                        crossAxisSpacing: 8,
-                        childAspectRatio: 0.8,
+                        mainAxisSpacing: 4,
+                        crossAxisSpacing: 4,
+                        childAspectRatio: 0.75,
                       ),
                       itemBuilder: (context, index) {
                         return Card(
@@ -332,9 +332,7 @@ class PlayTab extends StatelessWidget {
                                           color: Colors.white54,
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 4,
-                                      ),
+                                      SizedBox(height: 4),
                                       RichText(
                                         text: TextSpan(
                                           children: [
