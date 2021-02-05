@@ -62,11 +62,33 @@ class TransactionsPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            SizedBox(height: 4),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                AutoSizeText(
+                                  "Amount: " +
+                                      "${transactionData[index].amount} PKR",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                AutoSizeText(
+                                  DateFormat('d MMM, K:mma')
+                                      .format(transactionData[index].updatedAt),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
                             SizedBox(height: 8),
                             AutoSizeText(
-                              "Number: " + (index + 1).toString(),
+                              "Status: " + transactionData[index].status,
                               style: const TextStyle(
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                                 color: Colors.white,
                               ),
                             ),
@@ -74,24 +96,7 @@ class TransactionsPage extends StatelessWidget {
                             AutoSizeText(
                               "Message: " + transactionData[index].message,
                               style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            AutoSizeText(
-                              "Status: " + transactionData[index].status,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            AutoSizeText(
-                              "Amount: " +
-                                  "${transactionData[index].amount} PKR",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                                 color: Colors.white,
                               ),
                             ),
@@ -100,21 +105,11 @@ class TransactionsPage extends StatelessWidget {
                               "Payment Method: " +
                                   transactionData[index].paymentMethod,
                               style: const TextStyle(
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                                 color: Colors.white,
                               ),
                             ),
-                            SizedBox(height: 8),
-                            AutoSizeText(
-                              "Date: " +
-                                  DateFormat('d MMM, K:ma')
-                                      .format(transactionData[index].updatedAt),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(height: 8),
+                            SizedBox(height: 4),
                           ],
                         ),
                       ),
