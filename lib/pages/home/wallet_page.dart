@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'withdraw_page.dart';
 
@@ -86,7 +87,18 @@ class WalletPage extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: RaisedButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              var userID =
+                                  Provider.of<UserData>(context, listen: false)
+                                      .userNumID;
+                              var url =
+                                  'https://evorgaming.com/qpp/congrunf/bvnd/gdjdh/hdvdnj/dbdbdjh/nbvdbd/Register/bbdh/mobile/app/payment/$userID/add/balance';
+                              if (await canLaunch(url)) {
+                                await launch(url);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
                             color: Colors.red.shade800,
                             child: Text("+ ADD COINS"),
                           ),

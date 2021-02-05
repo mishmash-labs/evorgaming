@@ -33,7 +33,7 @@ class TournamentDetailsPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            if (!completed || data.isAlreadyParticipant)
+            if (!completed && !data.isAlreadyParticipant)
               FloatingActionButton.extended(
                 backgroundColor: Colors.red.shade700,
                 heroTag: null,
