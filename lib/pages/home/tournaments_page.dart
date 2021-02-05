@@ -51,6 +51,7 @@ class TournamentsPage extends StatelessWidget {
               return TabBarView(
                 children: [
                   TournamentList(
+                    completed: false,
                     data: List<TournamentDetailsModel>.from(state
                         .tournamentPageModel
                         .toJson()["UpComing"]
@@ -58,6 +59,7 @@ class TournamentsPage extends StatelessWidget {
                     type: "Upcoming",
                   ),
                   TournamentList(
+                    completed: true,
                     data: List<TournamentDetailsModel>.from(state
                         .tournamentPageModel
                         .toJson()["Ongoing"]
@@ -65,6 +67,7 @@ class TournamentsPage extends StatelessWidget {
                     type: "Ongoing",
                   ),
                   TournamentList(
+                    completed: true,
                     data: List<TournamentDetailsModel>.from(state
                         .tournamentPageModel
                         .toJson()["Completed"]
@@ -95,10 +98,12 @@ class TournamentList extends StatelessWidget {
     Key key,
     this.data,
     this.type,
+    @required this.completed,
   }) : super(key: key);
 
   final List<TournamentDetailsModel> data;
   final String type;
+  final bool completed;
 
   @override
   Widget build(BuildContext context) {
@@ -144,6 +149,7 @@ class TournamentList extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => TournamentDetailsPage(
+                        completed: completed,
                         data: data[index],
                       ),
                     ),
@@ -202,6 +208,7 @@ class TournamentList extends StatelessWidget {
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           TournamentDetailsPage(
+                                        completed: completed,
                                         data: data[index],
                                       ),
                                     ),

@@ -1,14 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 import '../../models/tournamentdetails_model.dart';
 
 class TournamentDetailsPage extends StatelessWidget {
-  const TournamentDetailsPage({Key key, this.data}) : super(key: key);
+  const TournamentDetailsPage({Key key, this.data, @required this.completed})
+      : super(key: key);
 
   final TournamentDetailsModel data;
+  final bool completed;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +27,41 @@ class TournamentDetailsPage extends StatelessWidget {
               .copyWith(fontWeight: FontWeight.bold),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            if (!completed)
+              FloatingActionButton.extended(
+                backgroundColor: Colors.red.shade700,
+                heroTag: null,
+                label: Text(
+                  "Join Tournament",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                onPressed: () {},
+              ),
+            FloatingActionButton.extended(
+              backgroundColor: Colors.red.shade700,
+              heroTag: null,
+              label: Text(
+                "Launch Game",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              onPressed: () async {
+                print(data.playStore.split(r"id=")[1]);
+                await LaunchApp.openApp(
+                    androidPackageName: data.playStore.split(r"id=")[1],
+                    appStoreLink: data.appleStore,
+                    openStore: true);
+              },
+            ),
+          ]),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: ListView(
@@ -207,6 +245,7 @@ class TournamentDetailsPage extends StatelessWidget {
                       'https://evorgaming.com/storage/Tournments/Sponsors/$item',
                 ),
               ),
+            SizedBox(height: 16),
           ],
         ),
       ),

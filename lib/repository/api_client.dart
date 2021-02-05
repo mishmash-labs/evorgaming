@@ -220,4 +220,34 @@ class ApiClient {
       throw Exception('Unexpected Error Occurred');
     }
   }
+
+  Future<dynamic> joinsolotournament(Map<String, dynamic> data) async {
+    final uriResponse =
+        await _dio.post('app/tournments/join/solo/tournment', data: data);
+    if (uriResponse.statusCode == 200) {
+      return GenericMessageModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
+
+  Future<dynamic> joinduotournament(Map<String, dynamic> data) async {
+    final uriResponse =
+        await _dio.post('app/tournments/join/duo/tournment', data: data);
+    if (uriResponse.statusCode == 200) {
+      return GenericMessageModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
+
+  Future<dynamic> joinsquadtournament(Map<String, dynamic> data) async {
+    final uriResponse =
+        await _dio.post('app/tournments/join/squad/tournment', data: data);
+    if (uriResponse.statusCode == 200) {
+      return GenericMessageModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
 }

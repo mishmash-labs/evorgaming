@@ -211,6 +211,7 @@ class PlayTab extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => TournamentDetailsPage(
+                                    completed: false,
                                     data: TournamentDetailsModel.fromJson(state
                                         .homepageData.featuredTournments[index]
                                         .toJson()),
