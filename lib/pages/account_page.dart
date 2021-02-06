@@ -183,7 +183,9 @@ class AccountPage extends StatelessWidget {
                           characterId: state.data.characterId,
                         ),
                       ),
-                    );
+                    ).then((val) => accountCubit
+                      ..refresh(Provider.of<UserData>(context, listen: false)
+                          .userId));
                   },
                   leading: CircleAvatar(
                       backgroundColor: Colors.transparent,

@@ -219,7 +219,9 @@ class PlayTab extends StatelessWidget {
                                         .toJson()),
                                   ),
                                 ),
-                              );
+                              ).then((val) => homeCubit.refresh(
+                                  Provider.of<UserData>(context, listen: false)
+                                      .userId));
                             },
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
