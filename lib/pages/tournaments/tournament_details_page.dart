@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
@@ -49,8 +51,50 @@ class TournamentDetailsPage extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (context) {
-                      return JoinTournamentDialog(
-                        data: data,
+                      return AlertDialog(
+                        title: Text('Join Tournament'),
+                        content: SingleChildScrollView(
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                  'Are you sure you want to join this tournament?'),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              if (data.entryType != "Free")
+                                Text(
+                                    'You will be charged ${data.entryFee} coins as an entry fee.'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text(
+                              'Cancel',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          TextButton(
+                            child: Text(
+                              'Continue',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return JoinTournamentDialog(
+                                    data: data,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
                       );
                     },
                   );
@@ -159,6 +203,84 @@ class TournamentDetailsPage extends StatelessWidget {
                 ),
               ),
             ),
+            if (data.roomVisibilityStaus == "1" && data.isAlreadyParticipant)
+              Center(
+                child: AutoSizeText(
+                  "ROOM DETAILS",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            if (data.roomVisibilityStaus == "1" && data.isAlreadyParticipant)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black38,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                FlutterClipboard.copy(data.roomId).then(
+                                    (value) => BotToast.showText(
+                                        text: "Copied to clipboard",
+                                        duration: Duration(seconds: 4)));
+                              },
+                              child: Column(
+                                children: [
+                                  AutoSizeText(
+                                    "ROOM ID",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(height: 8),
+                                  AutoSizeText(data.roomId),
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                FlutterClipboard.copy(data.roomPassword).then(
+                                    (value) => BotToast.showText(
+                                        text: "Copied to clipboard",
+                                        duration: Duration(seconds: 4)));
+                              },
+                              child: Column(
+                                children: [
+                                  AutoSizeText(
+                                    "ROOM PASSWORD",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(height: 8),
+                                  AutoSizeText(data.roomPassword),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        Divider(
+                          thickness: 2,
+                        ),
+                        Text(
+                          "Tap on the code to copy it to your clipboard.",
+                          style: TextStyle(color: Colors.white54),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             Center(
               child: AutoSizeText(
                 "TOURNAMENT DESCRIPTION",

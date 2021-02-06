@@ -72,6 +72,9 @@ class FeaturedTournment {
     this.sponsorBy,
     this.sponsorBanner,
     this.roomSize,
+    this.roomId,
+    this.roomPassword,
+    this.roomVisibilityStaus,
     this.curRoomSize,
     this.playStore,
     this.appleStore,
@@ -98,6 +101,9 @@ class FeaturedTournment {
   List<String> sponsorBy;
   List<String> sponsorBanner;
   String roomSize;
+  String roomId;
+  String roomPassword;
+  String roomVisibilityStaus;
   String curRoomSize;
   String playStore;
   String appleStore;
@@ -124,6 +130,9 @@ class FeaturedTournment {
     List<String> sponsorBy,
     List<String> sponsorBanner,
     String roomSize,
+    String roomId,
+    String roomPassword,
+    String roomVisibilityStaus,
     String curRoomSize,
     String playStore,
     String appleStore,
@@ -150,6 +159,9 @@ class FeaturedTournment {
         sponsorBy: sponsorBy ?? this.sponsorBy,
         sponsorBanner: sponsorBanner ?? this.sponsorBanner,
         roomSize: roomSize ?? this.roomSize,
+        roomId: roomId ?? this.roomId,
+        roomPassword: roomPassword ?? this.roomPassword,
+        roomVisibilityStaus: roomVisibilityStaus ?? this.roomVisibilityStaus,
         curRoomSize: curRoomSize ?? this.curRoomSize,
         playStore: playStore ?? this.playStore,
         appleStore: appleStore ?? this.appleStore,
@@ -189,6 +201,12 @@ class FeaturedTournment {
             ? null
             : List<String>.from(json["Sponsor_Banner"].map((x) => x)),
         roomSize: json["room_size"] == null ? null : json["room_size"],
+        roomId: json["room_id"] == null ? null : json["room_id"],
+        roomPassword:
+            json["room_password"] == null ? null : json["room_password"],
+        roomVisibilityStaus: json["room_visibility_staus"] == null
+            ? null
+            : json["room_visibility_staus"],
         curRoomSize:
             json["cur_room_size"] == null ? null : json["cur_room_size"],
         playStore: json["playStore"] == null ? null : json["playStore"],
@@ -223,6 +241,10 @@ class FeaturedTournment {
             ? null
             : List<dynamic>.from(sponsorBanner.map((x) => x)),
         "room_size": roomSize == null ? null : roomSize,
+        "room_id": roomId == null ? null : roomId,
+        "room_password": roomPassword == null ? null : roomPassword,
+        "room_visibility_staus":
+            roomVisibilityStaus == null ? null : roomVisibilityStaus,
         "cur_room_size": curRoomSize == null ? null : curRoomSize,
         "playStore": playStore == null ? null : playStore,
         "AppleStore": appleStore == null ? null : appleStore,
