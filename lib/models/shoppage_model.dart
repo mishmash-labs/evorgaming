@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final shopModel = shopModelFromJson(jsonString);
+
 import 'dart:convert';
 
 ShopModel shopModelFromJson(String str) => ShopModel.fromJson(json.decode(str));
@@ -8,7 +12,23 @@ class ShopModel {
   ShopModel({
     this.code,
     this.products,
+    this.cartTotalProducts,
   });
+
+  String code;
+  List<Product> products;
+  int cartTotalProducts;
+
+  ShopModel copyWith({
+    String code,
+    List<Product> products,
+    int cartTotalProducts,
+  }) =>
+      ShopModel(
+        code: code ?? this.code,
+        products: products ?? this.products,
+        cartTotalProducts: cartTotalProducts ?? this.cartTotalProducts,
+      );
 
   factory ShopModel.fromJson(Map<String, dynamic> json) => ShopModel(
         code: json["Code"] == null ? null : json["Code"],
@@ -16,16 +36,18 @@ class ShopModel {
             ? null
             : List<Product>.from(
                 json["Products"].map((x) => Product.fromJson(x))),
+        cartTotalProducts: json["cart_total_products"] == null
+            ? null
+            : json["cart_total_products"],
       );
-
-  String code;
-  List<Product> products;
 
   Map<String, dynamic> toJson() => {
         "Code": code == null ? null : code,
         "Products": products == null
             ? null
             : List<dynamic>.from(products.map((x) => x.toJson())),
+        "cart_total_products":
+            cartTotalProducts == null ? null : cartTotalProducts,
       };
 }
 
@@ -39,7 +61,41 @@ class Product {
     this.quantity,
     this.shortDescription,
     this.longDescription,
+    this.isAlreadyAddedToCart,
   });
+
+  int id;
+  String name;
+  List<String> image;
+  String price;
+  String currency;
+  String quantity;
+  String shortDescription;
+  String longDescription;
+  int isAlreadyAddedToCart;
+
+  Product copyWith({
+    int id,
+    String name,
+    List<String> image,
+    String price,
+    String currency,
+    String quantity,
+    String shortDescription,
+    String longDescription,
+    int isAlreadyAddedToCart,
+  }) =>
+      Product(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        image: image ?? this.image,
+        price: price ?? this.price,
+        currency: currency ?? this.currency,
+        quantity: quantity ?? this.quantity,
+        shortDescription: shortDescription ?? this.shortDescription,
+        longDescription: longDescription ?? this.longDescription,
+        isAlreadyAddedToCart: isAlreadyAddedToCart ?? this.isAlreadyAddedToCart,
+      );
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"] == null ? null : json["id"],
@@ -55,16 +111,10 @@ class Product {
             : json["Short_description"],
         longDescription:
             json["long_description"] == null ? null : json["long_description"],
+        isAlreadyAddedToCart: json["is_already_added_to_cart"] == null
+            ? null
+            : json["is_already_added_to_cart"],
       );
-
-  String currency;
-  int id;
-  List<String> image;
-  String longDescription;
-  String name;
-  String price;
-  String quantity;
-  String shortDescription;
 
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
@@ -75,5 +125,7 @@ class Product {
         "Quantity": quantity == null ? null : quantity,
         "Short_description": shortDescription == null ? null : shortDescription,
         "long_description": longDescription == null ? null : longDescription,
+        "is_already_added_to_cart":
+            isAlreadyAddedToCart == null ? null : isAlreadyAddedToCart,
       };
 }

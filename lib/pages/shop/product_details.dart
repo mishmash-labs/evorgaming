@@ -1,6 +1,10 @@
+import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:badges/badges.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:button_picker/button_picker.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:evorgaming/cubits/shoppage/shop_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
@@ -12,8 +16,10 @@ import '../../providers/userdata_provider.dart';
 import 'cart_page.dart';
 
 class ProductDetailsPage extends StatelessWidget {
-  ProductDetailsPage({Key key, this.data}) : super(key: key);
+  ProductDetailsPage({Key key, this.data, @required this.shopCubit})
+      : super(key: key);
 
+  final ShopCubit shopCubit;
   final Product data;
   final ItemCubit itemCubit = ItemCubit();
 
@@ -25,26 +31,45 @@ class ProductDetailsPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CartPage(),
+          BlocBuilder(
+            cubit: shopCubit,
+            builder: (context, state) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Badge(
+                  padding: EdgeInsets.all(6),
+                  position: BadgePosition.topEnd(top: -2, end: -2),
+                  badgeContent: Text(shopCubit.itemCount.toString()),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CartPage(),
+                        ),
+                      ).then((val) {
+                        shopCubit.refresh(
+                            Provider.of<UserData>(context, listen: false)
+                                .userId);
+                        Navigator.pop(context);
+                      });
+                    },
+                    icon: Icon(Icons.shopping_cart),
                   ),
-                );
-              },
-              icon: Icon(Icons.shopping_cart),
-            ),
+                ),
+              );
+            },
           ),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: BlocConsumer(
         listener: (context, state) {
-          if (state is ItemAdded || state is ItemFailed) {
+          if (state is ItemAdded) {
+            BotToast.showText(
+                text: state.data.message, duration: Duration(seconds: 4));
+            Navigator.pop(context);
+          } else if (state is ItemFailed) {
             BotToast.showText(
                 text: state.data.message, duration: Duration(seconds: 4));
           }
@@ -53,15 +78,70 @@ class ProductDetailsPage extends StatelessWidget {
         builder: (context, state) {
           return FloatingActionButton.extended(
             onPressed: () {
-              if (state is ItemAdding) return null;
-              if (data.quantity == "0") {
+              if (data.isAlreadyAddedToCart == 1) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CartPage(),
+                  ),
+                ).then((val) {
+                  shopCubit.refresh(
+                      Provider.of<UserData>(context, listen: false).userId);
+                  Navigator.pop(context);
+                });
+              } else if (state is ItemAdding)
+                return null;
+              else if (data.quantity == "0") {
                 return null;
               } else {
-                itemCubit.addToCart(
-                  Provider.of<UserData>(context, listen: false).userId,
-                  Provider.of<UserData>(context, listen: false).userNumID,
-                  data.id,
-                  1,
+                var qty = 1;
+
+                showModal(
+                  context: context,
+                  builder: (context) => SimpleDialog(
+                    title: Text(
+                      "Quantity",
+                      style: const TextStyle(color: Colors.white70),
+                    ),
+                    backgroundColor: Theme.of(context).primaryColor,
+                    children: [
+                      ButtonPicker(
+                        minValue: 1,
+                        maxValue: double.parse(data.quantity),
+                        initialValue: 1,
+                        onChanged: (val) {
+                          qty = val.toInt();
+                        },
+                        padding: 10,
+                        iconUp: Icons.arrow_upward,
+                        iconDown: Icons.arrow_downward,
+                        iconUpRightColor: Colors.white70,
+                        iconDownLeftColor: Colors.white70,
+                        style: const TextStyle(
+                            fontSize: 48, color: Colors.white70),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(top: 8, right: 8, left: 8),
+                        child: RaisedButton(
+                          onPressed: () {
+                            itemCubit.addToCart(
+                              Provider.of<UserData>(context, listen: false)
+                                  .userId,
+                              Provider.of<UserData>(context, listen: false)
+                                  .userNumID,
+                              data.id,
+                              qty,
+                            );
+                            Navigator.pop(context);
+                          },
+                          color: Colors.red.shade800,
+                          elevation: 0.0,
+                          child: Text("ADD TO CART"),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               }
             },
@@ -71,23 +151,32 @@ class ProductDetailsPage extends StatelessWidget {
                 ? CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                   )
-                : data.quantity != "0"
+                : data.isAlreadyAddedToCart == 1
                     ? AutoSizeText(
-                        "Add to cart".toUpperCase(),
+                        "Go to cart".toUpperCase(),
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       )
-                    : AutoSizeText(
-                        "Out of Stock".toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
+                    : data.quantity != "0"
+                        ? AutoSizeText(
+                            "Add to cart".toUpperCase(),
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          )
+                        : AutoSizeText(
+                            "Out of Stock".toUpperCase(),
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
           );
         },
       ),

@@ -250,4 +250,15 @@ class ApiClient {
       throw Exception('Unexpected Error Occurred');
     }
   }
+
+  Future<dynamic> mytournaments(String email) async {
+    final uriResponse = await _dio.post('app/MyTournment/screen/frame', data: {
+      "email": email,
+    });
+    if (uriResponse.statusCode == 200) {
+      return PaymentMethodsModel.fromJson(json.decode(uriResponse.data));
+    } else {
+      throw Exception('Unexpected Error Occurred');
+    }
+  }
 }

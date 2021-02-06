@@ -10,11 +10,13 @@ class ShopCubit extends Cubit<ShopState> {
   ShopCubit() : super(ShopInitial());
 
   final ApiClient _apiClient = ApiClient();
+  var itemCount = 0;
 
   Future<void> loadShop(String email) async {
     try {
       emit(ShopLoading());
-      final shoppageData = await _apiClient.shoppage(email);
+      final ShopModel shoppageData = await _apiClient.shoppage(email);
+      itemCount = shoppageData.cartTotalProducts;
       emit(ShopLoaded(shoppageData));
     } on Exception {
       emit(ShopFailed());
@@ -23,6 +25,7 @@ class ShopCubit extends Cubit<ShopState> {
 
   Future<void> refresh(String email) async {
     final shoppageData = await _apiClient.shoppage(email);
+    itemCount = shoppageData.cartTotalProducts;
     emit(ShopLoaded(shoppageData));
   }
 }

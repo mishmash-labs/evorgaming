@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -27,19 +28,31 @@ class ShopPage extends StatelessWidget {
               .copyWith(fontWeight: FontWeight.bold),
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CartPage(),
+          BlocBuilder(
+            cubit: shopCubit,
+            builder: (context, state) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Badge(
+                  padding: EdgeInsets.all(6),
+                  position: BadgePosition.topEnd(top: -2, end: -2),
+                  badgeContent: Text(shopCubit.itemCount.toString()),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CartPage(),
+                        ),
+                      ).then((val) => shopCubit.refresh(
+                          Provider.of<UserData>(context, listen: false)
+                              .userId));
+                    },
+                    icon: Icon(Icons.shopping_cart),
                   ),
-                );
-              },
-              icon: Icon(Icons.shopping_cart),
-            ),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -67,10 +80,12 @@ class ShopPage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => ProductDetailsPage(
+                          shopCubit: shopCubit,
                           data: state.shopModel.products[index],
                         ),
                       ),
-                    ),
+                    ).then((val) => shopCubit.refresh(
+                        Provider.of<UserData>(context, listen: false).userId)),
                   ),
                 ),
               ),
