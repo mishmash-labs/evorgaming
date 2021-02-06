@@ -129,9 +129,9 @@ class CheckOutPage extends StatelessWidget {
                       keyboardType: TextInputType.phone,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(context),
-                        FormBuilderValidators.minLength(context, 10,
+                        FormBuilderValidators.minLength(context, 13,
                             errorText: "Incorrect length"),
-                        FormBuilderValidators.maxLength(context, 10,
+                        FormBuilderValidators.maxLength(context, 13,
                             errorText: "Incorrect length")
                       ]),
                     ),
