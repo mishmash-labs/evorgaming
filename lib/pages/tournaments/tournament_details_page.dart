@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
@@ -207,7 +208,8 @@ class TournamentDetailsPage extends StatelessWidget {
               Center(
                 child: AutoSizeText(
                   "ROOM DETAILS",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
                 ),
               ),
             if (data.roomVisibilityStaus == "1" && data.isAlreadyParticipant)
@@ -215,6 +217,7 @@ class TournamentDetailsPage extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   decoration: BoxDecoration(
+                    border: Border.all(color: Colors.red),
                     color: Colors.black38,
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -339,16 +342,9 @@ class TournamentDetailsPage extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
                       leading: CachedNetworkImage(
+                        width: MediaQuery.of(context).size.width / 8,
                         imageUrl:
                             "https://evorgaming.com/storage/Products/${data.giftItem.images.split(r"/@/")[1]}",
-                        placeholder: (context, url) => Center(
-                            child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CircularProgressIndicator(),
-                        )),
-                        errorWidget: (context, url, error) =>
-                            Center(child: Icon(Icons.error)),
-                        fit: BoxFit.fitHeight,
                       ),
                       title: AutoSizeText(data.giftItem.name),
                       subtitle: HtmlWidget(data.giftItem.shorDescription),
@@ -363,25 +359,78 @@ class TournamentDetailsPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 8),
-            for (var item in data.sponsorBanner)
-              ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: CachedNetworkImage(
-                  placeholder: (context, url) => Center(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircularProgressIndicator(),
-                  )),
-                  errorWidget: (context, url, error) =>
-                      Center(child: Icon(Icons.error)),
-                  imageUrl:
-                      'https://evorgaming.com/storage/Tournments/Sponsors/$item',
-                ),
-              ),
-            SizedBox(height: 16),
+            ImageCarousel(data: data),
+            SizedBox(height: 100),
           ],
         ),
       ),
+    );
+  }
+}
+
+class ImageCarousel extends StatefulWidget {
+  const ImageCarousel({
+    Key key,
+    @required this.data,
+  }) : super(key: key);
+
+  final TournamentDetailsModel data;
+
+  @override
+  _ImageCarouselState createState() => _ImageCarouselState();
+}
+
+class _ImageCarouselState extends State<ImageCarousel> {
+  int _current = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: widget.data.sponsorBanner.map((url) {
+            int index = widget.data.sponsorBanner.indexOf(url);
+            return Container(
+              width: 8.0,
+              height: 8.0,
+              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: _current == index ? Colors.red : Colors.white60,
+              ),
+            );
+          }).toList(),
+        ),
+        CarouselSlider.builder(
+          itemCount: widget.data.sponsorBanner.length,
+          itemBuilder: (BuildContext context, int itemIndex, int realIndex) {
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: CachedNetworkImage(
+                placeholder: (context, url) => Center(
+                    child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CircularProgressIndicator(),
+                )),
+                errorWidget: (context, url, error) =>
+                    Center(child: Icon(Icons.error)),
+                imageUrl:
+                    'https://evorgaming.com/storage/Tournments/Sponsors/${widget.data.sponsorBanner[itemIndex]}',
+              ),
+            );
+          },
+          options: CarouselOptions(
+              autoPlay: true,
+              enlargeCenterPage: true,
+              aspectRatio: 2.0,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _current = index;
+                });
+              }),
+        ),
+      ],
     );
   }
 }

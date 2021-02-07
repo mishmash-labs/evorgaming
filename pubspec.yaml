@@ -17,6 +17,7 @@ dependencies:
   bot_toast: ^3.0.5
   button_picker: ^0.1.6
   cached_network_image: ^2.5.0
+  carousel_slider: ^3.0.0
   clipboard: ^0.1.2+8
   dio: ^3.0.10
   external_app_launcher: ^0.0.1

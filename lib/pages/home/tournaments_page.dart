@@ -59,6 +59,8 @@ class TournamentsPage extends StatelessWidget {
                         .toJson()["UpComing"]
                         .map((x) => TournamentDetailsModel.fromJson(x))),
                     type: "Upcoming",
+                    tournamentsCubit: tournamentsCubit,
+                    gameid: gameid,
                   ),
                   TournamentList(
                     completed: true,
@@ -67,6 +69,8 @@ class TournamentsPage extends StatelessWidget {
                         .toJson()["Ongoing"]
                         .map((x) => TournamentDetailsModel.fromJson(x))),
                     type: "Ongoing",
+                    tournamentsCubit: tournamentsCubit,
+                    gameid: gameid,
                   ),
                   TournamentList(
                     completed: true,
@@ -75,6 +79,8 @@ class TournamentsPage extends StatelessWidget {
                         .toJson()["Completed"]
                         .map((x) => TournamentDetailsModel.fromJson(x))),
                     type: "Completed",
+                    tournamentsCubit: tournamentsCubit,
+                    gameid: gameid,
                   ),
                 ],
               );
@@ -101,11 +107,15 @@ class TournamentList extends StatelessWidget {
     this.data,
     this.type,
     @required this.completed,
+    this.tournamentsCubit,
+    this.gameid,
   }) : super(key: key);
 
   final List<TournamentDetailsModel> data;
+  final TournamentsCubit tournamentsCubit;
   final String type;
   final bool completed;
+  final int gameid;
 
   @override
   Widget build(BuildContext context) {
@@ -132,199 +142,207 @@ class TournamentList extends StatelessWidget {
         ),
       );
     } else {
-      return Container(
-        child: ListView.builder(
-          padding: EdgeInsets.all(4),
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          itemCount: data.length,
-          itemBuilder: (context, index) {
-            return Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-              elevation: 0,
-              color: Colors.black26,
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TournamentDetailsPage(
-                        completed: completed,
-                        data: data[index],
+      return RefreshIndicator(
+        onRefresh: () {
+          return tournamentsCubit.refresh(
+              Provider.of<UserData>(context, listen: false).userId, gameid);
+        },
+        child: Container(
+          child: ListView.builder(
+            padding: EdgeInsets.all(4),
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              return Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                elevation: 0,
+                color: Colors.black26,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TournamentDetailsPage(
+                          completed: completed,
+                          data: data[index],
+                        ),
                       ),
-                    ),
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AutoSizeText(
-                                data[index].title,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    WidgetSpan(
-                                      alignment: PlaceholderAlignment.middle,
-                                      child: Icon(
-                                        Icons.access_time,
-                                        size: 14,
-                                        color: Colors.white54,
+                    ).then((val) => tournamentsCubit.refresh(
+                        Provider.of<UserData>(context, listen: false).userId,
+                        gameid));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AutoSizeText(
+                                  data[index].title,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      WidgetSpan(
+                                        alignment: PlaceholderAlignment.middle,
+                                        child: Icon(
+                                          Icons.access_time,
+                                          size: 14,
+                                          color: Colors.white54,
+                                        ),
                                       ),
+                                      TextSpan(
+                                        text:
+                                            " ${DateFormat('d MMM, K:ma').format(data[index].startDateTime)}",
+                                        style: TextStyle(
+                                          color: Colors.white54,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            if (type == "Upcoming")
+                              ButtonTheme(
+                                height: 32,
+                                minWidth: 64,
+                                child: RaisedButton(
+                                  elevation: 0,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            TournamentDetailsPage(
+                                          completed: completed,
+                                          data: data[index],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: AutoSizeText("OPEN"),
+                                  color: Colors.red.shade800,
+                                ),
+                              )
+                          ],
+                        ),
+                        SizedBox(height: 8),
+                        LinearProgressIndicator(
+                          value: int.parse(data[index].curRoomSize) /
+                              int.parse(data[index].roomSize),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.red.shade700),
+                        ),
+                        SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            AutoSizeText(
+                              (int.parse(data[index].roomSize) -
+                                          int.parse(data[index].curRoomSize))
+                                      .toString() +
+                                  " slots left",
+                              style: TextStyle(color: Colors.white54),
+                            ),
+                            AutoSizeText(
+                              "Total ${data[index].roomSize} slots",
+                              style: TextStyle(color: Colors.white54),
+                            )
+                          ],
+                        ),
+                        Divider(thickness: 2),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Icon(
+                                      Icons.attach_money,
+                                      size: 14,
+                                      color: Colors.white54,
                                     ),
+                                  ),
+                                  if (data[index].totalPricePool != null)
                                     TextSpan(
-                                      text:
-                                          " ${DateFormat('d MMM, K:ma').format(data[index].startDateTime)}",
+                                      text: " ${data[index].totalPricePool}",
                                       style: TextStyle(
                                         color: Colors.white54,
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          if (type == "Upcoming")
-                            ButtonTheme(
-                              height: 32,
-                              minWidth: 64,
-                              child: RaisedButton(
-                                elevation: 0,
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          TournamentDetailsPage(
-                                        completed: completed,
-                                        data: data[index],
+                                  if (data[index].giftItem != null)
+                                    TextSpan(
+                                      text: " ${data[index].giftItem.name}",
+                                      style: TextStyle(
+                                        color: Colors.white54,
                                       ),
                                     ),
-                                  );
-                                },
-                                child: AutoSizeText("OPEN"),
-                                color: Colors.red.shade800,
+                                ],
                               ),
-                            )
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      LinearProgressIndicator(
-                        value: int.parse(data[index].curRoomSize) /
-                            int.parse(data[index].roomSize),
-                        valueColor:
-                            AlwaysStoppedAnimation<Color>(Colors.red.shade700),
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          AutoSizeText(
-                            (int.parse(data[index].roomSize) -
-                                        int.parse(data[index].curRoomSize))
-                                    .toString() +
-                                " slots left",
-                            style: TextStyle(color: Colors.white54),
-                          ),
-                          AutoSizeText(
-                            "Total ${data[index].roomSize} slots",
-                            style: TextStyle(color: Colors.white54),
-                          )
-                        ],
-                      ),
-                      Divider(thickness: 2),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  alignment: PlaceholderAlignment.middle,
-                                  child: Icon(
-                                    Icons.attach_money,
-                                    size: 14,
-                                    color: Colors.white54,
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Icon(
+                                      Icons.phone_android,
+                                      size: 14,
+                                      color: Colors.white54,
+                                    ),
                                   ),
-                                ),
-                                if (data[index].totalPricePool != null)
                                   TextSpan(
-                                    text: " ${data[index].totalPricePool}",
+                                    text: " ${data[index].platform}",
                                     style: TextStyle(
                                       color: Colors.white54,
                                     ),
                                   ),
-                                if (data[index].giftItem != null)
+                                ],
+                              ),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Icon(
+                                      Icons.people_alt_outlined,
+                                      size: 14,
+                                      color: Colors.white54,
+                                    ),
+                                  ),
                                   TextSpan(
-                                    text: " ${data[index].giftItem.name}",
+                                    text: " ${data[index].type}",
                                     style: TextStyle(
                                       color: Colors.white54,
                                     ),
                                   ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  alignment: PlaceholderAlignment.middle,
-                                  child: Icon(
-                                    Icons.phone_android,
-                                    size: 14,
-                                    color: Colors.white54,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: " ${data[index].platform}",
-                                  style: TextStyle(
-                                    color: Colors.white54,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  alignment: PlaceholderAlignment.middle,
-                                  child: Icon(
-                                    Icons.people_alt_outlined,
-                                    size: 14,
-                                    color: Colors.white54,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: " ${data[index].type}",
-                                  style: TextStyle(
-                                    color: Colors.white54,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       );
     }
