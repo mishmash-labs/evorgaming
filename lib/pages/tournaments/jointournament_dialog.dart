@@ -1,14 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:evorgaming/cubits/characterid/characterid_cubit.dart';
-import 'package:evorgaming/cubits/missingid/missingid_cubit.dart';
-import 'package:evorgaming/models/account_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 
 import '../../cubits/jointournaments/jointournament_cubit.dart';
+import '../../cubits/missingid/missingid_cubit.dart';
 import '../../models/tournamentdetails_model.dart';
 import '../../providers/userdata_provider.dart';
 import '../../utils/globals.dart';
