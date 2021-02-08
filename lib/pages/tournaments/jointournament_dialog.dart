@@ -46,39 +46,65 @@ class _JoinTournamentDialogState extends State<JoinTournamentDialog> {
         cubit: jointournamentCubit,
         listener: (context, state) {
           if (state is JointournamentJoined) {
+            BotToast.closeAllLoading();
             popBool = true;
             BotToast.showText(
                 text: state.data.message, duration: Duration(seconds: 4));
             Navigator.of(context).popUntil((route) => route.isFirst);
-          }
-          if (state is JointournamentFailed) {
+          } else if (state is JointournamentFailed) {
+            BotToast.closeAllLoading();
             BotToast.showText(
                 text: state.data.message, duration: Duration(seconds: 4));
             Navigator.pop(context);
+          } else if (state is JointournamentJoining) {
+            BotToast.showLoading();
           }
         },
         builder: (context, state) {
-          if (state is JointournamentInitial || state is JointournamentFailed) {
-            return Container(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: FormBuilder(
-                  key: _joinTournamentKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      AutoSizeText(
-                        "Enter Character IDs",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+          return Container(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: FormBuilder(
+                key: _joinTournamentKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AutoSizeText(
+                      "Enter Character IDs",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 16),
+                    FormBuilderTextField(
+                      name: "TeamMember01",
+                      cursorColor: Colors.red,
+                      decoration: InputDecoration(
+                        labelText: "Team Member 1",
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red.shade800),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white30),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red.shade800),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red.shade800),
+                        ),
                       ),
-                      SizedBox(height: 16),
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(context),
+                      ]),
+                    ),
+                    SizedBox(height: 8),
+                    if (widget.data.type == "SQUAD")
                       FormBuilderTextField(
-                        name: "TeamMember01",
+                        name: "TeamMember02",
                         cursorColor: Colors.red,
                         decoration: InputDecoration(
-                          labelText: "Team Member 1",
+                          labelText: "Team Member 2",
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.red.shade800),
                           ),
@@ -96,102 +122,62 @@ class _JoinTournamentDialogState extends State<JoinTournamentDialog> {
                           FormBuilderValidators.required(context),
                         ]),
                       ),
-                      SizedBox(height: 8),
-                      if (widget.data.type == "SQUAD")
-                        FormBuilderTextField(
-                          name: "TeamMember02",
-                          cursorColor: Colors.red,
-                          decoration: InputDecoration(
-                            labelText: "Team Member 2",
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.red.shade800),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white30),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.red.shade800),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.red.shade800),
-                            ),
+                    if (widget.data.type == "SQUAD") SizedBox(height: 8),
+                    if (widget.data.type == "SQUAD")
+                      FormBuilderTextField(
+                        name: "TeamMember03",
+                        cursorColor: Colors.red,
+                        decoration: InputDecoration(
+                          labelText: "Team Member 3",
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red.shade800),
                           ),
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(context),
-                          ]),
-                        ),
-                      if (widget.data.type == "SQUAD") SizedBox(height: 8),
-                      if (widget.data.type == "SQUAD")
-                        FormBuilderTextField(
-                          name: "TeamMember03",
-                          cursorColor: Colors.red,
-                          decoration: InputDecoration(
-                            labelText: "Team Member 3",
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.red.shade800),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white30),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.red.shade800),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.red.shade800),
-                            ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white30),
                           ),
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(context),
-                          ]),
-                        ),
-                      SizedBox(height: 8),
-                      SizedBox(
-                        width: double.infinity,
-                        child: RaisedButton(
-                          onPressed: () {
-                            _joinTournamentKey.currentState.save();
-                            if (_joinTournamentKey.currentState.validate()) {
-                              var finalData = <String, dynamic>{};
-                              finalData.addAll(
-                                  _joinTournamentKey.currentState.value);
-                              finalData["email"] =
-                                  Provider.of<UserData>(context, listen: false)
-                                      .userId;
-                              finalData["tournment_id"] = widget.data.id;
-                              finalData["game_id"] = widget.data.gameId;
-                              jointournamentCubit.jointournament(
-                                  finalData, widget.data.type);
-                            } else {
-                              print("validation failed");
-                            }
-                          },
-                          child: AutoSizeText(
-                            "JOIN",
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red.shade800),
                           ),
-                          color: Colors.red,
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red.shade800),
+                          ),
                         ),
-                      )
-                    ],
-                  ),
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(context),
+                        ]),
+                      ),
+                    SizedBox(height: 8),
+                    SizedBox(
+                      width: double.infinity,
+                      child: RaisedButton(
+                        onPressed: () {
+                          _joinTournamentKey.currentState.save();
+                          if (_joinTournamentKey.currentState.validate()) {
+                            var finalData = <String, dynamic>{};
+                            finalData
+                                .addAll(_joinTournamentKey.currentState.value);
+                            finalData["email"] =
+                                Provider.of<UserData>(context, listen: false)
+                                    .userId;
+                            finalData["tournment_id"] = widget.data.id;
+                            finalData["game_id"] = widget.data.gameId;
+                            jointournamentCubit.jointournament(
+                                finalData, widget.data.type);
+                          } else {
+                            print("validation failed");
+                          }
+                        },
+                        child: AutoSizeText(
+                          "JOIN",
+                        ),
+                        color: Colors.red,
+                      ),
+                    )
+                  ],
                 ),
               ),
-            );
-          } else if (state is JointournamentJoining) {
-            return Center(
-              child: SpinKitCubeGrid(
-                color: Colors.red.shade900,
-                size: 50.0,
-              ),
-            );
-          } else {
-            return Container();
-          }
+            ),
+          );
         },
       ),
     );
