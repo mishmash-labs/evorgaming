@@ -179,6 +179,30 @@ class AccountPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
+                        builder: (context) => WalletPage(),
+                      ),
+                    );
+                  },
+                  leading: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      child: Icon(Icons.account_balance_wallet)),
+                  title: AutoSizeText(
+                    "Wallet",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Divider(
+                  thickness: 0.5,
+                  color: Colors.white10,
+                ),
+                ListTile(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
                         builder: (context) => CharacterIDPage(
                           characterId: state.data.characterId,
                         ),
@@ -257,6 +281,7 @@ class AccountPage extends StatelessWidget {
                 ListTile(
                   onTap: () {
                     showDialog(
+                      barrierDismissible: false,
                       context: context,
                       builder: (context) {
                         return ChangePasswordDialog();
@@ -446,10 +471,26 @@ class ChangePasswordDialog extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      AutoSizeText(
-                        "Change Your Password",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AutoSizeText(
+                            "Change Password",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          IconButton(
+                            icon: CircleAvatar(
+                                backgroundColor: Colors.black38,
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.red,
+                                )),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
                       ),
                       SizedBox(height: 16),
                       FormBuilderTextField(
