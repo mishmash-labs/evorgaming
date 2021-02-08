@@ -210,11 +210,14 @@ class MyTournamentList extends StatelessWidget {
                                       ),
                                     );
                                   },
-                                  child: data[index]
-                                          .startDateTime
-                                          .isAfter(DateTime.now())
-                                      ? AutoSizeText("OPEN")
-                                      : AutoSizeText("DELAYED"),
+                                  child: int.parse(data[index].curRoomSize) ==
+                                          int.parse(data[index].roomSize)
+                                      ? AutoSizeText("FULL")
+                                      : data[index]
+                                              .startDateTime
+                                              .isAfter(DateTime.now())
+                                          ? AutoSizeText("OPEN")
+                                          : AutoSizeText("DELAYED"),
                                   color: Colors.red.shade800,
                                 ),
                               )
