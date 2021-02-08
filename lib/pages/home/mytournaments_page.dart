@@ -39,8 +39,7 @@ class MyTournamentsPage extends StatelessWidget {
                 Expanded(
                   child: TabBarView(
                     children: [
-                      TournamentList(
-                        completed: false,
+                      MyTournamentList(
                         data: List<TournamentDetailsModel>.from(state
                             .tournamentPageModel
                             .toJson()["UpComing"]
@@ -48,8 +47,7 @@ class MyTournamentsPage extends StatelessWidget {
                         type: "Upcoming",
                         tournamentsCubit: mytournamentsCubit,
                       ),
-                      TournamentList(
-                        completed: true,
+                      MyTournamentList(
                         data: List<TournamentDetailsModel>.from(state
                             .tournamentPageModel
                             .toJson()["Ongoing"]
@@ -57,8 +55,7 @@ class MyTournamentsPage extends StatelessWidget {
                         type: "Ongoing",
                         tournamentsCubit: mytournamentsCubit,
                       ),
-                      TournamentList(
-                        completed: true,
+                      MyTournamentList(
                         data: List<TournamentDetailsModel>.from(state
                             .tournamentPageModel
                             .toJson()["Completed"]
@@ -87,19 +84,17 @@ class MyTournamentsPage extends StatelessWidget {
   }
 }
 
-class TournamentList extends StatelessWidget {
-  const TournamentList({
+class MyTournamentList extends StatelessWidget {
+  const MyTournamentList({
     Key key,
     this.data,
     this.type,
-    @required this.completed,
     this.tournamentsCubit,
   }) : super(key: key);
 
   final List<TournamentDetailsModel> data;
   final MytournamentsCubit tournamentsCubit;
   final String type;
-  final bool completed;
 
   @override
   Widget build(BuildContext context) {
@@ -132,203 +127,199 @@ class TournamentList extends StatelessWidget {
               .refresh(Provider.of<UserData>(context, listen: false).userId);
         },
         child: Container(
-          child: Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.all(4),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  elevation: 0,
-                  color: Colors.black26,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TournamentDetailsPage(
-                            completed: completed,
-                            data: data[index],
-                          ),
+          child: ListView.builder(
+            padding: EdgeInsets.all(4),
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              return Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                elevation: 0,
+                color: Colors.black26,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TournamentDetailsPage(
+                          completed: true,
+                          data: data[index],
                         ),
-                      ).then((val) => tournamentsCubit.refresh(
-                          Provider.of<UserData>(context, listen: false)
-                              .userId));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  AutoSizeText(
-                                    data[index].title,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18),
+                      ),
+                    ).then((val) => tournamentsCubit.refresh(
+                        Provider.of<UserData>(context, listen: false).userId));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AutoSizeText(
+                                  data[index].title,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      WidgetSpan(
+                                        alignment: PlaceholderAlignment.middle,
+                                        child: Icon(
+                                          Icons.access_time,
+                                          size: 14,
+                                          color: Colors.white54,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text:
+                                            " ${DateFormat('d MMM, K:mma').format(data[index].startDateTime)}",
+                                        style: TextStyle(
+                                          color: Colors.white54,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        WidgetSpan(
-                                          alignment:
-                                              PlaceholderAlignment.middle,
-                                          child: Icon(
-                                            Icons.access_time,
-                                            size: 14,
-                                            color: Colors.white54,
-                                          ),
+                                ),
+                              ],
+                            ),
+                            if (type == "Upcoming")
+                              ButtonTheme(
+                                height: 32,
+                                minWidth: 64,
+                                child: RaisedButton(
+                                  elevation: 0,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            TournamentDetailsPage(
+                                          completed: true,
+                                          data: data[index],
                                         ),
-                                        TextSpan(
-                                          text:
-                                              " ${DateFormat('d MMM, K:mma').format(data[index].startDateTime)}",
-                                          style: TextStyle(
-                                            color: Colors.white54,
-                                          ),
-                                        ),
-                                      ],
+                                      ),
+                                    );
+                                  },
+                                  child: AutoSizeText("OPEN"),
+                                  color: Colors.red.shade800,
+                                ),
+                              )
+                          ],
+                        ),
+                        SizedBox(height: 8),
+                        LinearProgressIndicator(
+                          value: int.parse(data[index].curRoomSize) /
+                              int.parse(data[index].roomSize),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.red.shade700),
+                        ),
+                        SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            AutoSizeText(
+                              (int.parse(data[index].roomSize) -
+                                          int.parse(data[index].curRoomSize))
+                                      .toString() +
+                                  " slots left",
+                              style: TextStyle(color: Colors.white54),
+                            ),
+                            AutoSizeText(
+                              "Total ${data[index].roomSize} slots",
+                              style: TextStyle(color: Colors.white54),
+                            )
+                          ],
+                        ),
+                        Divider(thickness: 2),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Icon(
+                                      Icons.attach_money,
+                                      size: 14,
+                                      color: Colors.white54,
+                                    ),
+                                  ),
+                                  if (data[index].totalPricePool != null)
+                                    TextSpan(
+                                      text: " ${data[index].totalPricePool}",
+                                      style: TextStyle(
+                                        color: Colors.white54,
+                                      ),
+                                    ),
+                                  if (data[index].giftItem != null)
+                                    TextSpan(
+                                      text: " ${data[index].giftItem.name}",
+                                      style: TextStyle(
+                                        color: Colors.white54,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Icon(
+                                      Icons.phone_android,
+                                      size: 14,
+                                      color: Colors.white54,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: " ${data[index].platform}",
+                                    style: TextStyle(
+                                      color: Colors.white54,
                                     ),
                                   ),
                                 ],
                               ),
-                              if (type == "Upcoming")
-                                ButtonTheme(
-                                  height: 32,
-                                  minWidth: 64,
-                                  child: RaisedButton(
-                                    elevation: 0,
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              TournamentDetailsPage(
-                                            completed: completed,
-                                            data: data[index],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: AutoSizeText("OPEN"),
-                                    color: Colors.red.shade800,
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Icon(
+                                      Icons.people_alt_outlined,
+                                      size: 14,
+                                      color: Colors.white54,
+                                    ),
                                   ),
-                                )
-                            ],
-                          ),
-                          SizedBox(height: 8),
-                          LinearProgressIndicator(
-                            value: int.parse(data[index].curRoomSize) /
-                                int.parse(data[index].roomSize),
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.red.shade700),
-                          ),
-                          SizedBox(height: 8),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              AutoSizeText(
-                                (int.parse(data[index].roomSize) -
-                                            int.parse(data[index].curRoomSize))
-                                        .toString() +
-                                    " slots left",
-                                style: TextStyle(color: Colors.white54),
+                                  TextSpan(
+                                    text: " ${data[index].type}",
+                                    style: TextStyle(
+                                      color: Colors.white54,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              AutoSizeText(
-                                "Total ${data[index].roomSize} slots",
-                                style: TextStyle(color: Colors.white54),
-                              )
-                            ],
-                          ),
-                          Divider(thickness: 2),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    WidgetSpan(
-                                      alignment: PlaceholderAlignment.middle,
-                                      child: Icon(
-                                        Icons.attach_money,
-                                        size: 14,
-                                        color: Colors.white54,
-                                      ),
-                                    ),
-                                    if (data[index].totalPricePool != null)
-                                      TextSpan(
-                                        text: " ${data[index].totalPricePool}",
-                                        style: TextStyle(
-                                          color: Colors.white54,
-                                        ),
-                                      ),
-                                    if (data[index].giftItem != null)
-                                      TextSpan(
-                                        text: " ${data[index].giftItem.name}",
-                                        style: TextStyle(
-                                          color: Colors.white54,
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    WidgetSpan(
-                                      alignment: PlaceholderAlignment.middle,
-                                      child: Icon(
-                                        Icons.phone_android,
-                                        size: 14,
-                                        color: Colors.white54,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: " ${data[index].platform}",
-                                      style: TextStyle(
-                                        color: Colors.white54,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    WidgetSpan(
-                                      alignment: PlaceholderAlignment.middle,
-                                      child: Icon(
-                                        Icons.people_alt_outlined,
-                                        size: 14,
-                                        color: Colors.white54,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: " ${data[index].type}",
-                                      style: TextStyle(
-                                        color: Colors.white54,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
         ),
       );
