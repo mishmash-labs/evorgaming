@@ -1,12 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:evorgaming/cubits/jointournaments/jointournament_cubit.dart';
+import 'package:evorgaming/utils/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-import '../../cubits/cubit/jointournament_cubit.dart';
 import '../../models/tournamentdetails_model.dart';
 import '../../providers/userdata_provider.dart';
 
@@ -45,9 +46,10 @@ class _JoinTournamentDialogState extends State<JoinTournamentDialog> {
         cubit: jointournamentCubit,
         listener: (context, state) {
           if (state is JointournamentJoined) {
+            popBool = true;
             BotToast.showText(
                 text: state.data.message, duration: Duration(seconds: 4));
-            Navigator.pop(context);
+            Navigator.of(context).popUntil((route) => route.isFirst);
           }
           if (state is JointournamentFailed) {
             BotToast.showText(

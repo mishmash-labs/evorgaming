@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:evorgaming/pages/home/mytournaments_page.dart';
+import 'package:evorgaming/utils/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -90,40 +92,9 @@ class HomePage extends StatelessWidget {
         body: TabBarView(
           children: [
             PlayTab(),
-            MyDashboardTab(),
+            MyTournamentsPage(),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class MyDashboardTab extends StatelessWidget {
-  const MyDashboardTab({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(
-            Icons.info,
-            color: Colors.white54,
-            size: 75,
-          ),
-          const SizedBox(height: 8),
-          AutoSizeText(
-            "No Tournaments",
-            style: const TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.w400,
-              color: Colors.white54,
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -176,7 +147,14 @@ class PlayTab extends StatelessWidget {
                                       state.homepageData.games[index].name,
                                 ),
                               ),
-                            );
+                            ).then((val) async {
+                              if (popBool) {
+                                await Future.delayed(
+                                    Duration(milliseconds: 500));
+                                DefaultTabController.of(context).animateTo(1);
+                                popBool = false;
+                              }
+                            });
                           },
                           child: CachedNetworkImage(
                             imageUrl:
@@ -219,9 +197,18 @@ class PlayTab extends StatelessWidget {
                                         .toJson()),
                                   ),
                                 ),
-                              ).then((val) => homeCubit.refresh(
-                                  Provider.of<UserData>(context, listen: false)
-                                      .userId));
+                              ).then((val) async {
+                                if (popBool) {
+                                  await Future.delayed(
+                                      Duration(milliseconds: 500));
+                                  DefaultTabController.of(context).animateTo(1);
+                                  popBool = false;
+                                }
+                                return homeCubit.refresh(Provider.of<UserData>(
+                                        context,
+                                        listen: false)
+                                    .userId);
+                              });
                             },
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,

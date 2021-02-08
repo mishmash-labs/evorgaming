@@ -1,19 +1,15 @@
-// To parse this JSON data, do
-//
-//     final tournamentPageModel = tournamentPageModelFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'package:evorgaming/models/tournamentdetails_model.dart';
 
-TournamentPageModel tournamentPageModelFromJson(String str) =>
-    TournamentPageModel.fromJson(json.decode(str));
+MyTournamentPageModel tournamentPageModelFromJson(String str) =>
+    MyTournamentPageModel.fromJson(json.decode(str));
 
-String tournamentPageModelToJson(TournamentPageModel data) =>
+String tournamentPageModelToJson(MyTournamentPageModel data) =>
     json.encode(data.toJson());
 
-class TournamentPageModel {
-  TournamentPageModel({
+class MyTournamentPageModel {
+  MyTournamentPageModel({
     this.code,
     this.upComing,
     this.ongoing,
@@ -25,21 +21,21 @@ class TournamentPageModel {
   List<TournamentDetailsModel> ongoing;
   List<TournamentDetailsModel> completed;
 
-  TournamentPageModel copyWith({
+  MyTournamentPageModel copyWith({
     String code,
     List<TournamentDetailsModel> upComing,
     List<dynamic> ongoing,
     List<TournamentDetailsModel> completed,
   }) =>
-      TournamentPageModel(
+      MyTournamentPageModel(
         code: code ?? this.code,
         upComing: upComing ?? this.upComing,
         ongoing: ongoing ?? this.ongoing,
         completed: completed ?? this.completed,
       );
 
-  factory TournamentPageModel.fromJson(Map<String, dynamic> json) =>
-      TournamentPageModel(
+  factory MyTournamentPageModel.fromJson(Map<String, dynamic> json) =>
+      MyTournamentPageModel(
         code: json["Code"] == null ? null : json["Code"],
         upComing: json["UpComing"] == null
             ? null

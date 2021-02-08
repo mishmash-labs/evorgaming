@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import '../models/mytournaments_model.dart';
 
 import '../models/account_model.dart';
 import '../models/cartpage_model.dart';
@@ -256,7 +257,7 @@ class ApiClient {
       "email": email,
     });
     if (uriResponse.statusCode == 200) {
-      return PaymentMethodsModel.fromJson(json.decode(uriResponse.data));
+      return MyTournamentPageModel.fromJson(json.decode(uriResponse.data));
     } else {
       throw Exception('Unexpected Error Occurred');
     }
