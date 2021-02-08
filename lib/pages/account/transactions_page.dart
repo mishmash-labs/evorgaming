@@ -11,6 +11,8 @@ class TransactionsPage extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    TransactionTable tableData = TransactionTable(transactionData, context);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -29,13 +31,13 @@ class TransactionsPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Icon(
-                    Icons.swap_horiz,
+                    Icons.shopping_cart,
                     color: Colors.white54,
                     size: 75,
                   ),
                   const SizedBox(height: 8),
                   AutoSizeText(
-                    "No Recent Transaction",
+                    "No Recent Orders",
                     style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.w400,
@@ -45,78 +47,146 @@ class TransactionsPage extends StatelessWidget {
                 ],
               ),
             )
-          : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                itemCount: 2,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black38,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 4),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                AutoSizeText(
-                                  "Amount: "
-                                  "${transactionData[index].amount} PKR",
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                AutoSizeText(
-                                  DateFormat('d MMM, K:mma')
-                                      .format(transactionData[index].updatedAt),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            AutoSizeText(
-                              "Status: ${transactionData[index].status}",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            AutoSizeText(
-                              "Message: ${transactionData[index].message}",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            AutoSizeText(
-                              "Payment Method: ${transactionData[index].paymentMethod}",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+          : PaginatedDataTable(
+              showCheckboxColumn: false,
+              columns: [
+                DataColumn(label: Text("#")),
+                DataColumn(label: Text("Date")),
+                DataColumn(label: Text("Status")),
+              ],
+              header: Text("Your Orders"),
+              source: tableData,
             ),
+      // body: transactionData.isEmpty
+      //     ? Center(
+      //         child: Column(
+      //           mainAxisAlignment: MainAxisAlignment.center,
+      //           children: [
+      //             const Icon(
+      //               Icons.swap_horiz,
+      //               color: Colors.white54,
+      //               size: 75,
+      //             ),
+      //             const SizedBox(height: 8),
+      //             AutoSizeText(
+      //               "No Recent Transaction",
+      //               style: const TextStyle(
+      //                 fontSize: 25,
+      //                 fontWeight: FontWeight.w400,
+      //                 color: Colors.white54,
+      //               ),
+      //             ),
+      //           ],
+      //         ),
+      //       )
+      //     : Padding(
+      //         padding: const EdgeInsets.all(8.0),
+      //         child: ListView.builder(
+      //           itemCount: 2,
+      //           itemBuilder: (context, index) {
+      //             return Padding(
+      //               padding: const EdgeInsets.all(8.0),
+      //               child: Container(
+      //                 decoration: BoxDecoration(
+      //                   color: Colors.black38,
+      //                   borderRadius: BorderRadius.circular(8),
+      //                 ),
+      //                 child: Padding(
+      //                   padding: const EdgeInsets.all(8.0),
+      //                   child: Column(
+      //                     crossAxisAlignment: CrossAxisAlignment.start,
+      //                     children: [
+      //                       SizedBox(height: 4),
+      //                       Row(
+      //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //                         children: [
+      //                           AutoSizeText(
+      //                             "Amount: "
+      //                             "${transactionData[index].amount} PKR",
+      //                             style: const TextStyle(
+      //                               fontWeight: FontWeight.w500,
+      //                               color: Colors.white,
+      //                             ),
+      //                           ),
+      //                           AutoSizeText(
+      //                             DateFormat('d MMM, K:mma')
+      //                                 .format(transactionData[index].updatedAt),
+      //                             style: const TextStyle(
+      //                               fontWeight: FontWeight.w400,
+      //                               color: Colors.white,
+      //                             ),
+      //                           ),
+      //                         ],
+      //                       ),
+      //                       SizedBox(height: 8),
+      //                       AutoSizeText(
+      //                         "Status: ${transactionData[index].status}",
+      //                         style: const TextStyle(
+      //                           fontWeight: FontWeight.w500,
+      //                           color: Colors.white,
+      //                         ),
+      //                       ),
+      //                       SizedBox(height: 8),
+      //                       AutoSizeText(
+      //                         "Message: ${transactionData[index].message}",
+      //                         style: const TextStyle(
+      //                           fontWeight: FontWeight.w500,
+      //                           color: Colors.white,
+      //                         ),
+      //                       ),
+      //                       SizedBox(height: 8),
+      //                       AutoSizeText(
+      //                         "Payment Method: ${transactionData[index].paymentMethod}",
+      //                         style: const TextStyle(
+      //                           fontWeight: FontWeight.w500,
+      //                           color: Colors.white,
+      //                         ),
+      //                       ),
+      //                       SizedBox(height: 4),
+      //                     ],
+      //                   ),
+      //                 ),
+      //               ),
+      //             );
+      //           },
+      //         ),
+      //       ),
     );
   }
+}
+
+class TransactionTable extends DataTableSource {
+  final List<Transaction> transactionData;
+
+  final BuildContext context;
+
+  TransactionTable(this.transactionData, this.context);
+
+  @override
+  DataRow getRow(int index) {
+    final Transaction data = transactionData[index];
+    return DataRow.byIndex(
+      onSelectChanged: (val) {
+        // Navigator.pop(context);
+      },
+      cells: <DataCell>[
+        DataCell(Text('${data.id}')),
+        DataCell(Text('${DateFormat('d MMM, K:mma').format(data.createdAt)}')),
+        DataCell(Text('${data.status}')),
+      ],
+      index: index,
+    );
+  }
+
+  @override
+  // TODO: implement isRowCountApproximate
+  bool get isRowCountApproximate => false;
+
+  @override
+  // TODO: implement rowCount
+  int get rowCount => transactionData.length;
+
+  @override
+  // TODO: implement selectedRowCount
+  int get selectedRowCount => 0;
 }

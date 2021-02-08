@@ -24,16 +24,38 @@ class OrdersPage extends StatelessWidget {
               .copyWith(fontWeight: FontWeight.bold),
         ),
       ),
-      body: PaginatedDataTable(
-        showCheckboxColumn: false,
-        columns: [
-          DataColumn(label: Text("#")),
-          DataColumn(label: Text("Date")),
-          DataColumn(label: Text("Status")),
-        ],
-        header: Text("Your Orders"),
-        source: tableData,
-      ),
+      body: orderData.isEmpty
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.shopping_cart,
+                    color: Colors.white54,
+                    size: 75,
+                  ),
+                  const SizedBox(height: 8),
+                  AutoSizeText(
+                    "No Recent Orders",
+                    style: const TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white54,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : PaginatedDataTable(
+              showCheckboxColumn: false,
+              columns: [
+                DataColumn(label: Text("#")),
+                DataColumn(label: Text("Date")),
+                DataColumn(label: Text("Status")),
+              ],
+              header: Text("Your Orders"),
+              source: tableData,
+            ),
       // body: orderData.isEmpty
       //     ? Center(
       //         child: Column(
