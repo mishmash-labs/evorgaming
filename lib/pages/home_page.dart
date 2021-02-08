@@ -267,7 +267,7 @@ class PlayTab extends StatelessWidget {
                                         ),
                                         TextSpan(
                                           text:
-                                              " ${DateFormat('d MMM, K:ma').format(state.homepageData.featuredTournments[index].startDateTime)}",
+                                              " ${DateFormat('d MMM, K:mma').format(state.homepageData.featuredTournments[index].startDateTime)}",
                                           style: TextStyle(
                                             color: Colors.white54,
                                           ),

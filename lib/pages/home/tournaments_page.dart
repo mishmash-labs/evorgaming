@@ -204,7 +204,7 @@ class TournamentList extends StatelessWidget {
                                       ),
                                       TextSpan(
                                         text:
-                                            " ${DateFormat('d MMM, K:ma').format(data[index].startDateTime)}",
+                                            " ${DateFormat('d MMM, K:mma').format(data[index].startDateTime)}",
                                         style: TextStyle(
                                           color: Colors.white54,
                                         ),
