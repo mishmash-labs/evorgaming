@@ -9,8 +9,13 @@ class CharacteridAdding extends CharacteridState {}
 
 class CharacteridAdded extends CharacteridState {
   final List<CharacterId> characterId;
+  final GenericMessageModel data;
 
-  CharacteridAdded(this.characterId);
+  CharacteridAdded(this.characterId, this.data);
 }
 
-class CharacteridFailed extends CharacteridState {}
+class CharacteridFailed extends CharacteridState {
+  final GenericMessageModel data;
+  final List<CharacterId> characterId;
+  CharacteridFailed(this.data, this.characterId);
+}

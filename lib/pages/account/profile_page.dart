@@ -52,19 +52,33 @@ class ProfilePage extends StatelessWidget {
         builder: (context, state) {
           return Container(
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 24),
               child: FormBuilder(
                 key: _profileKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+                child: ListView(
+                  shrinkWrap: true,
                   children: [
-                    AutoSizeText(
-                      "Profile",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5
-                          .copyWith(fontWeight: FontWeight.bold),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AutoSizeText(
+                          "Profile",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        IconButton(
+                          icon: CircleAvatar(
+                              backgroundColor: Colors.black38,
+                              child: Icon(
+                                Icons.close,
+                                color: Colors.red,
+                              )),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
                     ),
                     SizedBox(height: 16),
                     BlocBuilder(

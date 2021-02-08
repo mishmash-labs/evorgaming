@@ -1,5 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:evorgaming/cubits/characterid/characterid_cubit.dart';
+import 'package:evorgaming/cubits/missingid/missingid_cubit.dart';
+import 'package:evorgaming/models/account_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -26,6 +29,7 @@ class _JoinTournamentDialogState extends State<JoinTournamentDialog> {
 
   @override
   void initState() {
+    BotToast.showLoading();
     if (widget.data.type == "SOLO") {
       jointournamentCubit
         ..jointournament({
@@ -44,7 +48,9 @@ class _JoinTournamentDialogState extends State<JoinTournamentDialog> {
       child: BlocConsumer(
         cubit: jointournamentCubit,
         listener: (context, state) {
-          if (state is JointournamentJoined) {
+          if (state is JointournamentJoining) {
+            BotToast.showLoading();
+          } else if (state is JointournamentJoined) {
             BotToast.closeAllLoading();
             popBool = true;
             BotToast.showText(
@@ -54,9 +60,24 @@ class _JoinTournamentDialogState extends State<JoinTournamentDialog> {
             BotToast.closeAllLoading();
             BotToast.showText(
                 text: state.data.message, duration: Duration(seconds: 4));
-            Navigator.pop(context);
-          } else if (state is JointournamentJoining) {
-            BotToast.showLoading();
+            if (state.data.code == "300")
+              showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (context) {
+                  return MissingIDDialog(
+                    gameName: widget.data.game,
+                    gameID: widget.data.gameId,
+                  );
+                },
+              ).then((val) {
+                if (widget.data.type == "SOLO") {
+                  Navigator.pop(context);
+                }
+              });
+            if (widget.data.type == "SOLO" && state.data.code != "300") {
+              Navigator.pop(context);
+            }
           }
         },
         builder: (context, state) {
@@ -65,38 +86,39 @@ class _JoinTournamentDialogState extends State<JoinTournamentDialog> {
               padding: const EdgeInsets.all(16.0),
               child: FormBuilder(
                 key: _joinTournamentKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+                child: ListView(
+                  shrinkWrap: true,
                   children: [
                     AutoSizeText(
-                      "Enter Character IDs",
+                      "Join Tournament",
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 16),
-                    FormBuilderTextField(
-                      name: "TeamMember01",
-                      cursorColor: Colors.red,
-                      decoration: InputDecoration(
-                        labelText: "Team Member 1",
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red.shade800),
+                    if (widget.data.type == "DUO" ||
+                        widget.data.type == "SQUAD")
+                      FormBuilderTextField(
+                        name: "TeamMember01",
+                        cursorColor: Colors.red,
+                        decoration: InputDecoration(
+                          labelText: "Team Member 1",
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red.shade800),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white30),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red.shade800),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red.shade800),
+                          ),
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white30),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red.shade800),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red.shade800),
-                        ),
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(context),
+                        ]),
                       ),
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(context),
-                      ]),
-                    ),
                     SizedBox(height: 8),
                     if (widget.data.type == "SQUAD")
                       FormBuilderTextField(
@@ -146,32 +168,34 @@ class _JoinTournamentDialogState extends State<JoinTournamentDialog> {
                         ]),
                       ),
                     SizedBox(height: 8),
-                    SizedBox(
-                      width: double.infinity,
-                      child: RaisedButton(
-                        onPressed: () {
-                          _joinTournamentKey.currentState.save();
-                          if (_joinTournamentKey.currentState.validate()) {
-                            var finalData = <String, dynamic>{};
-                            finalData
-                                .addAll(_joinTournamentKey.currentState.value);
-                            finalData["email"] =
-                                Provider.of<UserData>(context, listen: false)
-                                    .userId;
-                            finalData["tournment_id"] = widget.data.id;
-                            finalData["game_id"] = widget.data.gameId;
-                            jointournamentCubit.jointournament(
-                                finalData, widget.data.type);
-                          } else {
-                            print("validation failed");
-                          }
-                        },
-                        child: AutoSizeText(
-                          "JOIN",
+                    if (widget.data.type == "DUO" ||
+                        widget.data.type == "SQUAD")
+                      SizedBox(
+                        width: double.infinity,
+                        child: RaisedButton(
+                          onPressed: () {
+                            _joinTournamentKey.currentState.save();
+                            if (_joinTournamentKey.currentState.validate()) {
+                              var finalData = <String, dynamic>{};
+                              finalData.addAll(
+                                  _joinTournamentKey.currentState.value);
+                              finalData["email"] =
+                                  Provider.of<UserData>(context, listen: false)
+                                      .userId;
+                              finalData["tournment_id"] = widget.data.id;
+                              finalData["game_id"] = widget.data.gameId;
+                              jointournamentCubit.jointournament(
+                                  finalData, widget.data.type);
+                            } else {
+                              print("validation failed");
+                            }
+                          },
+                          child: AutoSizeText(
+                            "JOIN",
+                          ),
+                          color: Colors.red,
                         ),
-                        color: Colors.red,
-                      ),
-                    )
+                      )
                   ],
                 ),
               ),
@@ -179,6 +203,113 @@ class _JoinTournamentDialogState extends State<JoinTournamentDialog> {
           );
         },
       ),
+    );
+  }
+}
+
+class MissingIDDialog extends StatelessWidget {
+  final gameID;
+  final gameName;
+
+  MissingIDDialog({Key key, @required this.gameID, @required this.gameName})
+      : super(key: key);
+
+  final MissingidCubit missingidCubit = MissingidCubit();
+  final TextEditingController idController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer(
+      cubit: missingidCubit,
+      listener: (BuildContext context, state) {
+        if (state is MissingidSubmitting) {
+          BotToast.showLoading();
+        } else if (state is MissingidSubmitted) {
+          BotToast.closeAllLoading();
+          BotToast.showText(
+              text: state.data.message, duration: Duration(seconds: 4));
+          Navigator.pop(context);
+        } else if (state is MissingidFailed) {
+          BotToast.closeAllLoading();
+          BotToast.showText(
+              text: state.data.message, duration: Duration(seconds: 4));
+        }
+      },
+      builder: (context, state) {
+        return Dialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AutoSizeText(
+                        "Enter Your $gameName Character ID",
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        icon: CircleAvatar(
+                            backgroundColor: Colors.black38,
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.red,
+                            )),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  TextField(
+                    controller: idController,
+                    cursorColor: Colors.red,
+                    decoration: InputDecoration(
+                      labelText: "Enter Character ID",
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red.shade800),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white30),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red.shade800),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red.shade800),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: RaisedButton(
+                      onPressed: () {
+                        missingidCubit.updateid({
+                          "email": Provider.of<UserData>(context, listen: false)
+                              .userId,
+                          "game_id": gameID,
+                          "Character_id": idController.text
+                        });
+                      },
+                      child: AutoSizeText(
+                        "SUBMIT",
+                      ),
+                      color: Colors.red,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

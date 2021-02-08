@@ -49,6 +49,7 @@ class AccountPage extends StatelessWidget {
                     child: state.data.profileDetails.photo != null
                         ? InkWell(
                             onTap: () => showDialog(
+                              barrierDismissible: false,
                               context: context,
                               builder: (context) {
                                 return ProfilePage(
@@ -466,12 +467,11 @@ class ChangePasswordDialog extends StatelessWidget {
         builder: (context, state) {
           return Container(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
               child: FormBuilder(
                 key: _changePasswordKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+                child: ListView(
+                  shrinkWrap: true,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

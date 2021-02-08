@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -63,6 +64,7 @@ class _CharacterIDPageState extends State<CharacterIDPage> {
                 backgroundColor: Colors.red.shade700,
                 onPressed: () {
                   showDialog(
+                    barrierDismissible: false,
                     context: context,
                     builder: (context) {
                       return IDDialog(
@@ -77,7 +79,9 @@ class _CharacterIDPageState extends State<CharacterIDPage> {
         body: BlocBuilder(
           cubit: characteridCubit,
           builder: (context, state) {
-            if (state is CharacteridInitial || state is CharacteridAdded) {
+            if (state is CharacteridInitial ||
+                state is CharacteridAdded ||
+                state is CharacteridFailed) {
               return characteridCubit.characterId
                           .where((cid) {
                             return cid.characterId != null;
@@ -166,109 +170,142 @@ class IDDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: FormBuilder(
-            key: _characterIDKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AutoSizeText(
-                  "Enter Your Game Character ID's",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 16),
-                AutoSizeText(
-                  "Note : You must Enter your correct character ID. You won't be able to change it later by yourself. But if you want to do so you have to contact support.",
-                  style: TextStyle(color: Colors.white70),
-                ),
-                SizedBox(height: 16),
-                FormBuilderDropdown(
-                  name: "game_id",
-                  decoration: InputDecoration(
-                    labelText: "Select Game",
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red.shade800),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white30),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red.shade800),
-                    ),
-                  ),
-                  validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(context),
-                  ]),
-                  items: characterId
-                      .where((cid) {
-                        return cid.characterId == null;
-                      })
-                      .toList()
-                      .map<DropdownMenuItem>((id) {
-                        return DropdownMenuItem(
-                          value: id.gameId,
-                          child: Text('${id.gameName}'),
-                        );
-                      })
-                      .toList(),
-                ),
-                SizedBox(height: 16),
-                FormBuilderTextField(
-                  name: "Character_id",
-                  cursorColor: Colors.red,
-                  decoration: InputDecoration(
-                    labelText: "Enter Character ID",
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red.shade800),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white30),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red.shade800),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red.shade800),
-                    ),
-                  ),
-                  validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(context),
-                  ]),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: double.infinity,
-                  child: RaisedButton(
-                    onPressed: () {
-                      _characterIDKey.currentState.save();
-                      if (_characterIDKey.currentState.validate()) {
-                        var finalData = <String, dynamic>{};
-                        finalData.addAll(_characterIDKey.currentState.value);
-                        finalData["email"] =
-                            Provider.of<UserData>(context, listen: false)
-                                .userId;
-                        characteridCubit.updateid(
-                            Provider.of<UserData>(context, listen: false)
-                                .userId,
-                            finalData);
-                      } else {
-                        print("validation failed");
-                      }
+    return BlocListener(
+      cubit: characteridCubit,
+      listener: (context, state) {
+        if (state is CharacteridAdded) {
+          BotToast.closeAllLoading();
+          BotToast.showText(
+              text: state.data.message, duration: Duration(seconds: 4));
 
-                      Navigator.pop(context);
-                    },
-                    child: AutoSizeText(
-                      "SUBMIT",
-                    ),
-                    color: Colors.red,
+          Navigator.pop(context);
+        } else if (state is CharacteridFailed) {
+          BotToast.closeAllLoading();
+          BotToast.showText(
+              text: state.data.message, duration: Duration(seconds: 4));
+        } else if (state is CharacteridAdding) {
+          BotToast.showLoading();
+        }
+      },
+      child: Dialog(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+        child: Container(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
+            child: FormBuilder(
+              key: _characterIDKey,
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AutoSizeText(
+                        "Enter Your Game Character IDs",
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        icon: CircleAvatar(
+                            backgroundColor: Colors.black38,
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.red,
+                            )),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
                   ),
-                )
-              ],
+                  SizedBox(height: 16),
+                  AutoSizeText(
+                    "Note : You must Enter your correct character ID. You won't be able to change it later by yourself. But if you want to do so you have to contact support.",
+                    style: TextStyle(color: Colors.white70),
+                  ),
+                  SizedBox(height: 16),
+                  FormBuilderDropdown(
+                    name: "game_id",
+                    decoration: InputDecoration(
+                      labelText: "Select Game",
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red.shade800),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white30),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red.shade800),
+                      ),
+                    ),
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(context),
+                    ]),
+                    items: characterId
+                        .where((cid) {
+                          return cid.characterId == null;
+                        })
+                        .toList()
+                        .map<DropdownMenuItem>((id) {
+                          return DropdownMenuItem(
+                            value: id.gameId,
+                            child: Text('${id.gameName}'),
+                          );
+                        })
+                        .toList(),
+                  ),
+                  SizedBox(height: 16),
+                  FormBuilderTextField(
+                    name: "Character_id",
+                    cursorColor: Colors.red,
+                    decoration: InputDecoration(
+                      labelText: "Enter Character ID",
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red.shade800),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white30),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red.shade800),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red.shade800),
+                      ),
+                    ),
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(context),
+                    ]),
+                  ),
+                  SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: RaisedButton(
+                      onPressed: () {
+                        _characterIDKey.currentState.save();
+                        if (_characterIDKey.currentState.validate()) {
+                          var finalData = <String, dynamic>{};
+                          finalData.addAll(_characterIDKey.currentState.value);
+                          finalData["email"] =
+                              Provider.of<UserData>(context, listen: false)
+                                  .userId;
+                          characteridCubit.updateid(
+                              Provider.of<UserData>(context, listen: false)
+                                  .userId,
+                              finalData);
+                        } else {
+                          print("validation failed");
+                        }
+                      },
+                      child: AutoSizeText(
+                        "SUBMIT",
+                      ),
+                      color: Colors.red,
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

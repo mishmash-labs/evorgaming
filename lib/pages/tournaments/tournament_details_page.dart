@@ -32,13 +32,26 @@ class TournamentDetailsPage extends StatelessWidget {
               .headline5
               .copyWith(fontWeight: FontWeight.bold),
         ),
+        actions: [
+          if (!data.startDateTime.isAfter(DateTime.now()))
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Chip(
+                backgroundColor: Colors.red.shade700,
+                label: Text("Delayed"),
+              ),
+            ),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            if (!completed && !data.isAlreadyParticipant)
+            if (!completed &&
+                !data.isAlreadyParticipant &&
+                data.startDateTime.isAfter(DateTime.now()) &&
+                data.roomSize != data.curRoomSize)
               FloatingActionButton.extended(
                 backgroundColor: Colors.red.shade700,
                 heroTag: null,

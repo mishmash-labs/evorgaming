@@ -232,7 +232,11 @@ class TournamentList extends StatelessWidget {
                                       ),
                                     );
                                   },
-                                  child: AutoSizeText("OPEN"),
+                                  child: data[index]
+                                          .startDateTime
+                                          .isAfter(DateTime.now())
+                                      ? AutoSizeText("OPEN")
+                                      : AutoSizeText("DELAYED"),
                                   color: Colors.red.shade800,
                                 ),
                               )

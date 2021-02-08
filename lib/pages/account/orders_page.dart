@@ -29,9 +29,7 @@ class OrdersPage extends StatelessWidget {
         columns: [
           DataColumn(label: Text("#")),
           DataColumn(label: Text("Date")),
-          DataColumn(label: Text("Quantity")),
           DataColumn(label: Text("Status")),
-          DataColumn(label: Text("Total")),
         ],
         header: Text("Your Orders"),
         source: tableData,
@@ -154,9 +152,7 @@ class OrderTable extends DataTableSource {
       cells: <DataCell>[
         DataCell(Text('${data.id}')),
         DataCell(Text('${DateFormat('d MMM, K:mma').format(data.createdAt)}')),
-        DataCell(Text(data.qty.replaceAll(r"/@/", ""))),
         DataCell(Text('${data.status}')),
-        DataCell(Text('${data.total}')),
       ],
       index: index,
     );
