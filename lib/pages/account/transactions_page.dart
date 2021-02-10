@@ -167,7 +167,14 @@ class TransactionTable extends DataTableSource {
     final Transaction data = transactionData[index];
     return DataRow.byIndex(
       onSelectChanged: (val) {
-        // Navigator.pop(context);
+        showDialog(
+          context: context,
+          builder: (context) {
+            return TransactionDialog(
+              data: data,
+            );
+          },
+        );
       },
       cells: <DataCell>[
         DataCell(Text('${data.id}')),
@@ -189,4 +196,72 @@ class TransactionTable extends DataTableSource {
   @override
   // TODO: implement selectedRowCount
   int get selectedRowCount => 0;
+}
+
+class TransactionDialog extends StatelessWidget {
+  final Transaction data;
+
+  const TransactionDialog({Key key, this.data}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      child: Container(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              SizedBox(height: 4),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AutoSizeText(
+                    "Amount: "
+                    "${data.amount} PKR",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                  AutoSizeText(
+                    DateFormat('d MMM, K:mma').format(data.updatedAt),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 8),
+              AutoSizeText(
+                "Status: ${data.status}",
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 8),
+              AutoSizeText(
+                "Message: ${data.message}",
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 8),
+              AutoSizeText(
+                "Payment Method: ${data.paymentMethod}",
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 4),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

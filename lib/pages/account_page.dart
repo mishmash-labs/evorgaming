@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:evorgaming/pages/account/withdrawls_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -269,6 +270,32 @@ class AccountPage extends StatelessWidget {
                       child: Icon(Icons.swap_horiz)),
                   title: AutoSizeText(
                     "Transactions",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Divider(
+                  thickness: 0.5,
+                  color: Colors.white10,
+                ),
+                ListTile(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WithdrawalPage(
+                          withdrawalData: state.data.withdrawals,
+                        ),
+                      ),
+                    );
+                  },
+                  leading: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      child: Icon(Icons.attach_money)),
+                  title: AutoSizeText(
+                    "Withdrawals",
                     style: const TextStyle(
                       fontSize: 20,
                       color: Colors.white,
