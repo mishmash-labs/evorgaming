@@ -1,4 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +46,10 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.red,
           cardColor: Colors.black38,
         ),
-        home: loggedIn ? NavPage() : LoginPage(),
+        home: DoubleBack(
+          child: loggedIn ? NavPage() : LoginPage(),
+          waitForSecondBackPress: 3,
+        ),
         builder: BotToastInit(),
         navigatorObservers: [BotToastNavigatorObserver()],
       ),

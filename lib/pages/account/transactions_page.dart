@@ -31,13 +31,13 @@ class TransactionsPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Icon(
-                    Icons.shopping_cart,
+                    Icons.swap_horiz,
                     color: Colors.white54,
                     size: 75,
                   ),
                   const SizedBox(height: 8),
                   AutoSizeText(
-                    "No Recent Orders",
+                    "No Recent Transaction",
                     style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.w400,
@@ -54,31 +54,31 @@ class TransactionsPage extends StatelessWidget {
                 DataColumn(label: Text("Date")),
                 DataColumn(label: Text("Status")),
               ],
-              header: Text("Your Orders"),
+              header: Text("Your Transactions"),
               source: tableData,
             ),
       // body: transactionData.isEmpty
-      //     ? Center(
-      //         child: Column(
-      //           mainAxisAlignment: MainAxisAlignment.center,
-      //           children: [
-      //             const Icon(
-      //               Icons.swap_horiz,
-      //               color: Colors.white54,
-      //               size: 75,
-      //             ),
-      //             const SizedBox(height: 8),
-      //             AutoSizeText(
-      //               "No Recent Transaction",
-      //               style: const TextStyle(
-      //                 fontSize: 25,
-      //                 fontWeight: FontWeight.w400,
-      //                 color: Colors.white54,
-      //               ),
-      //             ),
-      //           ],
+      // ? Center(
+      //     child: Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         const Icon(
+      //           Icons.swap_horiz,
+      //           color: Colors.white54,
+      //           size: 75,
       //         ),
-      //       )
+      //         const SizedBox(height: 8),
+      //         AutoSizeText(
+      //           "No Recent Transaction",
+      //           style: const TextStyle(
+      //             fontSize: 25,
+      //             fontWeight: FontWeight.w400,
+      //             color: Colors.white54,
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   )
       //     : Padding(
       //         padding: const EdgeInsets.all(8.0),
       //         child: ListView.builder(

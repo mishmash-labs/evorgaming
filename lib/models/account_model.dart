@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final accountModel = accountModelFromJson(jsonString);
-
 import 'dart:convert';
 
 AccountModel accountModelFromJson(String str) =>
@@ -16,6 +12,7 @@ class AccountModel {
     this.characterId,
     this.transaction,
     this.orders,
+    this.withdrawals,
   });
 
   String code;
@@ -23,6 +20,24 @@ class AccountModel {
   List<CharacterId> characterId;
   List<Transaction> transaction;
   List<Order> orders;
+  List<Withdrawal> withdrawals;
+
+  AccountModel copyWith({
+    String code,
+    ProfileDetails profileDetails,
+    List<CharacterId> characterId,
+    List<Transaction> transaction,
+    List<Order> orders,
+    List<Withdrawal> withdrawals,
+  }) =>
+      AccountModel(
+        code: code ?? this.code,
+        profileDetails: profileDetails ?? this.profileDetails,
+        characterId: characterId ?? this.characterId,
+        transaction: transaction ?? this.transaction,
+        orders: orders ?? this.orders,
+        withdrawals: withdrawals ?? this.withdrawals,
+      );
 
   factory AccountModel.fromJson(Map<String, dynamic> json) => AccountModel(
         code: json["Code"] == null ? null : json["Code"],
@@ -37,9 +52,13 @@ class AccountModel {
             ? null
             : List<Transaction>.from(
                 json["Transaction"].map((x) => Transaction.fromJson(x))),
-        orders: json["orders"] == null
+        orders: json["Orders"] == null
             ? null
-            : List<Order>.from(json["orders"].map((x) => Order.fromJson(x))),
+            : List<Order>.from(json["Orders"].map((x) => Order.fromJson(x))),
+        withdrawals: json["Withdrawals"] == null
+            ? null
+            : List<Withdrawal>.from(
+                json["Withdrawals"].map((x) => Withdrawal.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -52,9 +71,12 @@ class AccountModel {
         "Transaction": transaction == null
             ? null
             : List<dynamic>.from(transaction.map((x) => x.toJson())),
-        "orders": orders == null
+        "Orders": orders == null
             ? null
             : List<dynamic>.from(orders.map((x) => x.toJson())),
+        "Withdrawals": withdrawals == null
+            ? null
+            : List<dynamic>.from(withdrawals.map((x) => x.toJson())),
       };
 }
 
@@ -68,6 +90,17 @@ class CharacterId {
   int gameId;
   String gameName;
   String characterId;
+
+  CharacterId copyWith({
+    int gameId,
+    String gameName,
+    String characterId,
+  }) =>
+      CharacterId(
+        gameId: gameId ?? this.gameId,
+        gameName: gameName ?? this.gameName,
+        characterId: characterId ?? this.characterId,
+      );
 
   factory CharacterId.fromJson(Map<String, dynamic> json) => CharacterId(
         gameId: json["game_id"] == null ? null : json["game_id"],
@@ -85,9 +118,7 @@ class CharacterId {
 class Order {
   Order({
     this.id,
-    this.userId,
-    this.productId,
-    this.qty,
+    this.orderedProducts,
     this.subTotal,
     this.shippingFee,
     this.total,
@@ -100,15 +131,12 @@ class Order {
     this.postalCode,
     this.orderNote,
     this.status,
-    this.reviewStatus,
     this.createdAt,
     this.updatedAt,
   });
 
   int id;
-  String userId;
-  String productId;
-  String qty;
+  List<OrderedProduct> orderedProducts;
   String subTotal;
   String shippingFee;
   String total;
@@ -121,15 +149,52 @@ class Order {
   String postalCode;
   String orderNote;
   String status;
-  String reviewStatus;
   DateTime createdAt;
   DateTime updatedAt;
 
+  Order copyWith({
+    int id,
+    List<OrderedProduct> orderedProducts,
+    String subTotal,
+    String shippingFee,
+    String total,
+    String name,
+    String email,
+    String phoneNo,
+    String address,
+    String city,
+    String country,
+    String postalCode,
+    String orderNote,
+    String status,
+    DateTime createdAt,
+    DateTime updatedAt,
+  }) =>
+      Order(
+        id: id ?? this.id,
+        orderedProducts: orderedProducts ?? this.orderedProducts,
+        subTotal: subTotal ?? this.subTotal,
+        shippingFee: shippingFee ?? this.shippingFee,
+        total: total ?? this.total,
+        name: name ?? this.name,
+        email: email ?? this.email,
+        phoneNo: phoneNo ?? this.phoneNo,
+        address: address ?? this.address,
+        city: city ?? this.city,
+        country: country ?? this.country,
+        postalCode: postalCode ?? this.postalCode,
+        orderNote: orderNote ?? this.orderNote,
+        status: status ?? this.status,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+
   factory Order.fromJson(Map<String, dynamic> json) => Order(
         id: json["id"] == null ? null : json["id"],
-        userId: json["user_id"] == null ? null : json["user_id"],
-        productId: json["product_id"] == null ? null : json["product_id"],
-        qty: json["qty"] == null ? null : json["qty"],
+        orderedProducts: json["Ordered_Products"] == null
+            ? null
+            : List<OrderedProduct>.from(json["Ordered_Products"]
+                .map((x) => OrderedProduct.fromJson(x))),
         subTotal: json["sub_total"] == null ? null : json["sub_total"],
         shippingFee: json["Shipping_fee"] == null ? null : json["Shipping_fee"],
         total: json["Total"] == null ? null : json["Total"],
@@ -142,8 +207,6 @@ class Order {
         postalCode: json["postal_code"] == null ? null : json["postal_code"],
         orderNote: json["order_note"] == null ? null : json["order_note"],
         status: json["status"] == null ? null : json["status"],
-        reviewStatus:
-            json["review_status"] == null ? null : json["review_status"],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -154,9 +217,9 @@ class Order {
 
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
-        "user_id": userId == null ? null : userId,
-        "product_id": productId == null ? null : productId,
-        "qty": qty == null ? null : qty,
+        "Ordered_Products": orderedProducts == null
+            ? null
+            : List<dynamic>.from(orderedProducts.map((x) => x.toJson())),
         "sub_total": subTotal == null ? null : subTotal,
         "Shipping_fee": shippingFee == null ? null : shippingFee,
         "Total": total == null ? null : total,
@@ -169,9 +232,79 @@ class Order {
         "postal_code": postalCode == null ? null : postalCode,
         "order_note": orderNote == null ? null : orderNote,
         "status": status == null ? null : status,
-        "review_status": reviewStatus == null ? null : reviewStatus,
         "created_at": createdAt == null ? null : createdAt.toIso8601String(),
         "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
+      };
+}
+
+class OrderedProduct {
+  OrderedProduct({
+    this.id,
+    this.name,
+    this.image,
+    this.price,
+    this.currency,
+    this.orderedQuantity,
+    this.shortDescription,
+    this.longDescription,
+  });
+
+  int id;
+  String name;
+  List<String> image;
+  String price;
+  String currency;
+  String orderedQuantity;
+  String shortDescription;
+  String longDescription;
+
+  OrderedProduct copyWith({
+    int id,
+    String name,
+    List<String> image,
+    String price,
+    String currency,
+    String orderedQuantity,
+    String shortDescription,
+    String longDescription,
+  }) =>
+      OrderedProduct(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        image: image ?? this.image,
+        price: price ?? this.price,
+        currency: currency ?? this.currency,
+        orderedQuantity: orderedQuantity ?? this.orderedQuantity,
+        shortDescription: shortDescription ?? this.shortDescription,
+        longDescription: longDescription ?? this.longDescription,
+      );
+
+  factory OrderedProduct.fromJson(Map<String, dynamic> json) => OrderedProduct(
+        id: json["id"] == null ? null : json["id"],
+        name: json["Name"] == null ? null : json["Name"],
+        image: json["Image"] == null
+            ? null
+            : List<String>.from(json["Image"].map((x) => x)),
+        price: json["Price"] == null ? null : json["Price"],
+        currency: json["Currency"] == null ? null : json["Currency"],
+        orderedQuantity:
+            json["ordered_Quantity"] == null ? null : json["ordered_Quantity"],
+        shortDescription: json["Short_description"] == null
+            ? null
+            : json["Short_description"],
+        longDescription:
+            json["long_description"] == null ? null : json["long_description"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id == null ? null : id,
+        "Name": name == null ? null : name,
+        "Image": image == null ? null : List<dynamic>.from(image.map((x) => x)),
+        "Price": price == null ? null : price,
+        "Currency": currency == null ? null : currency,
+        "ordered_Quantity": orderedQuantity == null ? null : orderedQuantity,
+        "Short_description": shortDescription == null ? null : shortDescription,
+        "long_description": longDescription == null ? null : longDescription,
       };
 }
 
@@ -195,6 +328,27 @@ class ProfileDetails {
   String earning;
   int coinDeposit;
   int withdrawCoins;
+
+  ProfileDetails copyWith({
+    String photo,
+    String name,
+    String mobileNo,
+    String gender,
+    String balance,
+    String earning,
+    int coinDeposit,
+    int withdrawCoins,
+  }) =>
+      ProfileDetails(
+        photo: photo ?? this.photo,
+        name: name ?? this.name,
+        mobileNo: mobileNo ?? this.mobileNo,
+        gender: gender ?? this.gender,
+        balance: balance ?? this.balance,
+        earning: earning ?? this.earning,
+        coinDeposit: coinDeposit ?? this.coinDeposit,
+        withdrawCoins: withdrawCoins ?? this.withdrawCoins,
+      );
 
   factory ProfileDetails.fromJson(Map<String, dynamic> json) => ProfileDetails(
         photo: json["photo"] == null ? null : json["photo"],
@@ -223,10 +377,8 @@ class ProfileDetails {
 class Transaction {
   Transaction({
     this.id,
-    this.userId,
     this.amount,
     this.message,
-    this.statusCode,
     this.cnicNo,
     this.accountNo,
     this.phoneNo,
@@ -237,10 +389,8 @@ class Transaction {
   });
 
   int id;
-  String userId;
   String amount;
   String message;
-  String statusCode;
   String cnicNo;
   String accountNo;
   String phoneNo;
@@ -249,12 +399,35 @@ class Transaction {
   DateTime createdAt;
   DateTime updatedAt;
 
+  Transaction copyWith({
+    int id,
+    String amount,
+    String message,
+    String cnicNo,
+    String accountNo,
+    String phoneNo,
+    String paymentMethod,
+    String status,
+    DateTime createdAt,
+    DateTime updatedAt,
+  }) =>
+      Transaction(
+        id: id ?? this.id,
+        amount: amount ?? this.amount,
+        message: message ?? this.message,
+        cnicNo: cnicNo ?? this.cnicNo,
+        accountNo: accountNo ?? this.accountNo,
+        phoneNo: phoneNo ?? this.phoneNo,
+        paymentMethod: paymentMethod ?? this.paymentMethod,
+        status: status ?? this.status,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+
   factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
         id: json["id"] == null ? null : json["id"],
-        userId: json["user_id"] == null ? null : json["user_id"],
         amount: json["amount"] == null ? null : json["amount"],
         message: json["message"] == null ? null : json["message"],
-        statusCode: json["status_code"] == null ? null : json["status_code"],
         cnicNo: json["cnic_no"] == null ? null : json["cnic_no"],
         accountNo: json["account_no"] == null ? null : json["account_no"],
         phoneNo: json["phone_no"] == null ? null : json["phone_no"],
@@ -271,15 +444,101 @@ class Transaction {
 
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
-        "user_id": userId == null ? null : userId,
         "amount": amount == null ? null : amount,
         "message": message == null ? null : message,
-        "status_code": statusCode == null ? null : statusCode,
         "cnic_no": cnicNo == null ? null : cnicNo,
         "account_no": accountNo == null ? null : accountNo,
         "phone_no": phoneNo == null ? null : phoneNo,
         "payment_method": paymentMethod == null ? null : paymentMethod,
         "status": status == null ? null : status,
+        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
+        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
+      };
+}
+
+class Withdrawal {
+  Withdrawal({
+    this.id,
+    this.paymentMethod,
+    this.amount,
+    this.name,
+    this.email,
+    this.phoneNo,
+    this.cnicNo,
+    this.note,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  int id;
+  String paymentMethod;
+  String amount;
+  String name;
+  String email;
+  String phoneNo;
+  String cnicNo;
+  String note;
+  String status;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  Withdrawal copyWith({
+    int id,
+    String paymentMethod,
+    String amount,
+    String name,
+    String email,
+    String phoneNo,
+    String cnicNo,
+    String note,
+    String status,
+    DateTime createdAt,
+    DateTime updatedAt,
+  }) =>
+      Withdrawal(
+        id: id ?? this.id,
+        paymentMethod: paymentMethod ?? this.paymentMethod,
+        amount: amount ?? this.amount,
+        name: name ?? this.name,
+        email: email ?? this.email,
+        phoneNo: phoneNo ?? this.phoneNo,
+        cnicNo: cnicNo ?? this.cnicNo,
+        note: note ?? this.note,
+        status: status ?? this.status,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+
+  factory Withdrawal.fromJson(Map<String, dynamic> json) => Withdrawal(
+        id: json["id"] == null ? null : json["id"],
+        paymentMethod:
+            json["payment_method"] == null ? null : json["payment_method"],
+        amount: json["amount"] == null ? null : json["amount"],
+        name: json["name"] == null ? null : json["name"],
+        email: json["email"] == null ? null : json["email"],
+        phoneNo: json["phone_no"] == null ? null : json["phone_no"],
+        cnicNo: json["cnic_no"] == null ? null : json["cnic_no"],
+        note: json["note"] == null ? null : json["note"],
+        status: json["Status"] == null ? null : json["Status"],
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id == null ? null : id,
+        "payment_method": paymentMethod == null ? null : paymentMethod,
+        "amount": amount == null ? null : amount,
+        "name": name == null ? null : name,
+        "email": email == null ? null : email,
+        "phone_no": phoneNo == null ? null : phoneNo,
+        "cnic_no": cnicNo == null ? null : cnicNo,
+        "note": note == null ? null : note,
+        "Status": status == null ? null : status,
         "created_at": createdAt == null ? null : createdAt.toIso8601String(),
         "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
       };

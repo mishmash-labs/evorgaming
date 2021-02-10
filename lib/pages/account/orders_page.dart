@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:evorgaming/pages/account/orderdetails_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -169,7 +170,14 @@ class OrderTable extends DataTableSource {
     final Order data = orderData[index];
     return DataRow.byIndex(
       onSelectChanged: (val) {
-        // Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OrderDetailsPage(
+              orderData: orderData[index],
+            ),
+          ),
+        );
       },
       cells: <DataCell>[
         DataCell(Text('${data.id}')),
