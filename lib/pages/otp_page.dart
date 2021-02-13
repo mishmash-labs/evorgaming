@@ -26,7 +26,11 @@ class _OtpPageState extends State<OtpPage> {
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: widget.phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) {},
-      verificationFailed: (FirebaseAuthException e) {},
+      verificationFailed: (FirebaseAuthException e) {
+        BotToast.showText(text: e.message, duration: Duration(seconds: 6));
+        int count = 0;
+        Navigator.of(context).popUntil((_) => count++ >= 2);
+      },
       codeSent: (String verificationId, int resendToken) {
         verificationID = verificationId;
       },
