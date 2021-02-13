@@ -212,6 +212,7 @@ class ProfilePage extends StatelessWidget {
                           borderSide: BorderSide(color: Colors.red.shade800),
                         ),
                       ),
+                      enabled: false,
                       keyboardType: TextInputType.phone,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.minLength(context, 13,

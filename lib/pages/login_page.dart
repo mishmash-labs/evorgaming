@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import '../cubits/loginpage/login_cubit.dart';
 import '../navigation_page.dart';
 import '../providers/userdata_provider.dart';
-import 'signup_page.dart';
+import 'phonesignup_page.dart';
 
 class LoginPage extends StatelessWidget {
   final LoginCubit loginCubit = LoginCubit();
@@ -129,7 +129,7 @@ class LoginPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SignupPage(),
+                        builder: (context) => PhoneSignupPage(),
                       ),
                     );
                   },

@@ -10,8 +10,11 @@ import '../cubits/signuppage/signup_cubit.dart';
 
 class SignupPage extends StatelessWidget {
   final SignupCubit signupCubit = SignupCubit();
+  final String phoneNumber;
 
   final _signupKey = GlobalKey<FormBuilderState>();
+
+  SignupPage({Key key, this.phoneNumber}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +85,8 @@ class SignupPage extends StatelessWidget {
                 SizedBox(height: 16),
                 FormBuilderPhoneField(
                   name: "phone_no",
+                  initialValue: phoneNumber,
+                  enabled: false,
                   defaultSelectedCountryIsoCode: "PK",
                   decoration: InputDecoration(
                     labelText: "Phone Number",
