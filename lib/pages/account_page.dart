@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -413,6 +414,8 @@ class AccountPage extends StatelessWidget {
                         await Provider.of<UserData>(context, listen: false)
                             .prefs
                             .clear();
+                        await OneSignal.shared.setSubscription(false);
+
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

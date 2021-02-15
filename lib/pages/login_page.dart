@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../cubits/loginpage/login_cubit.dart';
@@ -76,6 +77,7 @@ class LoginPage extends StatelessWidget {
                   cubit: loginCubit,
                   listener: (context, state) {
                     if (state is LoginSuccess) {
+                      OneSignal.shared.setSubscription(true);
                       Provider.of<UserData>(context, listen: false).loggedIn =
                           true;
                       Provider.of<UserData>(context, listen: false).userId =

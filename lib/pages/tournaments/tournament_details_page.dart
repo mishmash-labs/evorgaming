@@ -51,7 +51,7 @@ class TournamentDetailsPage extends StatelessWidget {
             if (!completed &&
                 !data.isAlreadyParticipant &&
                 data.startDateTime.isAfter(DateTime.now()) &&
-                int.parse(data.curRoomSize) == int.parse(data.roomSize))
+                int.parse(data.curRoomSize) != int.parse(data.roomSize))
               FloatingActionButton.extended(
                 backgroundColor: Colors.red.shade700,
                 heroTag: null,
