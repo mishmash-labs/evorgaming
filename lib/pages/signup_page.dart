@@ -200,7 +200,8 @@ class SignupPage extends StatelessWidget {
                       BotToast.showText(
                           text: state.data.message,
                           duration: Duration(seconds: 4));
-                      Navigator.pop(context);
+                      int count = 0;
+                      Navigator.of(context).popUntil((_) => count++ >= 2);
                     }
                     if (state is SignupFailed) {
                       BotToast.showText(
