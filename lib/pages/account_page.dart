@@ -29,7 +29,6 @@ class AccountPage extends StatelessWidget {
     return BlocBuilder(
       cubit: accountCubit
         ..loadAccount(Provider.of<UserData>(context, listen: false).userId),
-      // cubit: accountCubit..loadAccount("hasnain01022000@gmail.com"),
       builder: (context, state) {
         if (state is AccountLoaded) {
           return Scaffold(
