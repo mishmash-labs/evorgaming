@@ -1,5 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:double_back_to_close/double_back_to_close.dart';
+import 'package:evorgaming/utils/globals.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -45,9 +46,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   void setupFirebase() async {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    firebaseMessaging = FirebaseMessaging.instance;
 
-    NotificationSettings settings = await messaging.requestPermission(
+    NotificationSettings settings = await firebaseMessaging.requestPermission(
       alert: true,
       announcement: false,
       badge: true,
@@ -57,7 +58,7 @@ class _MyAppState extends State<MyApp> {
       sound: true,
     );
 
-    String token = await messaging.getToken(
+    String token = await firebaseMessaging.getToken(
       vapidKey:
           "BAC9rnW6UYRatokqTpW3sPk7aDWp_09O-FVoc7TfSQKquo3f6CPBfkcac1O0Xv0fIFzc1zK2mARbEHGntRq1OCk",
     );

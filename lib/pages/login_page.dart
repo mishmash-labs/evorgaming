@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:evorgaming/utils/globals.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -77,8 +78,6 @@ class LoginPage extends StatelessWidget {
                   cubit: loginCubit,
                   listener: (context, state) async {
                     if (state is LoginSuccess) {
-                      await FirebaseMessaging.instance.subscribeToTopic(
-                          _formKey.currentState.value['email']);
                       Provider.of<UserData>(context, listen: false).loggedIn =
                           true;
                       Provider.of<UserData>(context, listen: false).userId =
