@@ -1,10 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../cubits/loginpage/login_cubit.dart';
@@ -75,9 +75,10 @@ class LoginPage extends StatelessWidget {
                 SizedBox(height: 16),
                 BlocConsumer(
                   cubit: loginCubit,
-                  listener: (context, state) {
+                  listener: (context, state) async {
                     if (state is LoginSuccess) {
-                      OneSignal.shared.setSubscription(true);
+                      await FirebaseMessaging.instance.subscribeToTopic(
+                          _formKey.currentState.value['email']);
                       Provider.of<UserData>(context, listen: false).loggedIn =
                           true;
                       Provider.of<UserData>(context, listen: false).userId =

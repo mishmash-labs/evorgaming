@@ -1,10 +1,10 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,23 +39,28 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    if (!kIsWeb) setupOnesignal();
+    setupFirebase();
 
     super.initState();
   }
 
-  void setupOnesignal() async {
-    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+  void setupFirebase() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    OneSignal.shared.init("6e9c0da2-45ab-48b6-875d-bd0bd53733bb", iOSSettings: {
-      OSiOSSettings.autoPrompt: false,
-      OSiOSSettings.inAppLaunchUrl: false
-    });
-    OneSignal.shared
-        .setInFocusDisplayType(OSNotificationDisplayType.notification);
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
 
-    await OneSignal.shared
-        .promptUserForPushNotificationPermission(fallbackToSettings: true);
+    String token = await messaging.getToken(
+      vapidKey:
+          "BAC9rnW6UYRatokqTpW3sPk7aDWp_09O-FVoc7TfSQKquo3f6CPBfkcac1O0Xv0fIFzc1zK2mARbEHGntRq1OCk",
+    );
   }
 
   @override

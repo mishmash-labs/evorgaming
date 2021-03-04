@@ -2,11 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:evorgaming/pages/account/withdrawls_page.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -410,10 +410,12 @@ class AccountPage extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     child: OutlineButton(
                       onPressed: () async {
+                        await FirebaseMessaging.instance.unsubscribeFromTopic(
+                            Provider.of<UserData>(context, listen: false)
+                                .userId);
                         await Provider.of<UserData>(context, listen: false)
                             .prefs
                             .clear();
-                        await OneSignal.shared.setSubscription(false);
 
                         Navigator.pushReplacement(
                           context,
