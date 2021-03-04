@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
@@ -114,22 +115,24 @@ class TournamentDetailsPage extends StatelessWidget {
                   );
                 },
               ),
-            FloatingActionButton.extended(
-              backgroundColor: Colors.red.shade700,
-              heroTag: null,
-              label: Text(
-                "Play Now",
-                style: TextStyle(
-                  color: Colors.white,
+            if (!kIsWeb)
+              FloatingActionButton.extended(
+                backgroundColor: Colors.red.shade700,
+                heroTag: null,
+                label: Text(
+                  "Play Now",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
+                onPressed: () async {
+                  await LaunchApp.openApp(
+                      androidPackageName:
+                          data.playStore.trim().split(r"id=")[1],
+                      appStoreLink: data.appleStore,
+                      openStore: true);
+                },
               ),
-              onPressed: () async {
-                await LaunchApp.openApp(
-                    androidPackageName: data.playStore.trim().split(r"id=")[1],
-                    appStoreLink: data.appleStore,
-                    openStore: true);
-              },
-            ),
           ]),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),

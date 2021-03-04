@@ -147,12 +147,14 @@ class ProfilePage extends StatelessWidget {
                         onPressed: () async {
                           final pickedFile = await picker.getImage(
                               source: ImageSource.gallery);
+                          final pickedWebFile = await pickedFile.readAsBytes();
                           var fileName = pickedFile.path.split('/').last;
                           profileimageCubit.uploadimage(
                               Provider.of<UserData>(context, listen: false)
                                   .userId,
                               pickedFile.path,
-                              fileName);
+                              fileName,
+                              pickedWebFile);
                         },
                         child: AutoSizeText("Select A New Photo"),
                       ),

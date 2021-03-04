@@ -33,6 +33,23 @@
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
+<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyAz36JmPyGzveC-R-4fdv_CWqgUitmR13o",
+    authDomain: "evorgaming-98bef.firebaseapp.com",
+    databaseURL: "https://evorgaming-98bef.firebaseio.com",
+    projectId: "evorgaming-98bef",
+    storageBucket: "evorgaming-98bef.appspot.com",
+    messagingSenderId: "468704633228",
+    appId: "1:468704633228:web:513a85f1b0faa1769c36a9",
+    measurementId: "G-BETE72Q68V"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('flutter-first-frame', function () {

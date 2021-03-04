@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -11,10 +13,10 @@ class ProfileimageCubit extends Cubit<ProfileimageState> {
   final ApiClient _apiClient = ApiClient();
 
   Future<void> uploadimage(
-      String email, String filePath, String fileName) async {
+      String email, String filePath, String fileName, Uint8List webFile) async {
     emit(ProfileimageUpdating());
     final profileData =
-        await _apiClient.profileimage(email, filePath, fileName);
+        await _apiClient.profileimage(email, filePath, fileName, webFile);
     if (profileData.code == "200") {
       emit(ProfileimageUpdated(profileData));
     } else {

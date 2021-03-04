@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import '../models/mytournaments_model.dart';
 
 import '../models/account_model.dart';
@@ -103,11 +105,18 @@ class ApiClient {
   }
 
   Future<dynamic> profileimage(
-      String email, String filePath, String fileName) async {
-    var formData = FormData.fromMap({
-      "email": email,
-      "image": await MultipartFile.fromFile(filePath, filename: fileName)
-    });
+      String email, String filePath, String fileName, Uint8List webFile) async {
+    var formData;
+    if (!kIsWeb)
+      formData = FormData.fromMap({
+        "email": email,
+        "image": await MultipartFile.fromFile(filePath, filename: fileName)
+      });
+    else
+      formData = FormData.fromMap({
+        "email": email,
+        "image": await MultipartFile.fromBytes(webFile, filename: fileName)
+      });
     final uriResponse = await _dio.post(
       'app/user/profile/details/update/image',
       data: formData,
