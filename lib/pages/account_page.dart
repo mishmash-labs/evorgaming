@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:evorgaming/pages/account/withdrawls_page.dart';
 import 'package:evorgaming/utils/globals.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -411,6 +412,11 @@ class AccountPage extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     child: OutlineButton(
                       onPressed: () async {
+                        if (!kIsWeb)
+                          await FirebaseMessaging.instance.unsubscribeFromTopic(
+                              Provider.of<UserData>(context, listen: false)
+                                  .userNumID
+                                  .toString());
                         await Provider.of<UserData>(context, listen: false)
                             .prefs
                             .clear();

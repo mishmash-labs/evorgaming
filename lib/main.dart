@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
   void setupFirebase() async {
     firebaseMessaging = FirebaseMessaging.instance;
 
-    NotificationSettings settings = await firebaseMessaging.requestPermission(
+    await firebaseMessaging.requestPermission(
       alert: true,
       announcement: false,
       badge: true,
@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
       sound: true,
     );
 
-    String token = await firebaseMessaging.getToken(
+    await firebaseMessaging.getToken(
       vapidKey:
           "BAC9rnW6UYRatokqTpW3sPk7aDWp_09O-FVoc7TfSQKquo3f6CPBfkcac1O0Xv0fIFzc1zK2mARbEHGntRq1OCk",
     );
