@@ -15,7 +15,7 @@ class MyTournamentsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder(
-      cubit: mytournamentsCubit
+      bloc: mytournamentsCubit
         ..loadMyTournaments(
             Provider.of<UserData>(context, listen: false).userId),
       builder: (context, state) {

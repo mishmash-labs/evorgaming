@@ -194,7 +194,7 @@ class SignupPage extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 BlocConsumer(
-                  cubit: signupCubit,
+                  bloc: signupCubit,
                   listener: (context, state) {
                     if (state is SignupSuccess) {
                       BotToast.showText(

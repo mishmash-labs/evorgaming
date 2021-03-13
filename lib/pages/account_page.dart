@@ -29,7 +29,7 @@ class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder(
-      cubit: accountCubit
+      bloc: accountCubit
         ..loadAccount(Provider.of<UserData>(context, listen: false).userId),
       builder: (context, state) {
         if (state is AccountLoaded) {
@@ -484,7 +484,7 @@ class ChangePasswordDialog extends StatelessWidget {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
       child: BlocConsumer(
-        cubit: changepasswordCubit,
+        bloc: changepasswordCubit,
         listener: (context, state) {
           if (state is ChangepasswordSubmitted) {
             BotToast.closeAllLoading();

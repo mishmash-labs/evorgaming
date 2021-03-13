@@ -31,7 +31,7 @@ class CartPage extends StatelessWidget {
         ),
       ),
       body: BlocBuilder(
-        cubit: cartCubit
+        bloc: cartCubit
           ..loadCart(Provider.of<UserData>(context, listen: false).userId),
         builder: (context, state) {
           if (state is CartLoaded) {

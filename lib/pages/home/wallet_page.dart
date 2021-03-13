@@ -27,7 +27,7 @@ class WalletPage extends StatelessWidget {
         ),
       ),
       body: BlocBuilder(
-        cubit: accountCubit
+        bloc: accountCubit
           ..loadAccount(Provider.of<UserData>(context, listen: false).userId),
         builder: (context, state) {
           if (state is AccountLoaded) {

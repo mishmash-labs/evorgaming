@@ -32,7 +32,7 @@ class ProfilePage extends StatelessWidget {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
       child: BlocConsumer(
-        cubit: profileCubit,
+        bloc: profileCubit,
         listener: (context, state) {
           if (state is ProfileUpdated) {
             BotToast.closeAllLoading();
@@ -82,7 +82,7 @@ class ProfilePage extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
                     BlocBuilder(
-                      cubit: profileimageCubit,
+                      bloc: profileimageCubit,
                       builder: (context, state) {
                         if (state is ProfileimageInitial) {
                           return profileDetails.photo == null

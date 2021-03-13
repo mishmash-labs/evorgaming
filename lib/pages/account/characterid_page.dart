@@ -77,7 +77,7 @@ class _CharacterIDPageState extends State<CharacterIDPage> {
               )
             : null,
         body: BlocBuilder(
-          cubit: characteridCubit,
+          bloc: characteridCubit,
           builder: (context, state) {
             if (state is CharacteridInitial ||
                 state is CharacteridAdded ||
@@ -171,7 +171,7 @@ class IDDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener(
-      cubit: characteridCubit,
+      bloc: characteridCubit,
       listener: (context, state) {
         if (state is CharacteridAdded) {
           BotToast.closeAllLoading();

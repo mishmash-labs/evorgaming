@@ -44,7 +44,7 @@ class _JoinTournamentDialogState extends State<JoinTournamentDialog> {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
       child: BlocConsumer(
-        cubit: jointournamentCubit,
+        bloc: jointournamentCubit,
         listener: (context, state) {
           if (state is JointournamentJoining) {
             BotToast.showLoading();
@@ -218,7 +218,7 @@ class MissingIDDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer(
-      cubit: missingidCubit,
+      bloc: missingidCubit,
       listener: (BuildContext context, state) {
         if (state is MissingidSubmitting) {
           BotToast.showLoading();

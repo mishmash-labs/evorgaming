@@ -110,7 +110,7 @@ class PlayTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder(
-      cubit: homeCubit
+      bloc: homeCubit
         ..loadHome(Provider.of<UserData>(context, listen: false).userId),
       builder: (context, state) {
         if (state is HomeLoaded) {

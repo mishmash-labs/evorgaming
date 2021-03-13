@@ -32,7 +32,7 @@ class ProductDetailsPage extends StatelessWidget {
         elevation: 0,
         actions: [
           BlocBuilder(
-            cubit: shopCubit,
+            bloc: shopCubit,
             builder: (context, state) {
               return Padding(
                 padding: const EdgeInsets.only(right: 8.0),
@@ -74,7 +74,7 @@ class ProductDetailsPage extends StatelessWidget {
                 text: state.data.message, duration: Duration(seconds: 4));
           }
         },
-        cubit: itemCubit,
+        bloc: itemCubit,
         builder: (context, state) {
           return FloatingActionButton.extended(
             onPressed: () {

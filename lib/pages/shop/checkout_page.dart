@@ -29,7 +29,7 @@ class CheckOutPage extends StatelessWidget {
         ),
       ),
       body: BlocConsumer(
-        cubit: checkoutCubit,
+        bloc: checkoutCubit,
         listener: (context, state) {
           if (state is CheckoutSuccess) {
             BotToast.showText(

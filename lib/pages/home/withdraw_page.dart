@@ -29,7 +29,7 @@ class WithdrawPage extends StatelessWidget {
         ),
       ),
       body: BlocConsumer(
-        cubit: withdrawCubit
+        bloc: withdrawCubit
           ..getPaymentMethods(
               Provider.of<UserData>(context, listen: false).userId),
         listener: (context, state) {

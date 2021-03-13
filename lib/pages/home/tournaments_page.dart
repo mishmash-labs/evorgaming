@@ -45,7 +45,7 @@ class TournamentsPage extends StatelessWidget {
           ),
         ),
         body: BlocBuilder(
-          cubit: tournamentsCubit
+          bloc: tournamentsCubit
             ..loadTournaments(
                 Provider.of<UserData>(context, listen: false).userId, gameid),
           builder: (context, state) {

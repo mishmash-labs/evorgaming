@@ -29,7 +29,7 @@ class ShopPage extends StatelessWidget {
         ),
         actions: [
           BlocBuilder(
-            cubit: shopCubit,
+            bloc: shopCubit,
             builder: (context, state) {
               return Padding(
                 padding: const EdgeInsets.only(right: 8.0),
@@ -57,7 +57,7 @@ class ShopPage extends StatelessWidget {
         ],
       ),
       body: BlocBuilder(
-        cubit: shopCubit
+        bloc: shopCubit
           ..loadShop(Provider.of<UserData>(context, listen: false).userId),
         builder: (context, state) {
           if (state is ShopLoaded) {

@@ -76,7 +76,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 BlocConsumer(
-                  cubit: loginCubit,
+                  bloc: loginCubit,
                   listener: (context, state) async {
                     if (state is LoginSuccess) {
                       if (!kIsWeb)
